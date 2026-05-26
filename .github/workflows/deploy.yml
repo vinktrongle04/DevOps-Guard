@@ -1,0 +1,76 @@
+# ============================================================
+# 🚀 DevOps-Guard CI/CD Pipeline
+# Tự động lint, test, security scan, và deploy lên Vercel
+# khi code được push lên nhánh main.
+# ============================================================
+
+name: DevOps-Guard CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ─── QUALITY GATES ──────────────────────────────────────────
+  quality-gates:
+    name: 🛡️ Quality Gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔐 Security Scan — Phát hiện rò rỉ secrets
+        run: node security-scanner.js
+
+      - name: 🧹 Lint — Kiểm tra chất lượng code
+        run: npm run lint
+
+      - name: 🏗️ Build — Kiểm tra build production
+        run: npm run build
+
+  # ─── DEPLOY TO VERCEL ───────────────────────────────────────
+  deploy:
+    name: 🚀 Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: quality-gates
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build production bundle
+        run: npm run build
+
+      - name: 🚀 Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./

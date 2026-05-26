@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+# ============================================================
+# 🛡️ DevOps-Guard — Husky Pre-Commit Hook
+# Kích hoạt Security Scanner trước mỗi lần commit.
+# Nếu scanner phát hiện secrets → commit bị chặn.
+# ============================================================
+
+echo ""
+echo "🛡️  DevOps-Guard Pre-Commit Hook đang chạy..."
+echo ""
+
+# Gate 1: Security Scan
+node security-scanner.js
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Commit bị chặn bởi Security Gate!"
+  echo "   Vui lòng kiểm tra và xóa secrets trước khi commit."
+  echo ""
+  exit 1
+fi
+
+echo ""
+echo "✅ Tất cả Quality Gates đã pass! Commit được phép."
+echo ""
