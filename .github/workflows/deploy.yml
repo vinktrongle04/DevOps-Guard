@@ -1,7 +1,8 @@
 # ============================================================
-# 🚀 DevOps-Guard CI/CD Pipeline
-# Tự động lint, test, security scan, và deploy lên Vercel
-# khi code được push lên nhánh main.
+# DevOps-Guard CI/CD Pipeline
+# Runs all Quality Gates on every push/PR to main.
+# Deploy step is intentionally omitted for the demo project —
+# the focus is demonstrating Gate 1-3 in CI, not production deploy.
 # ============================================================
 
 name: DevOps-Guard CI/CD Pipeline
@@ -18,64 +19,37 @@ env:
 jobs:
   # ─── QUALITY GATES ──────────────────────────────────────────
   quality-gates:
-    name: 🛡️ Quality Gates
+    name: Quality Gates (Gate 1-3)
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: 📥 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Gate 1 — Security Scan
+      - name: Gate 1 — Security Scan (28 rules, OWASP mapped)
         run: node security-scanner.js
-        continue-on-error: true  # Demo project contains intentional fake keys; real blocking is via Husky pre-commit
+        continue-on-error: true
+        # NOTE: Demo project contains intentional security traps for demonstration.
+        # Real blocking happens at local pre-commit via Husky (exit 1).
+        # CI runs in advisory mode so the pipeline can complete.
 
-      - name: Gate 2 — Dependency Scan
+      - name: Gate 2 — Dependency Scan (unused, missing, bloat)
         run: node dependency-scanner.js
-        continue-on-error: true  # Demo project contains intentional dead deps as traps; real blocking is via Husky pre-commit
+        continue-on-error: true
+        # NOTE: Demo project contains intentional dead dependencies as traps.
+        # Real blocking happens at local pre-commit via Husky.
 
       - name: Gate 3 — Lint (Code Quality)
         run: npm run lint
 
-      - name: 🏗️ Build — Kiểm tra build production
+      - name: Build — Verify production bundle
         run: npm run build
-
-  # ─── DEPLOY TO VERCEL ───────────────────────────────────────
-  deploy:
-    name: 🚀 Deploy to Vercel
-    runs-on: ubuntu-latest
-    needs: quality-gates
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v4
-
-      - name: 📦 Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 📥 Install dependencies
-        run: npm ci
-
-      - name: 🏗️ Build production bundle
-        run: npm run build
-
-      - name: 🚀 Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
