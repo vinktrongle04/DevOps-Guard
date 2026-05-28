@@ -34,11 +34,15 @@ jobs:
       - name: 📥 Install dependencies
         run: npm ci
 
-      - name: 🔐 Security Scan — Phát hiện rò rỉ secrets
+      - name: Gate 1 — Security Scan
         run: node security-scanner.js
         continue-on-error: true  # Demo project contains intentional fake keys; real blocking is via Husky pre-commit
 
-      - name: 🧹 Lint — Kiểm tra chất lượng code
+      - name: Gate 2 — Dependency Scan
+        run: node dependency-scanner.js
+        continue-on-error: true  # Demo project contains intentional dead deps as traps; real blocking is via Husky pre-commit
+
+      - name: Gate 3 — Lint (Code Quality)
         run: npm run lint
 
       - name: 🏗️ Build — Kiểm tra build production
