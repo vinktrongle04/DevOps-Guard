@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "security:scan": "node security-scanner.js",
     "dep:scan": "node dependency-scanner.js",
+    "scan:export": "node scanner-output.js",
     "gate:all": "node security-scanner.js; node dependency-scanner.js",
     "prepare": "husky"
   },

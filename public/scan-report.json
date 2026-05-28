@@ -1,0 +1,572 @@
+{
+  "meta": {
+    "generatedAt": "2026-05-28T16:36:07.407Z",
+    "scanDurationMs": 52,
+    "version": "3.0",
+    "rulesLoaded": 27
+  },
+  "summary": {
+    "totalSecurityViolations": 49,
+    "bySeverity": {
+      "CRITICAL": 21,
+      "HIGH": 20,
+      "MEDIUM": 2,
+      "LOW": 6
+    },
+    "byCategory": {
+      "Generic": 13,
+      "Env Misconfiguration": 1,
+      "Authentication": 3,
+      "Google Cloud": 3,
+      "XSS / Injection": 10,
+      "Security Logging": 6,
+      "AWS": 1,
+      "AI Services": 2,
+      "Payment": 1,
+      "Communication": 2,
+      "Version Control": 2,
+      "Database": 5
+    },
+    "unusedDependencies": 4,
+    "missingDependencies": 0,
+    "bloatedPackages": 4,
+    "totalBloatKb": 153,
+    "srcFilesScanned": 10,
+    "packagesAnalyzed": 16,
+    "gate1Status": "BLOCKED",
+    "gate2Status": "WARNING",
+    "timeSavedPerCommitMin": 28
+  },
+  "gate1": {
+    "name": "Security Gate",
+    "violations": [
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "project_rules.md",
+        "line": 234,
+        "snippet": "- const apiKey = \"AIzaSy...\""
+      },
+      {
+        "ruleId": "ENV-001",
+        "ruleName": "VITE_ Prefix on Server Secret",
+        "severity": "HIGH",
+        "category": "Env Misconfiguration",
+        "owasp": "A05",
+        "file": "project_rules.md",
+        "line": 125,
+        "snippet": "VITE_DATABASE_URL=...        ❌ Bundled into client JS — exposed!"
+      },
+      {
+        "ruleId": "AUTH-002",
+        "ruleName": "Private Key Block",
+        "severity": "CRITICAL",
+        "category": "Authentication",
+        "owasp": "A07",
+        "file": "README.md",
+        "line": 201,
+        "snippet": "| Authentication   | 2          | JWT tokens, `-----BEGIN PRIVATE KEY-----`     "
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "file": "security_rules.md",
+        "line": 291,
+        "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "security_rules.md",
+        "line": 291,
+        "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 211,
+        "snippet": "<div dangerouslySetInnerHTML={{ __html: userComment }} />"
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 215,
+        "snippet": "<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userComment) }} />"
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 223,
+        "snippet": "Direct assignment to `innerHTML` or `document.write()` bypasses the browser's XS"
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 227,
+        "snippet": "element.innerHTML = userData"
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 228,
+        "snippet": "document.write('<script>' + userData + '</script>')"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 203,
+        "snippet": "| XSS-003 | 🔴 CRITICAL | eval() / Function() Injection | `\\beval\\s*\\(\\|new\\s+Fu"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 234,
+        "snippet": "### XSS-003 — eval() / new Function()"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 236,
+        "snippet": "`eval()` and `new Function(string)` execute arbitrary code strings, enabling cod"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 240,
+        "snippet": "eval(userInput)"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "file": "security_rules.md",
+        "line": 241,
+        "snippet": "new Function('return ' + userExpression)()"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "security_rules.md",
+        "line": 264,
+        "snippet": "console.log('user data:', user)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "security_rules.md",
+        "line": 265,
+        "snippet": "console.log('token:', authToken)"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 21,
+        "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
+      },
+      {
+        "ruleId": "AWS-001",
+        "ruleName": "AWS Access Key ID",
+        "severity": "CRITICAL",
+        "category": "AWS",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 33,
+        "snippet": "const AWS_ACCESS_KEY = \"AKIAIOSFODNN7EXAMPLE\""
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 24,
+        "snippet": "const OPENAI_KEY = \"sk-proj-FAKE00000000000000000000000000000000000000000000\""
+      },
+      {
+        "ruleId": "PAY-001",
+        "ruleName": "Stripe Secret/Restricted Key",
+        "severity": "CRITICAL",
+        "category": "Payment",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 27,
+        "snippet": "const STRIPE_KEY_SECRET = \"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA0\""
+      },
+      {
+        "ruleId": "COM-001",
+        "ruleName": "Twilio API Key",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 36,
+        "snippet": "const TWILIO_KEY = \"SK00000000000000000000000000000000\""
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 30,
+        "snippet": "const GITHUB_TOKEN = \"github_pat_FAKE0000000000000000000000000000000\""
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 42,
+        "snippet": "const DATABASE_URL = \"mongodb+srv://admin:SuperSecret123@cluster0.abc123.mongodb"
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 21,
+        "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 27,
+        "snippet": "const STRIPE_KEY_SECRET = \"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA0\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 30,
+        "snippet": "const GITHUB_TOKEN = \"github_pat_FAKE0000000000000000000000000000000\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/App.jsx",
+        "line": 33,
+        "snippet": "const AWS_ACCESS_KEY = \"AKIAIOSFODNN7EXAMPLE\""
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 13,
+        "snippet": "\"mongodb+srv://admin:P@ssw0rd123@cluster0.abc123.mongodb.net/devops_guard_prod\";"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 17,
+        "snippet": "\"postgres://dbadmin:SuperSecretDB456@db.internal.company.com:5432/analytics\";"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 93,
+        "snippet": "uri: \"mongodb://localhost:27017/devops_guard_dev\","
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 98,
+        "snippet": "uri: \"postgres://localhost:5432/analytics_dev\","
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 20,
+        "snippet": "const DB_PASSWORD = \"MyS3cretDBP@ss!\";"
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/config/database.js",
+        "line": 94,
+        "snippet": "password: \"dev_password\","
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "file": "src/config/database.js",
+        "line": 23,
+        "snippet": "const REDIS_HOST = \"http://10.0.0.42:6379\";"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "src/config/database.js",
+        "line": 124,
+        "snippet": "console.log("
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "src/config/database.js",
+        "line": 171,
+        "snippet": "console.log(`[database] Connected to ${engine} successfully.`);"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "src/config/database.js",
+        "line": 215,
+        "snippet": "console.log(\"[database] Closing all connections…\");"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "file": "src/config/database.js",
+        "line": 221,
+        "snippet": "console.log(\"[database] All connections closed.\");"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "file": "src/services/apiClient.js",
+        "line": 12,
+        "snippet": "const GOOGLE_MAPS_KEY = \"AIzaSyBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890\";"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "file": "src/services/apiClient.js",
+        "line": 15,
+        "snippet": "const OPENAI_API_KEY = \"sk-proj-MOCK00000000000000000000000000000000000000000000"
+      },
+      {
+        "ruleId": "COM-003",
+        "ruleName": "Slack Bot/Webhook Token",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "file": "src/services/apiClient.js",
+        "line": 18,
+        "snippet": "const SLACK_WEBHOOK = \"xoxb-123456789012-1234567890123-AbCdEfGhIjKlMnOpQrStUvWx\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/services/apiClient.js",
+        "line": 15,
+        "snippet": "const OPENAI_API_KEY = \"sk-proj-MOCK00000000000000000000000000000000000000000000"
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "file": "src/services/apiClient.js",
+        "line": 21,
+        "snippet": "const API_SERVER = \"http://192.168.1.100:8080\";"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "file": "src/utils/auth.js",
+        "line": 47,
+        "snippet": "const GITHUB_TOKEN = \"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\";"
+      },
+      {
+        "ruleId": "AUTH-001",
+        "ruleName": "JWT Token",
+        "severity": "HIGH",
+        "category": "Authentication",
+        "owasp": "A07",
+        "file": "src/utils/auth.js",
+        "line": 15,
+        "snippet": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbW"
+      },
+      {
+        "ruleId": "AUTH-002",
+        "ruleName": "Private Key Block",
+        "severity": "CRITICAL",
+        "category": "Authentication",
+        "owasp": "A07",
+        "file": "src/utils/auth.js",
+        "line": 18,
+        "snippet": "const RSA_PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----"
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/utils/auth.js",
+        "line": 47,
+        "snippet": "const GITHUB_TOKEN = \"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\";"
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "file": "src/utils/auth.js",
+        "line": 50,
+        "snippet": "const JWT_SECRET = \"my-super-secret-jwt-signing-key-2024\";"
+      }
+    ]
+  },
+  "gate2": {
+    "name": "Dependency Gate",
+    "unused": [
+      "lodash",
+      "axios",
+      "moment",
+      "uuid"
+    ],
+    "missing": [],
+    "bloat": [
+      {
+        "package": "moment",
+        "weight": 67,
+        "weightStr": "67 kB",
+        "alternative": "Day.js (7 kB) or native Intl API"
+      },
+      {
+        "package": "lodash",
+        "weight": 71,
+        "weightStr": "71 kB",
+        "alternative": "Native ES2022 array/object methods"
+      },
+      {
+        "package": "axios",
+        "weight": 13,
+        "weightStr": "13 kB",
+        "alternative": "Native fetch() or ky (4 kB)"
+      },
+      {
+        "package": "uuid",
+        "weight": 1.8,
+        "weightStr": "1.8 kB",
+        "alternative": "crypto.randomUUID() — zero cost"
+      }
+    ],
+    "totalBloatKb": 153
+  }
+}

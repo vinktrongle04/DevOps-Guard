@@ -505,3 +505,43 @@ button:active {
   background: var(--accent);
   color: white;
 }
+
+/* ─── VIOLATIONS PANEL ───────────────────────────────────────── */
+.violations-panel {
+  padding: 0;
+}
+
+/* Scanner pulse animation for loading state */
+.scanner-pulse {
+  font-size: 2rem;
+  color: var(--accent);
+  display: inline-block;
+  animation: spin-pulse 1.2s linear infinite;
+}
+
+@keyframes spin-pulse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Violation row expand animation */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar inside violations list */
+.violations-panel ::-webkit-scrollbar {
+  width: 4px;
+}
+.violations-panel ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+}
+
+/* Gate status pill pulse for BLOCKED */
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
