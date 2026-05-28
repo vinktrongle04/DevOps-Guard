@@ -1,114 +1,240 @@
-# 📜 DevOps-Guard — Project Rules (Rule Engine)
-# ==============================================
-# File này định nghĩa bộ quy tắc "não bộ" cho Tác tử DevOps-Guard.
-# Mọi hành động tự động của agent đều phải tuân thủ các quy tắc dưới đây.
+# DevOps-Guard — Project Rules (Agent Brain)
+# ============================================================
+# This file is the single source of truth for all agent behavior.
+# Every automated action MUST comply with the rules defined here.
+# Last updated: 2026-05-28
 
 ---
 
-## 1. 🚫 QUY TẮC CẤM THÊM THƯ VIỆN MỚI (Dependency Lock)
+## Pipeline Execution Order
 
-- **KHÔNG ĐƯỢC** thêm bất kỳ thư viện mới nào vào `dependencies` hoặc `devDependencies` trong `package.json` mà không có sự phê duyệt rõ ràng từ Tech Lead.
-- **CHỈ ĐƯỢC** sử dụng các thư viện đã tồn tại trong `package.json` hiện tại.
-- Nếu phát hiện thư viện nào được khai báo nhưng **không được import** trong bất kỳ file mã nguồn nào → Đánh dấu là **"Thư viện rác"** và đề xuất gỡ bỏ.
-- Lệnh cấm: `npm install`, `yarn add`, `pnpm add` chỉ được thực thi sau khi có phê duyệt.
+When multiple gates apply simultaneously, the agent MUST execute them in this fixed order.
+A HARD-BLOCK gate stops the pipeline; subsequent gates do not run.
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  GATE 1 → Security       [HARD BLOCK]  exit(1) on fail  │
+│  GATE 2 → Dependency     [SOFT BLOCK]  warn, allow pass │
+│  GATE 3 → Refactor       [AUTO FIX]    independent      │
+│  GATE 4 → Docs           [AUTO GEN]    runs after Gate 3 │
+│  GATE 5 → Commit         [AUTO GEN]    runs last         │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Rationale:** If a secret leak exists, no amount of refactoring or documentation matters — the commit must be blocked immediately. Docs depend on Refactor output, so Gate 4 always follows Gate 3.
 
 ---
 
-## 2. 📝 QUY TẮC CONVENTIONAL COMMITS (Commit Message Standard)
+## Rule 1 — Dependency Lock (Gate 2)
 
-Mọi commit message **BẮT BUỘC** phải tuân theo chuẩn [Conventional Commits](https://www.conventionalcommits.org/):
+**Trigger:** `package.json` modified or agent detects unused imports.
 
+- Do NOT add any new package to `dependencies` or `devDependencies` without explicit Tech Lead approval.
+- Only use packages already present in the current `package.json`.
+- Flag any package declared in `package.json` but **not imported anywhere** in source as **"dead dependency"** and propose removal.
+- Prohibited commands (require approval): `npm install <pkg>`, `yarn add <pkg>`, `pnpm add <pkg>`.
+
+### Dead Code Scan (in-file)
+
+The agent MUST scan for unused symbols within each modified file:
+
+```
+Unused import   → import X from '...' where X never appears in file body
+Unused variable → const x = ... where x is never referenced
+Unused function → function x() {...} where x is never called in file
+```
+
+> **Scope limitation:** In-file analysis only. Cross-file dead code requires `ts-prune` or `eslint/no-unused-vars` and is out of agent scope.
+
+---
+
+## Rule 2 — Conventional Commits (Gate 5)
+
+**Trigger:** Every commit. Agent auto-generates message from Git diff.
+
+Format:
 ```
 <type>(<scope>): <description>
 
-[optional body]
+[optional body — explain WHY, not WHAT]
 
-[optional footer(s)]
+[optional footer — Closes #issue, BREAKING CHANGE: ...]
 ```
 
-### Các type hợp lệ:
-| Type       | Mô tả                                           |
+Valid types:
+
+| Type       | When to use                                      |
 |------------|--------------------------------------------------|
-| `feat`     | Tính năng mới                                    |
-| `fix`      | Sửa lỗi                                         |
-| `docs`     | Thay đổi tài liệu                                |
-| `style`    | Thay đổi format (không ảnh hưởng logic)          |
-| `refactor` | Tái cấu trúc code (không thêm feature/fix bug)  |
-| `perf`     | Cải thiện hiệu năng                              |
-| `test`     | Thêm/sửa test                                    |
-| `chore`    | Công việc bảo trì (build, CI, deps)              |
-| `security` | Sửa lỗi bảo mật                                 |
-
-### Ví dụ:
-```
-feat(auth): thêm xác thực hai yếu tố cho trang đăng nhập
-
-- Tích hợp TOTP qua thư viện otplib
-- Thêm QR code generator cho setup ban đầu
-- Cập nhật UI form đăng nhập
-
-Closes #142
-```
+| `feat`     | New feature                                      |
+| `fix`      | Bug fix                                          |
+| `docs`     | Documentation changes only                       |
+| `style`    | Formatting only — no logic change                |
+| `refactor` | Code restructure — no feature added, no bug fixed |
+| `perf`     | Performance improvement                          |
+| `test`     | Adding or updating tests                         |
+| `chore`    | Build process, CI config, dependency updates     |
+| `security` | Security fix or hardening                        |
 
 ---
 
-## 3. 🔒 QUY TẮC "DO NOT OVERWRITE" — Chỉ Append (Immutable Docs)
+## Rule 3 — Immutable Docs / Append-Only (Gate 4)
 
-> **QUAN TRỌNG**: Đây là quy tắc ưu tiên cao nhất!
+> **Highest priority rule for documentation files.**
 
-- Đối với các file tài liệu (`.md`, `.txt`, `.log`):
-  - **KHÔNG ĐƯỢC** ghi đè (overwrite) nội dung hiện có.
-  - **CHỈ ĐƯỢC** thêm nội dung mới vào **cuối file** (append-only).
-  - Mỗi lần cập nhật phải kèm **timestamp** theo format: `[YYYY-MM-DD HH:mm:ss]`.
-  
-- Đặc biệt áp dụng cho:
-  - `API_DOCUMENTATION.md` — Tài liệu API tự sinh
-  - `CHANGELOG.md` — Nhật ký thay đổi
-  - `SECURITY_AUDIT.md` — Báo cáo kiểm tra bảo mật
+For all `.md`, `.txt`, and `.log` files:
 
-### Ví dụ append hợp lệ:
+- NEVER overwrite existing content.
+- ONLY append new content to the **end of file**.
+- Every append MUST include a timestamp: `[YYYY-MM-DD HH:mm:ss UTC]`.
+
+Applies strictly to:
+- `API_DOCUMENTATION.md` — auto-generated API docs
+- `CHANGELOG.md` — change log
+- `SECURITY_AUDIT.md` — security scan report
+
+### Valid append format:
+
 ```markdown
 ---
-## [2026-05-23 23:30:00] — Cập nhật bởi DevOps-Guard Agent
+## [2026-05-28 16:00:00 UTC] — DevOps-Guard Agent
 
-### Endpoint mới: POST /api/v2/users
-- Method: POST
-- Auth: Bearer Token required
-- Body: { name: string, email: string }
-- Response: 201 Created
+### Component: UserProfile
+- **Props:** name (string, required), email (string, required), role (string, default: "Developer"), avatarUrl (string, optional), ref (Ref, React 19 style)
+- **Returns:** JSX — user card with avatar, name, email, role badge
+- **Notes:** Uses ThemeContext via use() hook (React 19 pattern)
 ```
 
 ---
 
-## 4. 🛡️ QUY TẮC BẢO MẬT (Security Rules)
+## Rule 4 — Security
 
-- **TUYỆT ĐỐI CẤM** hardcode bất kỳ giá trị bí mật nào trong mã nguồn:
-  - API Keys, Secret Keys, Tokens
-  - Passwords, Database connection strings  
-  - Private keys, Certificates
-- Tất cả secrets phải được lưu trong biến môi trường (`.env`) và KHÔNG được commit `.env` lên repository.
-- File `.gitignore` phải chứa: `.env`, `.env.local`, `.env.*.local`
+> Full security rule reference: [security_rules.md](./security_rules.md)
 
----
+**Summary of hard constraints:**
 
-## 5. ⚛️ QUY TẮC REFACTOR REACT (React Modernization)
+- NEVER hardcode any secret, credential, token, or key in source code.
+- NEVER use `VITE_` prefix for server-side secrets — `VITE_` variables are bundled into client JavaScript and are publicly readable in the browser.
 
-Khi phát hiện cú pháp React 18 cũ, agent phải tự động refactor:
+```
+# ALLOWED — public values safe for the browser
+VITE_GOOGLE_MAPS_KEY=...     ✅ Public API key with domain restriction
+VITE_APP_NAME=...            ✅ Non-sensitive config
 
-| React 18 (Cũ)                     | React 19 (Mới)                        |
-|------------------------------------|---------------------------------------|
-| `forwardRef((props, ref) => ...)` | `function Component({ ref, ...props })` |
-| `useContext(SomeContext)`          | `use(SomeContext)`                     |
-| `<Context.Provider value={...}>`   | `<Context value={...}>`               |
+# FORBIDDEN — server secrets must NOT use VITE_ prefix
+VITE_OPENAI_API_KEY=...      ❌ Bundled into client JS — exposed!
+VITE_DATABASE_URL=...        ❌ Bundled into client JS — exposed!
+VITE_STRIPE_SECRET=...       ❌ Bundled into client JS — exposed!
+```
 
----
-
-## 6. 📊 QUY TẮC TÀI LIỆU TỰ ĐỘNG (Auto Documentation)
-
-- Sau mỗi lần refactor hoặc thêm feature, agent phải tự động cập nhật `API_DOCUMENTATION.md`.
-- Format tài liệu phải theo chuẩn Markdown với các section rõ ràng.
-- Tuân thủ quy tắc **DO NOT OVERWRITE** — chỉ append.
+- All secrets must live in `.env` files that are listed in `.gitignore`.
+- `.gitignore` must include: `.env`, `.env.local`, `.env.*.local`.
 
 ---
 
-*File này được quản lý bởi DevOps-Guard Agent. Cập nhật lần cuối: 2026-05-23*
+## Rule 5 — React Modernization (Gate 3)
+
+**Trigger:** Any `.jsx` or `.tsx` file in the diff.
+
+When legacy React 18 patterns are detected, the agent MUST auto-migrate to React 19:
+
+| Pattern | React 18 (Legacy) | React 19 (Target) |
+|---------|-------------------|-------------------|
+| Ref forwarding | `forwardRef((props, ref) => ...)` | `function Component({ ref, ...props })` |
+| Context consumption | `useContext(SomeContext)` | `use(SomeContext)` |
+| Context provider | `<Context.Provider value={...}>` | `<Context value={...}>` |
+| Async resources | `useEffect` + `useState` for data fetch | `use(promise)` or React Server Components |
+| Memoization | Manual `React.memo()` wrapping | React Compiler handles automatically |
+| Legacy render | `ReactDOM.render(<App />, el)` | `createRoot(el).render(<App />)` |
+| Lazy loading | `React.lazy()` with `<Suspense>` | Retained — but prefer async components |
+| StrictMode | Optional | Required in all environments |
+
+---
+
+## Rule 6 — Auto Documentation (Gate 4)
+
+**Trigger:** After Gate 3 (Refactor) completes, or when a new component/function is added.
+
+### Documentation is REQUIRED for:
+- Every exported React component
+- Every exported function or hook
+- Every exported TypeScript type or interface
+
+### Required format — JSDoc block above the definition:
+
+```js
+/**
+ * @component ComponentName
+ * @description One clear sentence describing what this component renders.
+ *
+ * @param {Type}   propName          - Description. Required/Optional.
+ * @param {Type}   [optionalProp]    - Description. Default: value.
+ * @returns {JSX.Element}
+ *
+ * @example
+ * <ComponentName propName="value" />
+ */
+```
+
+```js
+/**
+ * @function functionName
+ * @description One clear sentence describing what this function does.
+ *
+ * @param {Type}   paramName  - Description.
+ * @returns {Type}            - Description of return value.
+ *
+ * @throws {Error}            - When (condition).
+ */
+```
+
+### What MUST be documented in `API_DOCUMENTATION.md`:
+- Component name, description, full props table (name / type / default / required / description)
+- Function name, parameters, return type, thrown errors
+- Side effects, dependencies, known limitations
+
+### What must NOT appear in documentation:
+- "TODO" or "FIXME" comments
+- Commented-out code blocks
+- Vague descriptions like "handles the thing"
+
+---
+
+## Rule 7 — Strict Execution & Isolated Scope
+
+> This rule governs HOW the agent acts, not what it detects.
+
+### STRICT EXECUTION
+
+The agent MUST only perform actions explicitly required by the triggered gate:
+
+- Do NOT add logic that was not requested.
+- Do NOT refactor code that is not in the current diff.
+- Do NOT add comments, logs, or console statements unless explicitly instructed.
+- Do NOT install packages as a "side effect" of another task.
+
+### ISOLATED SCOPE
+
+The agent MUST minimize the blast radius of every change:
+
+- Only modify files that contain the violation being fixed.
+- Do NOT change code style (quotes, semicolons, trailing commas, whitespace) in lines unrelated to the fix.
+- Do NOT rename variables, reorder imports, or restructure blocks unless directly required.
+- Each fix must produce the **smallest possible diff** — if a fix can be made in 1 line, it must not touch 10 lines.
+
+**Why this matters:** Noisy diffs cause unnecessary merge conflicts in multi-developer teams and make code review harder.
+
+```diff
+# BAD — agent changed quotes everywhere (noise)
+- const name = "Alice"
+- const role = "admin"
++ const name = 'Alice'
++ const role = 'admin'
+
+# GOOD — agent only fixed the actual violation
+- const apiKey = "AIzaSy..."
++ const apiKey = import.meta.env.VITE_GOOGLE_API_KEY
+```
+
+---
+
+*Managed by DevOps-Guard Agent. Last updated: 2026-05-28*

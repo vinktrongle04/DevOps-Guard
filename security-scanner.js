@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // ============================================================
-// 🛡️ SECURITY SCANNER v2.0 - DevOps-Guard Quality Gate
-// Quét toàn bộ mã nguồn để phát hiện rò rỉ khóa bảo mật.
-// Hỗ trợ 20+ loại API Key & Secret patterns.
-// Được kích hoạt tự động qua Husky pre-commit hook.
-// Nếu phát hiện vi phạm → process.exit(1) → chặn commit.
+// 🛡️ SECURITY SCANNER v3.0 - DevOps-Guard Quality Gate
+// Scans all source files for leaked secrets, API keys, 
+// XSS vulnerabilities, and environment misconfigurations.
+// Supports 28 rules across 12 categories (OWASP Top 10 mapped).
+// Triggered automatically via the Husky pre-commit hook.
+// On CRITICAL/HIGH violation → process.exit(1) → commit blocked.
 // ============================================================
 
 import fs from 'fs'
@@ -14,7 +15,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// ─── CẤU HÌNH CÁC PATTERN NGUY HIỂM (20+ RULES) ──────────────
+// ─── CẤU HÌNH CÁC PATTERN NGUY HIỂM (28 RULES) ──────────────
 const SECURITY_PATTERNS = [
   // ═══════════════════════════════════════════════════════════
   // CATEGORY 1: GOOGLE / FIREBASE
@@ -25,8 +26,8 @@ const SECURITY_PATTERNS = [
     regex: /AIzaSy[0-9A-Za-z_-]{33}/g,
     severity: 'CRITICAL',
     category: 'Google Cloud',
-    description: 'Google API Key lộ thiên — có thể bị lạm dụng tạo chi phí lớn',
-    remediation: 'Chuyển vào biến môi trường VITE_GOOGLE_API_KEY trong file .env',
+    description: 'Google API Key found — can be abused for unauthorized cost generation',
+    remediation: 'Use environment variables (e.g., VITE_GOOGLE_API_KEY) in .env',
   },
   {
     id: 'GOOG-002',
@@ -34,8 +35,8 @@ const SECURITY_PATTERNS = [
     regex: /firebase[A-Za-z]*\s*[:=]\s*["'][A-Za-z0-9_-]{20,}["']/gi,
     severity: 'HIGH',
     category: 'Google Cloud',
-    description: 'Firebase config value lộ thiên',
-    remediation: 'Sử dụng biến môi trường VITE_FIREBASE_* trong .env',
+    description: 'Firebase configuration key exposed',
+    remediation: 'Use environment variables VITE_FIREBASE_* in .env',
   },
   {
     id: 'GOOG-003',
@@ -43,8 +44,8 @@ const SECURITY_PATTERNS = [
     regex: /GOCSPX-[A-Za-z0-9_-]{28,}/g,
     severity: 'CRITICAL',
     category: 'Google Cloud',
-    description: 'Google OAuth Client Secret — cho phép giả mạo xác thực',
-    remediation: 'Lưu trong server-side env, KHÔNG bao giờ đưa vào client code',
+    description: 'Google OAuth Client Secret exposed — allows authentication bypass',
+    remediation: 'Keep in server-side env, never expose in client code',
   },
   {
     id: 'GOOG-004',
@@ -52,8 +53,8 @@ const SECURITY_PATTERNS = [
     regex: /"type"\s*:\s*"service_account"/g,
     severity: 'CRITICAL',
     category: 'Google Cloud',
-    description: 'Google Service Account JSON Key — full access vào GCP project',
-    remediation: 'KHÔNG commit file service account. Dùng Workload Identity Federation',
+    description: 'Google Service Account JSON key — grants broad GCP access',
+    remediation: 'Use Workload Identity Federation instead of static JSON keys',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -65,8 +66,8 @@ const SECURITY_PATTERNS = [
     regex: /AKIA[0-9A-Z]{16}/g,
     severity: 'CRITICAL',
     category: 'AWS',
-    description: 'AWS Access Key ID — có thể truy cập toàn bộ tài nguyên AWS',
-    remediation: 'Dùng AWS IAM Roles hoặc lưu trong AWS Secrets Manager',
+    description: 'AWS Access Key ID exposed — potential unauthorized cloud resource access',
+    remediation: 'Use AWS IAM roles or AWS Secrets Manager',
   },
   {
     id: 'AWS-002',
@@ -74,8 +75,8 @@ const SECURITY_PATTERNS = [
     regex: /(?:aws_secret_access_key|aws_secret)\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?/gi,
     severity: 'CRITICAL',
     category: 'AWS',
-    description: 'AWS Secret Access Key lộ thiên',
-    remediation: 'Xóa ngay và rotate key trong AWS IAM Console',
+    description: 'AWS Secret Access Key exposed',
+    remediation: 'Revoke and rotate immediately in AWS IAM Console',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -87,8 +88,8 @@ const SECURITY_PATTERNS = [
     regex: /sk-proj-[A-Za-z0-9]{20,}/g,
     severity: 'CRITICAL',
     category: 'AI Services',
-    description: 'OpenAI API Key — có thể bị lạm dụng gây hóa đơn khổng lồ',
-    remediation: 'Lưu trong OPENAI_API_KEY env var, thiết lập usage limit',
+    description: 'OpenAI API Key found — risks unauthorized usage costs',
+    remediation: 'Use environment variable OPENAI_API_KEY with usage limits',
   },
   {
     id: 'AI-002',
@@ -96,8 +97,8 @@ const SECURITY_PATTERNS = [
     regex: /sk-[A-Za-z0-9]{48}/g,
     severity: 'CRITICAL',
     category: 'AI Services',
-    description: 'OpenAI Legacy API Key format',
-    remediation: 'Rotate key ngay tại platform.openai.com/api-keys',
+    description: 'OpenAI Legacy API Key format detected',
+    remediation: 'Rotate key at platform.openai.com/api-keys',
   },
   {
     id: 'AI-003',
@@ -105,8 +106,8 @@ const SECURITY_PATTERNS = [
     regex: /sk-ant-[A-Za-z0-9_-]{40,}/g,
     severity: 'CRITICAL',
     category: 'AI Services',
-    description: 'Anthropic (Claude) API Key lộ thiên',
-    remediation: 'Lưu trong ANTHROPIC_API_KEY env var',
+    description: 'Anthropic (Claude) API Key exposed',
+    remediation: 'Store in ANTHROPIC_API_KEY environment variable',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -118,8 +119,8 @@ const SECURITY_PATTERNS = [
     regex: /(?:sk_live_|rk_live_)[0-9a-zA-Z_]{20,}/g,
     severity: 'CRITICAL',
     category: 'Payment',
-    description: 'Stripe Live Secret/Restricted Key — có thể thực hiện giao dịch thật',
-    remediation: 'CHỈ dùng sk_test_ trong dev. Lưu sk_live_ trong server env',
+    description: 'Stripe Live Secret Key detected — permits real financial transactions',
+    remediation: 'Use sk_test_ for development. Store live keys in server-side env',
   },
   {
     id: 'PAY-002',
@@ -127,8 +128,8 @@ const SECURITY_PATTERNS = [
     regex: /pk_live_[0-9a-zA-Z]{24,}/g,
     severity: 'MEDIUM',
     category: 'Payment',
-    description: 'Stripe Live Publishable Key — nên giới hạn domain',
-    remediation: 'Dùng VITE_STRIPE_PK env var, restrict domain trong Stripe Dashboard',
+    description: 'Stripe Live Publishable Key exposed',
+    remediation: 'Use VITE_STRIPE_PK and restrict allowed domains in Stripe Dashboard',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -140,8 +141,8 @@ const SECURITY_PATTERNS = [
     regex: /SK[0-9a-fA-F]{32}/g,
     severity: 'HIGH',
     category: 'Communication',
-    description: 'Twilio API Key — có thể gửi SMS/gọi điện trái phép',
-    remediation: 'Lưu trong TWILIO_API_KEY env var',
+    description: 'Twilio API Key exposed — potential for unauthorized SMS/Calls',
+    remediation: 'Store in TWILIO_API_KEY environment variable',
   },
   {
     id: 'COM-002',
@@ -149,8 +150,8 @@ const SECURITY_PATTERNS = [
     regex: /SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}/g,
     severity: 'HIGH',
     category: 'Communication',
-    description: 'SendGrid API Key — có thể gửi email hàng loạt',
-    remediation: 'Lưu trong SENDGRID_API_KEY env var',
+    description: 'SendGrid API Key exposed — potential unauthorized email sending',
+    remediation: 'Store in SENDGRID_API_KEY environment variable',
   },
   {
     id: 'COM-003',
@@ -158,8 +159,8 @@ const SECURITY_PATTERNS = [
     regex: /xox[baprs]-[0-9A-Za-z-]{10,}/g,
     severity: 'HIGH',
     category: 'Communication',
-    description: 'Slack Token lộ thiên — truy cập workspace trái phép',
-    remediation: 'Lưu trong SLACK_BOT_TOKEN env var',
+    description: 'Slack Token exposed — unauthorized workspace access',
+    remediation: 'Store in SLACK_BOT_TOKEN environment variable',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -171,8 +172,8 @@ const SECURITY_PATTERNS = [
     regex: /(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}/g,
     severity: 'CRITICAL',
     category: 'Version Control',
-    description: 'GitHub PAT — toàn quyền truy cập repo/org',
-    remediation: 'Dùng fine-grained PAT với quyền tối thiểu, lưu trong GitHub Secrets',
+    description: 'GitHub PAT detected — potential repo/org-wide access',
+    remediation: 'Use fine-grained PATs with minimal scope, store in GitHub Secrets',
   },
   {
     id: 'VCS-002',
@@ -180,8 +181,8 @@ const SECURITY_PATTERNS = [
     regex: /gho_[A-Za-z0-9]{36}/g,
     severity: 'HIGH',
     category: 'Version Control',
-    description: 'GitHub OAuth Token lộ thiên',
-    remediation: 'Lưu trong server env, không commit vào repo',
+    description: 'GitHub OAuth Token exposed',
+    remediation: 'Store in server-side environment variables',
   },
   {
     id: 'VCS-003',
@@ -189,8 +190,8 @@ const SECURITY_PATTERNS = [
     regex: /glpat-[A-Za-z0-9_-]{20,}/g,
     severity: 'CRITICAL',
     category: 'Version Control',
-    description: 'GitLab Personal Access Token',
-    remediation: 'Rotate token tại GitLab Settings > Access Tokens',
+    description: 'GitLab Personal Access Token exposed',
+    remediation: 'Rotate token in GitLab Settings > Access Tokens',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -202,8 +203,8 @@ const SECURITY_PATTERNS = [
     regex: /(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/[^\s"']{10,}/gi,
     severity: 'CRITICAL',
     category: 'Database',
-    description: 'Database connection string chứa credentials',
-    remediation: 'Lưu trong DATABASE_URL env var, dùng connection pooling',
+    description: 'Database connection string containing credentials detected',
+    remediation: 'Use DATABASE_URL environment variable',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -215,8 +216,8 @@ const SECURITY_PATTERNS = [
     regex: /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g,
     severity: 'HIGH',
     category: 'Authentication',
-    description: 'JWT Token hardcoded — có thể chứa thông tin nhạy cảm',
-    remediation: 'JWT phải được tạo runtime, không hardcode trong source',
+    description: 'JWT Token hardcoded in source code',
+    remediation: 'JWTs must be generated at runtime, never hardcoded',
   },
   {
     id: 'AUTH-002',
@@ -224,8 +225,8 @@ const SECURITY_PATTERNS = [
     regex: /-----BEGIN\s+(RSA|EC|DSA|OPENSSH)?\s*PRIVATE KEY-----/g,
     severity: 'CRITICAL',
     category: 'Authentication',
-    description: 'Private Key trong mã nguồn — toàn quyền giải mã/ký',
-    remediation: 'Lưu key trong vault (HashiCorp Vault, AWS KMS). KHÔNG bao giờ commit',
+    description: 'Private Key block detected in source',
+    remediation: 'Use a secret manager (HashiCorp Vault, AWS KMS). Never commit keys',
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -237,8 +238,8 @@ const SECURITY_PATTERNS = [
     regex: /(?:secret|token|password|passwd|pwd|api_key|apikey|access_key)\s*[:=]\s*["'][^"']{8,}["']/gi,
     severity: 'HIGH',
     category: 'Generic',
-    description: 'Chuỗi secret/token/password hardcoded trong source',
-    remediation: 'Chuyển tất cả secrets vào file .env và thêm .env vào .gitignore',
+    description: 'Hardcoded credentials found in source',
+    remediation: 'Move all secrets to .env file and add .env to .gitignore',
   },
   {
     id: 'GEN-002',
@@ -246,8 +247,8 @@ const SECURITY_PATTERNS = [
     regex: /^(?:DB_PASSWORD|SECRET_KEY|API_SECRET|PRIVATE_KEY)\s*=\s*.{3,}/gm,
     severity: 'CRITICAL',
     category: 'Generic',
-    description: 'File .env chứa secrets đang bị commit',
-    remediation: 'Thêm .env vào .gitignore NGAY, rotate tất cả secrets bị lộ',
+    description: '.env variables found directly in codebase',
+    remediation: 'Remove from git, add .env to .gitignore, and rotate secrets',
   },
   {
     id: 'GEN-003',
@@ -255,17 +256,73 @@ const SECURITY_PATTERNS = [
     regex: /(?:https?:\/\/)?(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}/g,
     severity: 'MEDIUM',
     category: 'Generic',
-    description: 'IP address với port hardcoded — lộ hạ tầng nội bộ',
-    remediation: 'Dùng biến env hoặc service discovery thay vì hardcode IP',
+    description: 'Hardcoded infrastructure IP/Port identified',
+    remediation: 'Use environment variables or service discovery',
+  },
+  // ═══════════════════════════════════════════════════════════
+  // CATEGORY 10: ENV VAR MISCONFIGURATION [OWASP A05]
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: 'ENV-001',
+    name: 'VITE_ Prefix on Server Secret',
+    regex: /VITE_(?:SECRET|KEY|PASSWORD|TOKEN|DATABASE|PRIVATE|API)[A-Z_]*\s*=/g,
+    severity: 'HIGH',
+    category: 'Env Misconfiguration',
+    description: 'VITE_ prefix embeds this variable into the client JS bundle — server secrets become publicly readable in the browser',
+    remediation: 'Remove VITE_ prefix. Access via process.env.VAR_NAME in server-side code only.',
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // CATEGORY 11: XSS / INJECTION [OWASP A03]
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: 'XSS-001',
+    name: 'React dangerouslySetInnerHTML',
+    regex: /dangerouslySetInnerHTML\s*=\s*\{\{/g,
+    severity: 'HIGH',
+    category: 'XSS / Injection',
+    description: 'dangerouslySetInnerHTML bypasses React DOM sanitization — enables XSS if value contains user input',
+    remediation: 'Use DOMPurify.sanitize() on the value, or render as plain text: <div>{content}</div>',
+  },
+  {
+    id: 'XSS-002',
+    name: 'Direct DOM innerHTML / document.write',
+    regex: /\.innerHTML\s*=|document\.write\s*\(/g,
+    severity: 'HIGH',
+    category: 'XSS / Injection',
+    description: 'Direct innerHTML or document.write() enables XSS when user data is injected',
+    remediation: 'Use element.textContent for plain text. Use DOMPurify for trusted HTML.',
+  },
+  {
+    id: 'XSS-003',
+    name: 'eval() / new Function() Code Injection',
+    regex: /\beval\s*\(|new\s+Function\s*\(/g,
+    severity: 'CRITICAL',
+    category: 'XSS / Injection',
+    description: 'eval() and new Function(string) execute arbitrary code — critical code injection risk',
+    remediation: 'Never pass user input to eval(). Use JSON.parse() for data. Use a sandboxed evaluator for expressions.',
+  },
+
+  // ═══════════════════════════════════════════════════════════
+  // CATEGORY 12: SECURITY LOGGING [OWASP A09]
+  // ═══════════════════════════════════════════════════════════
+  {
+    id: 'LOG-001',
+    name: 'console.log in Source',
+    regex: /console\.log\s*\(/g,
+    severity: 'LOW',
+    category: 'Security Logging',
+    description: 'console.log can leak sensitive runtime data (tokens, user objects) in production',
+    remediation: 'Remove debug logs before committing. Use a structured logger with log levels.',
   },
 ]
 
-// ─── CÁC THƯ MỤC / FILE BỎ QUA ──────────────────────────────
+// ─── IGNORED DIRECTORIES AND FILES ─────────────────────────
 const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage']
 const IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'security-scanner.js']
 const SCAN_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf']
 
-// ─── TIỆN ÍCH ─────────────────────────────────────────────────
+// ─── UTILITIES ─────────────────────────────────────────────────────
 const COLORS = {
   red: '\x1b[31m',
   green: '\x1b[32m',
@@ -303,14 +360,12 @@ function collectFiles(dir) {
       } else {
         if (IGNORE_FILES.includes(entry.name)) continue
         const ext = path.extname(entry.name).toLowerCase()
-        // Cũng quét file không có extension (như .env files)
         if (SCAN_EXTENSIONS.includes(ext) || entry.name.startsWith('.env')) {
           results.push(fullPath)
         }
       }
     }
   } catch {
-    // skip inaccessible dirs
   }
   return results
 }
@@ -325,7 +380,6 @@ function scanFile(filePath) {
     for (const pattern of SECURITY_PATTERNS) {
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i]
-        // Reset regex lastIndex cho global flag
         pattern.regex.lastIndex = 0
         const matches = line.match(pattern.regex)
         if (matches) {
@@ -345,7 +399,6 @@ function scanFile(filePath) {
       }
     }
   } catch {
-    // skip unreadable files
   }
   return violations
 }
@@ -359,20 +412,20 @@ function printSummary(violations) {
     byCategory[v.category] = (byCategory[v.category] || 0) + 1
   }
 
-  log('cyan', `${COLORS.bold}  📊 THỐNG KÊ VI PHẠM`)
+  log('cyan', `${COLORS.bold}  📊 VIOLATION SUMMARY`)
   console.log()
 
-  log('dim', '  Theo mức độ:')
+  log('dim', '  By Severity:')
   for (const [sev, count] of Object.entries(bySeverity).sort()) {
     const icon = SEVERITY_ICON[sev] || '⚪'
     const color = sev === 'CRITICAL' ? 'red' : sev === 'HIGH' ? 'yellow' : 'dim'
-    log(color, `    ${icon} ${sev}: ${count} vi phạm`)
+    log(color, `    ${icon} ${sev}: ${count} violations`)
   }
   console.log()
 
-  log('dim', '  Theo danh mục:')
+  log('dim', '  By Category:')
   for (const [cat, count] of Object.entries(byCategory).sort()) {
-    log('dim', `    📁 ${cat}: ${count} vi phạm`)
+    log('dim', `    📁 ${cat}: ${count} violations`)
   }
   console.log()
 }
@@ -383,13 +436,13 @@ function main() {
 
   console.log()
   log('cyan', '━'.repeat(64))
-  log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v2.0`)
+  log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v3.0`)
   log('cyan', `  ${COLORS.dim}${SECURITY_PATTERNS.length} security rules loaded`)
   log('cyan', '━'.repeat(64))
   console.log()
 
   const projectDir = __dirname
-  log('dim', `  📂 Quét thư mục: ${projectDir}`)
+  log('dim', `  📂 Scanning directory: ${projectDir}`)
 
   const files = collectFiles(projectDir)
   log('dim', `  📄 Tìm thấy ${files.length} file cần quét`)
