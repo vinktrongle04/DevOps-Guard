@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-05-30",
+    "timestamp": "2026-05-30T00:21:54.083Z",
+    "scanMs": 77,
+    "critical": 96,
+    "high": 39,
+    "medium": 6,
+    "low": 19,
+    "total": 160,
+    "unusedDeps": 4,
+    "bloatKb": 153,
+    "gate1Status": "BLOCKED",
+    "gate2Status": "WARNING"
+  }
+]

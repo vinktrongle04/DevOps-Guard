@@ -1,37 +1,37 @@
 {
   "meta": {
-    "generatedAt": "2026-05-28T16:36:07.407Z",
-    "scanDurationMs": 52,
-    "version": "3.0",
+    "generatedAt": "2026-05-30T00:21:54.083Z",
+    "scanDurationMs": 77,
+    "version": "3.1",
     "rulesLoaded": 27
   },
   "summary": {
-    "totalSecurityViolations": 49,
+    "totalSecurityViolations": 160,
     "bySeverity": {
-      "CRITICAL": 21,
-      "HIGH": 20,
-      "MEDIUM": 2,
-      "LOW": 6
+      "CRITICAL": 96,
+      "HIGH": 39,
+      "MEDIUM": 6,
+      "LOW": 19
     },
     "byCategory": {
-      "Generic": 13,
-      "Env Misconfiguration": 1,
-      "Authentication": 3,
-      "Google Cloud": 3,
-      "XSS / Injection": 10,
-      "Security Logging": 6,
-      "AWS": 1,
-      "AI Services": 2,
-      "Payment": 1,
-      "Communication": 2,
-      "Version Control": 2,
-      "Database": 5
+      "Generic": 20,
+      "Env Misconfiguration": 3,
+      "Google Cloud": 13,
+      "AWS": 5,
+      "AI Services": 8,
+      "Payment": 5,
+      "Communication": 6,
+      "Version Control": 10,
+      "Database": 15,
+      "Authentication": 6,
+      "XSS / Injection": 50,
+      "Security Logging": 19
     },
     "unusedDependencies": 4,
     "missingDependencies": 0,
     "bloatedPackages": 4,
     "totalBloatKb": 153,
-    "srcFilesScanned": 10,
+    "srcFilesScanned": 14,
     "packagesAnalyzed": 16,
     "gate1Status": "BLOCKED",
     "gate2Status": "WARNING",
@@ -46,6 +46,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "project_rules.md",
         "line": 234,
         "snippet": "- const apiKey = \"AIzaSy...\""
@@ -56,16 +62,1804 @@
         "severity": "HIGH",
         "category": "Env Misconfiguration",
         "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC6.6",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "project_rules.md",
         "line": 125,
         "snippet": "VITE_DATABASE_URL=...        ❌ Bundled into client JS — exposed!"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 71,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const apiKey = \\\\\\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 81,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const apiKey = \\\\\\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 91,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const apiKey = \\\\\\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 101,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const apiKey = \\\\\\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 111,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const GOOGLE_MAPS_KEY = \\\\\\\"AIzaSyBcDeFgHiJkLmNoPqRsT"
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 581,
+        "snippet": "\"snippet\": \"const apiKey = \\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\\\"\""
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 591,
+        "snippet": "\"snippet\": \"const apiKey = \\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\\\"\""
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 721,
+        "snippet": "\"snippet\": \"const apiKey = \\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\\\"\""
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 791,
+        "snippet": "\"snippet\": \"const apiKey = \\\"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\\\"\""
+      },
+      {
+        "ruleId": "GOOG-001",
+        "ruleName": "Google API Key",
+        "severity": "CRITICAL",
+        "category": "Google Cloud",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 941,
+        "snippet": "\"snippet\": \"const GOOGLE_MAPS_KEY = \\\"AIzaSyBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890\\"
+      },
+      {
+        "ruleId": "AWS-001",
+        "ruleName": "AWS Access Key ID",
+        "severity": "CRITICAL",
+        "category": "AWS",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 121,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const AWS_ACCESS_KEY = \\\\\\\"AKIAIOSFODNN7EXAMPLE\\\\\\\"\\\""
+      },
+      {
+        "ruleId": "AWS-001",
+        "ruleName": "AWS Access Key ID",
+        "severity": "CRITICAL",
+        "category": "AWS",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 131,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const AWS_ACCESS_KEY = \\\\\\\"AKIAIOSFODNN7EXAMPLE\\\\\\\"\\\""
+      },
+      {
+        "ruleId": "AWS-001",
+        "ruleName": "AWS Access Key ID",
+        "severity": "CRITICAL",
+        "category": "AWS",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 731,
+        "snippet": "\"snippet\": \"const AWS_ACCESS_KEY = \\\"AKIAIOSFODNN7EXAMPLE\\\"\""
+      },
+      {
+        "ruleId": "AWS-001",
+        "ruleName": "AWS Access Key ID",
+        "severity": "CRITICAL",
+        "category": "AWS",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 821,
+        "snippet": "\"snippet\": \"const AWS_ACCESS_KEY = \\\"AKIAIOSFODNN7EXAMPLE\\\"\""
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 141,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const OPENAI_KEY = \\\\\\\"sk-proj-FAKE000000000000000000"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 151,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const OPENAI_API_KEY = \\\\\\\"sk-proj-MOCK00000000000000"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 161,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const OPENAI_API_KEY = \\\\\\\"sk-proj-MOCK00000000000000"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 741,
+        "snippet": "\"snippet\": \"const OPENAI_KEY = \\\"sk-proj-FAKE00000000000000000000000000000000000"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 951,
+        "snippet": "\"snippet\": \"const OPENAI_API_KEY = \\\"sk-proj-MOCK0000000000000000000000000000000"
+      },
+      {
+        "ruleId": "AI-001",
+        "ruleName": "OpenAI API Key",
+        "severity": "CRITICAL",
+        "category": "AI Services",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 971,
+        "snippet": "\"snippet\": \"const OPENAI_API_KEY = \\\"sk-proj-MOCK0000000000000000000000000000000"
+      },
+      {
+        "ruleId": "PAY-001",
+        "ruleName": "Stripe Secret/Restricted Key",
+        "severity": "CRITICAL",
+        "category": "Payment",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.2",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 171,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const STRIPE_KEY_SECRET = \\\\\\\"rk_live_DEMO_51NxBqRtY8"
+      },
+      {
+        "ruleId": "PAY-001",
+        "ruleName": "Stripe Secret/Restricted Key",
+        "severity": "CRITICAL",
+        "category": "Payment",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.2",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 181,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const STRIPE_KEY_SECRET = \\\\\\\"rk_live_DEMO_51NxBqRtY8"
+      },
+      {
+        "ruleId": "PAY-001",
+        "ruleName": "Stripe Secret/Restricted Key",
+        "severity": "CRITICAL",
+        "category": "Payment",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.2",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 751,
+        "snippet": "\"snippet\": \"const STRIPE_KEY_SECRET = \\\"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA"
+      },
+      {
+        "ruleId": "PAY-001",
+        "ruleName": "Stripe Secret/Restricted Key",
+        "severity": "CRITICAL",
+        "category": "Payment",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.2",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 801,
+        "snippet": "\"snippet\": \"const STRIPE_KEY_SECRET = \\\"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA"
+      },
+      {
+        "ruleId": "COM-001",
+        "ruleName": "Twilio API Key",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 191,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const TWILIO_KEY = \\\\\\\"SK0000000000000000000000000000"
+      },
+      {
+        "ruleId": "COM-001",
+        "ruleName": "Twilio API Key",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 761,
+        "snippet": "\"snippet\": \"const TWILIO_KEY = \\\"SK00000000000000000000000000000000\\\"\""
+      },
+      {
+        "ruleId": "COM-003",
+        "ruleName": "Slack Bot/Webhook Token",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 201,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const SLACK_WEBHOOK = \\\\\\\"xoxb-123456789012-123456789"
+      },
+      {
+        "ruleId": "COM-003",
+        "ruleName": "Slack Bot/Webhook Token",
+        "severity": "HIGH",
+        "category": "Communication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 961,
+        "snippet": "\"snippet\": \"const SLACK_WEBHOOK = \\\"xoxb-123456789012-1234567890123-AbCdEfGhIjKl"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 211,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const GITHUB_TOKEN = \\\\\\\"github_pat_FAKE0000000000000"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 221,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const GITHUB_TOKEN = \\\\\\\"github_pat_FAKE0000000000000"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 231,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const GITHUB_TOKEN = \\\\\\\"ghp_ABCDEFGHIJKLMNOPQRSTUVWX"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 241,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const GITHUB_TOKEN = \\\\\\\"ghp_ABCDEFGHIJKLMNOPQRSTUVWX"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 771,
+        "snippet": "\"snippet\": \"const GITHUB_TOKEN = \\\"github_pat_FAKE000000000000000000000000000000"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 811,
+        "snippet": "\"snippet\": \"const GITHUB_TOKEN = \\\"github_pat_FAKE000000000000000000000000000000"
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 991,
+        "snippet": "\"snippet\": \"const GITHUB_TOKEN = \\\"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\\\";\""
+      },
+      {
+        "ruleId": "VCS-001",
+        "ruleName": "GitHub PAT",
+        "severity": "CRITICAL",
+        "category": "Version Control",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 1021,
+        "snippet": "\"snippet\": \"const GITHUB_TOKEN = \\\"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\\\";\""
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 251,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const DATABASE_URL = \\\\\\\"mongodb+srv://admin:SuperSec"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 261,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"\\\\\\\"mongodb+srv://admin:P@ssw0rd123@cluster0.abc123.m"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 271,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"\\\\\\\"postgres://dbadmin:SuperSecretDB456@db.internal.c"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 281,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"uri: \\\\\\\"mongodb://localhost:27017/devops_guard_dev\\\\"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 291,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"uri: \\\\\\\"postgres://localhost:5432/analytics_dev\\\\\\\","
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 781,
+        "snippet": "\"snippet\": \"const DATABASE_URL = \\\"mongodb+srv://admin:SuperSecret123@cluster0.a"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 831,
+        "snippet": "\"snippet\": \"\\\"mongodb+srv://admin:P@ssw0rd123@cluster0.abc123.mongodb.net/devops"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 841,
+        "snippet": "\"snippet\": \"\\\"postgres://dbadmin:SuperSecretDB456@db.internal.company.com:5432/a"
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 851,
+        "snippet": "\"snippet\": \"uri: \\\"mongodb://localhost:27017/devops_guard_dev\\\",\""
+      },
+      {
+        "ruleId": "DB-001",
+        "ruleName": "Database Connection String",
+        "severity": "CRITICAL",
+        "category": "Database",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 861,
+        "snippet": "\"snippet\": \"uri: \\\"postgres://localhost:5432/analytics_dev\\\",\""
       },
       {
         "ruleId": "AUTH-002",
         "ruleName": "Private Key Block",
         "severity": "CRITICAL",
         "category": "Authentication",
-        "owasp": "A07",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.10.1.1",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.4",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 311,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const RSA_PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY--"
+      },
+      {
+        "ruleId": "AUTH-002",
+        "ruleName": "Private Key Block",
+        "severity": "CRITICAL",
+        "category": "Authentication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.10.1.1",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.4",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 571,
+        "snippet": "\"snippet\": \"| Authentication   | 2          | JWT tokens, `-----BEGIN PRIVATE KE"
+      },
+      {
+        "ruleId": "AUTH-002",
+        "ruleName": "Private Key Block",
+        "severity": "CRITICAL",
+        "category": "Authentication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.10.1.1",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.4",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 1011,
+        "snippet": "\"snippet\": \"const RSA_PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
+        "file": "public/scan-report.json",
+        "line": 321,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log('token:', authToken)\\\"\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
+        "file": "public/scan-report.json",
+        "line": 521,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log('token:', authToken)\\\"\""
+      },
+      {
+        "ruleId": "GEN-001",
+        "ruleName": "Hardcoded Secret/Password",
+        "severity": "HIGH",
+        "category": "Generic",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
+        "file": "public/scan-report.json",
+        "line": 711,
+        "snippet": "\"snippet\": \"console.log('token:', authToken)\""
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 331,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const REDIS_HOST = \\\\\\\"http://10.0.0.42:6379\\\\\\\";\\\"\""
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 341,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"const API_SERVER = \\\\\\\"http://192.168.1.100:8080\\\\\\\";"
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 891,
+        "snippet": "\"snippet\": \"const REDIS_HOST = \\\"http://10.0.0.42:6379\\\";\""
+      },
+      {
+        "ruleId": "GEN-003",
+        "ruleName": "Hardcoded IP with Port",
+        "severity": "MEDIUM",
+        "category": "Generic",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 981,
+        "snippet": "\"snippet\": \"const API_SERVER = \\\"http://192.168.1.100:8080\\\";\""
+      },
+      {
+        "ruleId": "ENV-001",
+        "ruleName": "VITE_ Prefix on Server Secret",
+        "severity": "HIGH",
+        "category": "Env Misconfiguration",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC6.6",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 61,
+        "snippet": "\"snippet\": \"VITE_DATABASE_URL=...        ❌ Bundled into client JS — exposed!\""
+      },
+      {
+        "ruleId": "ENV-001",
+        "ruleName": "VITE_ Prefix on Server Secret",
+        "severity": "HIGH",
+        "category": "Env Misconfiguration",
+        "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC6.6",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 351,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"VITE_DATABASE_URL=...        ❌ Bundled into client JS"
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 361,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"<div dangerouslySetInnerHTML={{ __html: userComment }"
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 371,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"<div dangerouslySetInnerHTML={{ __html: DOMPurify.san"
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 601,
+        "snippet": "\"snippet\": \"<div dangerouslySetInnerHTML={{ __html: userComment }} />\""
+      },
+      {
+        "ruleId": "XSS-001",
+        "ruleName": "React dangerouslySetInnerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 611,
+        "snippet": "\"snippet\": \"<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userComme"
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 381,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"Direct assignment to `innerHTML` or `document.write()"
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 391,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"element.innerHTML = userData\\\"\""
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 401,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"document.write('<script>' + userData + '</script>')\\\""
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 621,
+        "snippet": "\"snippet\": \"Direct assignment to `innerHTML` or `document.write()` bypasses the "
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 631,
+        "snippet": "\"snippet\": \"element.innerHTML = userData\""
+      },
+      {
+        "ruleId": "XSS-002",
+        "ruleName": "Direct DOM innerHTML",
+        "severity": "HIGH",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 641,
+        "snippet": "\"snippet\": \"document.write('<script>' + userData + '</script>')\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 405,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 411,
+        "snippet": "\"snippet\": \"\\\"ruleName\\\": \\\"eval() / new Function()\\\",\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 415,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 421,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"| XSS-003 | 🔴 CRITICAL | eval() / Function() Injecti"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 425,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 431,
+        "snippet": "\"snippet\": \"\\\"ruleName\\\": \\\"eval() / new Function()\\\",\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 435,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 441,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"### XSS-003 — eval() / new Function()\\\"\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 445,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 451,
+        "snippet": "\"snippet\": \"\\\"ruleName\\\": \\\"eval() / new Function()\\\",\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 455,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 461,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"`eval()` and `new Function(string)` execute arbitrary"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 465,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 471,
+        "snippet": "\"snippet\": \"\\\"ruleName\\\": \\\"eval() / new Function()\\\",\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 475,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 481,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"eval(userInput)\\\"\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 485,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 491,
+        "snippet": "\"snippet\": \"\\\"ruleName\\\": \\\"eval() / new Function()\\\",\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 495,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 501,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"new Function('return ' + userExpression)()\\\"\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 645,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 651,
+        "snippet": "\"snippet\": \"| XSS-003 | 🔴 CRITICAL | eval() / Function() Injection | `\\\\beval\\\\"
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 655,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 661,
+        "snippet": "\"snippet\": \"### XSS-003 — eval() / new Function()\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 665,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 671,
+        "snippet": "\"snippet\": \"`eval()` and `new Function(string)` execute arbitrary code strings, "
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 675,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 681,
+        "snippet": "\"snippet\": \"eval(userInput)\""
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 685,
+        "snippet": "\"ruleName\": \"eval() / new Function()\","
+      },
+      {
+        "ruleId": "XSS-003",
+        "ruleName": "eval() / new Function()",
+        "severity": "CRITICAL",
+        "category": "XSS / Injection",
+        "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
+        "file": "public/scan-report.json",
+        "line": 691,
+        "snippet": "\"snippet\": \"new Function('return ' + userExpression)()\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 321,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log('token:', authToken)\\\"\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 511,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log('user data:', user)\\\"\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 521,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log('token:', authToken)\\\"\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 531,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log(\\\"\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 541,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log(`[database] Connected to ${engine} succes"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 551,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log(\\\\\\\"[database] Closing all connections…\\\\"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 561,
+        "snippet": "\"snippet\": \"\\\"snippet\\\": \\\"console.log(\\\\\\\"[database] All connections closed.\\\\\\"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 701,
+        "snippet": "\"snippet\": \"console.log('user data:', user)\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 711,
+        "snippet": "\"snippet\": \"console.log('token:', authToken)\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 901,
+        "snippet": "\"snippet\": \"console.log(\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 911,
+        "snippet": "\"snippet\": \"console.log(`[database] Connected to ${engine} successfully.`);\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 921,
+        "snippet": "\"snippet\": \"console.log(\\\"[database] Closing all connections…\\\");\""
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "public/scan-report.json",
+        "line": 931,
+        "snippet": "\"snippet\": \"console.log(\\\"[database] All connections closed.\\\");\""
+      },
+      {
+        "ruleId": "AUTH-002",
+        "ruleName": "Private Key Block",
+        "severity": "CRITICAL",
+        "category": "Authentication",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.10.1.1",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.4",
+          "hipaa": "§164.312"
+        },
         "file": "README.md",
         "line": 201,
         "snippet": "| Authentication   | 2          | JWT tokens, `-----BEGIN PRIVATE KEY-----`     "
@@ -76,8 +1870,14 @@
         "severity": "CRITICAL",
         "category": "Google Cloud",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 291,
+        "line": 358,
         "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
       },
       {
@@ -86,8 +1886,14 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "security_rules.md",
-        "line": 291,
+        "line": 358,
         "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
       },
       {
@@ -96,8 +1902,14 @@
         "severity": "HIGH",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 211,
+        "line": 278,
         "snippet": "<div dangerouslySetInnerHTML={{ __html: userComment }} />"
       },
       {
@@ -106,8 +1918,14 @@
         "severity": "HIGH",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 215,
+        "line": 282,
         "snippet": "<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userComment) }} />"
       },
       {
@@ -116,8 +1934,14 @@
         "severity": "HIGH",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 223,
+        "line": 290,
         "snippet": "Direct assignment to `innerHTML` or `document.write()` bypasses the browser's XS"
       },
       {
@@ -126,8 +1950,14 @@
         "severity": "HIGH",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 227,
+        "line": 294,
         "snippet": "element.innerHTML = userData"
       },
       {
@@ -136,8 +1966,14 @@
         "severity": "HIGH",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 228,
+        "line": 295,
         "snippet": "document.write('<script>' + userData + '</script>')"
       },
       {
@@ -146,8 +1982,14 @@
         "severity": "CRITICAL",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 203,
+        "line": 270,
         "snippet": "| XSS-003 | 🔴 CRITICAL | eval() / Function() Injection | `\\beval\\s*\\(\\|new\\s+Fu"
       },
       {
@@ -156,8 +1998,14 @@
         "severity": "CRITICAL",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 234,
+        "line": 301,
         "snippet": "### XSS-003 — eval() / new Function()"
       },
       {
@@ -166,8 +2014,14 @@
         "severity": "CRITICAL",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 236,
+        "line": 303,
         "snippet": "`eval()` and `new Function(string)` execute arbitrary code strings, enabling cod"
       },
       {
@@ -176,8 +2030,14 @@
         "severity": "CRITICAL",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 240,
+        "line": 307,
         "snippet": "eval(userInput)"
       },
       {
@@ -186,8 +2046,14 @@
         "severity": "CRITICAL",
         "category": "XSS / Injection",
         "owasp": "A03",
+        "compliance": {
+          "iso27001": "A.14.2.5",
+          "soc2": "CC8.1",
+          "pciDss": "Req 6.5",
+          "hipaa": null
+        },
         "file": "security_rules.md",
-        "line": 241,
+        "line": 308,
         "snippet": "new Function('return ' + userExpression)()"
       },
       {
@@ -196,8 +2062,14 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "security_rules.md",
-        "line": 264,
+        "line": 331,
         "snippet": "console.log('user data:', user)"
       },
       {
@@ -206,8 +2078,14 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "security_rules.md",
-        "line": 265,
+        "line": 332,
         "snippet": "console.log('token:', authToken)"
       },
       {
@@ -216,8 +2094,14 @@
         "severity": "CRITICAL",
         "category": "Google Cloud",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 21,
+        "line": 27,
         "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
       },
       {
@@ -226,8 +2110,14 @@
         "severity": "CRITICAL",
         "category": "AWS",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 33,
+        "line": 39,
         "snippet": "const AWS_ACCESS_KEY = \"AKIAIOSFODNN7EXAMPLE\""
       },
       {
@@ -236,8 +2126,14 @@
         "severity": "CRITICAL",
         "category": "AI Services",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 24,
+        "line": 30,
         "snippet": "const OPENAI_KEY = \"sk-proj-FAKE00000000000000000000000000000000000000000000\""
       },
       {
@@ -246,8 +2142,14 @@
         "severity": "CRITICAL",
         "category": "Payment",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.2",
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 27,
+        "line": 33,
         "snippet": "const STRIPE_KEY_SECRET = \"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA0\""
       },
       {
@@ -256,8 +2158,14 @@
         "severity": "HIGH",
         "category": "Communication",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 36,
+        "line": 42,
         "snippet": "const TWILIO_KEY = \"SK00000000000000000000000000000000\""
       },
       {
@@ -266,8 +2174,14 @@
         "severity": "CRITICAL",
         "category": "Version Control",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "src/App.jsx",
-        "line": 30,
+        "line": 36,
         "snippet": "const GITHUB_TOKEN = \"github_pat_FAKE0000000000000000000000000000000\""
       },
       {
@@ -276,8 +2190,14 @@
         "severity": "CRITICAL",
         "category": "Database",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
         "file": "src/App.jsx",
-        "line": 42,
+        "line": 48,
         "snippet": "const DATABASE_URL = \"mongodb+srv://admin:SuperSecret123@cluster0.abc123.mongodb"
       },
       {
@@ -286,8 +2206,14 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/App.jsx",
-        "line": 21,
+        "line": 27,
         "snippet": "const apiKey = \"AIzaSyDFj3kLm9Qw2xRtBvN8HpO5YzA1cE7gX0a\""
       },
       {
@@ -296,8 +2222,14 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/App.jsx",
-        "line": 27,
+        "line": 33,
         "snippet": "const STRIPE_KEY_SECRET = \"rk_live_DEMO_51NxBqRtY8mKvL3dF9wQzXcV7bA0\""
       },
       {
@@ -306,8 +2238,14 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/App.jsx",
-        "line": 30,
+        "line": 36,
         "snippet": "const GITHUB_TOKEN = \"github_pat_FAKE0000000000000000000000000000000\""
       },
       {
@@ -316,8 +2254,14 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/App.jsx",
-        "line": 33,
+        "line": 39,
         "snippet": "const AWS_ACCESS_KEY = \"AKIAIOSFODNN7EXAMPLE\""
       },
       {
@@ -326,6 +2270,12 @@
         "severity": "CRITICAL",
         "category": "Database",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 13,
         "snippet": "\"mongodb+srv://admin:P@ssw0rd123@cluster0.abc123.mongodb.net/devops_guard_prod\";"
@@ -336,6 +2286,12 @@
         "severity": "CRITICAL",
         "category": "Database",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 17,
         "snippet": "\"postgres://dbadmin:SuperSecretDB456@db.internal.company.com:5432/analytics\";"
@@ -346,6 +2302,12 @@
         "severity": "CRITICAL",
         "category": "Database",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 93,
         "snippet": "uri: \"mongodb://localhost:27017/devops_guard_dev\","
@@ -356,6 +2318,12 @@
         "severity": "CRITICAL",
         "category": "Database",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 98,
         "snippet": "uri: \"postgres://localhost:5432/analytics_dev\","
@@ -366,6 +2334,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/config/database.js",
         "line": 20,
         "snippet": "const DB_PASSWORD = \"MyS3cretDBP@ss!\";"
@@ -376,6 +2350,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/config/database.js",
         "line": 94,
         "snippet": "password: \"dev_password\","
@@ -386,6 +2366,12 @@
         "severity": "MEDIUM",
         "category": "Generic",
         "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/config/database.js",
         "line": 23,
         "snippet": "const REDIS_HOST = \"http://10.0.0.42:6379\";"
@@ -396,6 +2382,12 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 124,
         "snippet": "console.log("
@@ -406,6 +2398,12 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 171,
         "snippet": "console.log(`[database] Connected to ${engine} successfully.`);"
@@ -416,6 +2414,12 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 215,
         "snippet": "console.log(\"[database] Closing all connections…\");"
@@ -426,6 +2430,12 @@
         "severity": "LOW",
         "category": "Security Logging",
         "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
         "file": "src/config/database.js",
         "line": 221,
         "snippet": "console.log(\"[database] All connections closed.\");"
@@ -436,6 +2446,12 @@
         "severity": "CRITICAL",
         "category": "Google Cloud",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "src/services/apiClient.js",
         "line": 12,
         "snippet": "const GOOGLE_MAPS_KEY = \"AIzaSyBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890\";"
@@ -446,6 +2462,12 @@
         "severity": "CRITICAL",
         "category": "AI Services",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/services/apiClient.js",
         "line": 15,
         "snippet": "const OPENAI_API_KEY = \"sk-proj-MOCK00000000000000000000000000000000000000000000"
@@ -456,6 +2478,12 @@
         "severity": "HIGH",
         "category": "Communication",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.6",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/services/apiClient.js",
         "line": 18,
         "snippet": "const SLACK_WEBHOOK = \"xoxb-123456789012-1234567890123-AbCdEfGhIjKlMnOpQrStUvWx\""
@@ -466,6 +2494,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/services/apiClient.js",
         "line": 15,
         "snippet": "const OPENAI_API_KEY = \"sk-proj-MOCK00000000000000000000000000000000000000000000"
@@ -476,6 +2510,12 @@
         "severity": "MEDIUM",
         "category": "Generic",
         "owasp": "A05",
+        "compliance": {
+          "iso27001": "A.12.1.2",
+          "soc2": "CC7.2",
+          "pciDss": null,
+          "hipaa": null
+        },
         "file": "src/services/apiClient.js",
         "line": 21,
         "snippet": "const API_SERVER = \"http://192.168.1.100:8080\";"
@@ -486,6 +2526,12 @@
         "severity": "CRITICAL",
         "category": "Version Control",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.2.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": null
+        },
         "file": "src/utils/auth.js",
         "line": 47,
         "snippet": "const GITHUB_TOKEN = \"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\";"
@@ -496,6 +2542,12 @@
         "severity": "HIGH",
         "category": "Authentication",
         "owasp": "A07",
+        "compliance": {
+          "iso27001": "A.9.4.2",
+          "soc2": "CC6.1",
+          "pciDss": "Req 8.2",
+          "hipaa": "§164.312"
+        },
         "file": "src/utils/auth.js",
         "line": 15,
         "snippet": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbW"
@@ -505,7 +2557,13 @@
         "ruleName": "Private Key Block",
         "severity": "CRITICAL",
         "category": "Authentication",
-        "owasp": "A07",
+        "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.10.1.1",
+          "soc2": "CC6.1",
+          "pciDss": "Req 3.4",
+          "hipaa": "§164.312"
+        },
         "file": "src/utils/auth.js",
         "line": 18,
         "snippet": "const RSA_PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----"
@@ -516,6 +2574,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/utils/auth.js",
         "line": 47,
         "snippet": "const GITHUB_TOKEN = \"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij\";"
@@ -526,6 +2590,12 @@
         "severity": "HIGH",
         "category": "Generic",
         "owasp": "A02",
+        "compliance": {
+          "iso27001": "A.9.4.3",
+          "soc2": "CC6.1",
+          "pciDss": "Req 6.3",
+          "hipaa": "§164.308"
+        },
         "file": "src/utils/auth.js",
         "line": 50,
         "snippet": "const JWT_SECRET = \"my-super-secret-jwt-signing-key-2024\";"

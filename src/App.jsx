@@ -12,8 +12,10 @@ import NotificationPanel  from './components/NotificationPanel.jsx'
 import SearchBar          from './components/SearchBar.jsx'
 import MetricsCard        from './components/MetricsCard.jsx'
 import ViolationsPanel    from './components/ViolationsPanel.jsx'
+import TrendSparkline     from './components/TrendSparkline.jsx'
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext.jsx'
 import { useScannerData } from './hooks/useScannerData.js'
+import { useScanHistory } from './hooks/useScanHistory.js'
 import './App.css'
 
 // ═══════════════════════════════════════════════════════════════
@@ -96,6 +98,7 @@ function DashboardContent() {
 
   // ── Real scanner data ──────────────────────────────────────
   const { data, metrics, status, error, refresh, lastFetch } = useScannerData()
+  const { history, trend, totalImproved } = useScanHistory()
 
   // ── Derive gate statuses from real data ───────────────────
   const gate1Status = metrics
@@ -155,6 +158,46 @@ function DashboardContent() {
           />
         ))}
       </section>
+
+      {/* TREND SECTION — only show if we have history */}
+      {history.length >= 2 && (
+        <section className="trend-section">
+          <div className="trend-section__inner">
+            <div className="trend-section__label">
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#e2e8f0' }}>Violation Trend</span>
+              <span style={{
+                fontSize: '0.75rem', fontWeight: 600,
+                color: totalImproved > 0 ? '#22c55e' : totalImproved < 0 ? '#ef4444' : '#94a3b8',
+                marginLeft: '0.75rem',
+              }}>
+                {totalImproved > 0 ? `▼ ${totalImproved} fixed` : totalImproved < 0 ? `▲ ${Math.abs(totalImproved)} added` : 'No change'}
+              </span>
+              <span style={{ fontSize: '0.7rem', color: '#64748b', marginLeft: '0.5rem' }}>
+                ({history.length} scans)
+              </span>
+            </div>
+            <TrendSparkline
+              history={history}
+              field="total"
+              width={320}
+              height={48}
+              color={totalImproved > 0 ? '#22c55e' : '#6366f1'}
+            />
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem' }}>
+              {[
+                { label: 'First scan', value: history[0]?.total ?? '…', color: '#64748b' },
+                { label: 'Latest',     value: history[history.length-1]?.total ?? '…', color: '#e2e8f0' },
+                { label: 'CRITICAL',   value: history[history.length-1]?.critical ?? 0,  color: '#ef4444' },
+              ].map(item => (
+                <div key={item.label}>
+                  <div style={{ fontSize: '0.65rem', color: '#64748b' }}>{item.label}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: item.color }}>{item.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* MAIN GRID */}
       <main className="main-grid">

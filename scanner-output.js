@@ -29,33 +29,33 @@ const IGNORE_FILES = [
 
 // ─── SECURITY PATTERNS (subset — same as security-scanner.js) ──
 const SECURITY_PATTERNS = [
-  { id: 'GOOG-001', name: 'Google API Key',            regex: /AIzaSy[0-9A-Za-z_-]{33}/g,           severity: 'CRITICAL', category: 'Google Cloud', owasp: 'A02' },
-  { id: 'GOOG-002', name: 'Firebase Config Value',     regex: /firebase[A-Za-z]*\s*[:=]\s*["'][A-Za-z0-9_-]{20,}["']/gi, severity: 'HIGH', category: 'Google Cloud', owasp: 'A02' },
-  { id: 'GOOG-003', name: 'Google OAuth Client Secret',regex: /GOCSPX-[A-Za-z0-9_-]{28,}/g,        severity: 'CRITICAL', category: 'Google Cloud', owasp: 'A02' },
-  { id: 'AWS-001',  name: 'AWS Access Key ID',         regex: /AKIA[0-9A-Z]{16}/g,                  severity: 'CRITICAL', category: 'AWS',          owasp: 'A02' },
-  { id: 'AWS-002',  name: 'AWS Secret Access Key',     regex: /aws_secret_access_key\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?/gi, severity: 'CRITICAL', category: 'AWS', owasp: 'A02' },
-  { id: 'AI-001',   name: 'OpenAI API Key',            regex: /sk-proj-[A-Za-z0-9]{20,}/g,          severity: 'CRITICAL', category: 'AI Services',  owasp: 'A02' },
-  { id: 'AI-002',   name: 'OpenAI Legacy Key',         regex: /sk-[A-Za-z0-9]{48}/g,                severity: 'CRITICAL', category: 'AI Services',  owasp: 'A02' },
-  { id: 'AI-003',   name: 'Anthropic API Key',         regex: /sk-ant-[A-Za-z0-9_-]{40,}/g,        severity: 'CRITICAL', category: 'AI Services',  owasp: 'A02' },
-  { id: 'PAY-001',  name: 'Stripe Secret/Restricted Key', regex: /(?:sk_live_|rk_live_)[0-9a-zA-Z_]{20,}/g, severity: 'CRITICAL', category: 'Payment', owasp: 'A02' },
-  { id: 'PAY-002',  name: 'Stripe Publishable Key',    regex: /pk_live_[0-9a-zA-Z]{24,}/g,          severity: 'MEDIUM',   category: 'Payment',      owasp: 'A02' },
-  { id: 'COM-001',  name: 'Twilio API Key',            regex: /SK[0-9a-fA-F]{32}/g,                 severity: 'HIGH',     category: 'Communication',owasp: 'A02' },
-  { id: 'COM-002',  name: 'SendGrid API Key',          regex: /SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}/g, severity: 'HIGH', category: 'Communication', owasp: 'A02' },
-  { id: 'COM-003',  name: 'Slack Bot/Webhook Token',   regex: /xox[baprs]-[0-9A-Za-z-]{10,}/g,     severity: 'HIGH',     category: 'Communication',owasp: 'A02' },
-  { id: 'VCS-001',  name: 'GitHub PAT',                regex: /(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}/g, severity: 'CRITICAL', category: 'Version Control', owasp: 'A02' },
-  { id: 'VCS-002',  name: 'GitHub OAuth Token',        regex: /gho_[A-Za-z0-9]{36}/g,              severity: 'HIGH',     category: 'Version Control', owasp: 'A02' },
-  { id: 'VCS-003',  name: 'GitLab Token',              regex: /glpat-[A-Za-z0-9_-]{20,}/g,        severity: 'CRITICAL', category: 'Version Control', owasp: 'A02' },
-  { id: 'DB-001',   name: 'Database Connection String',regex: /(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/[^\s"']{10,}/gi, severity: 'CRITICAL', category: 'Database', owasp: 'A02' },
-  { id: 'AUTH-001', name: 'JWT Token',                 regex: /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g, severity: 'HIGH', category: 'Authentication', owasp: 'A07' },
-  { id: 'AUTH-002', name: 'Private Key Block',         regex: /-----BEGIN\s+(RSA|EC|DSA|OPENSSH)?\s*PRIVATE KEY-----/g, severity: 'CRITICAL', category: 'Authentication', owasp: 'A07' },
-  { id: 'GEN-001',  name: 'Hardcoded Secret/Password', regex: /(?:secret|token|password|passwd|pwd|api_key|apikey|access_key)\s*[:=]\s*["'][^"']{8,}["']/gi, severity: 'HIGH', category: 'Generic', owasp: 'A02' },
-  { id: 'GEN-002',  name: 'Environment File Committed',regex: /^(?:DB_PASSWORD|SECRET_KEY|API_SECRET|PRIVATE_KEY)\s*=\s*.{3,}/gm, severity: 'CRITICAL', category: 'Generic', owasp: 'A05' },
-  { id: 'GEN-003',  name: 'Hardcoded IP with Port',    regex: /(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}/g, severity: 'MEDIUM',   category: 'Generic',      owasp: 'A05' },
-  { id: 'ENV-001',  name: 'VITE_ Prefix on Server Secret', regex: /VITE_(?:SECRET|KEY|PASSWORD|TOKEN|DATABASE|PRIVATE|API)[A-Z_]*\s*=/g, severity: 'HIGH', category: 'Env Misconfiguration', owasp: 'A05' },
-  { id: 'XSS-001',  name: 'React dangerouslySetInnerHTML', regex: /dangerouslySetInnerHTML\s*=\s*\{\{/g, severity: 'HIGH', category: 'XSS / Injection', owasp: 'A03' },
-  { id: 'XSS-002',  name: 'Direct DOM innerHTML',      regex: /\.innerHTML\s*=|document\.write\s*\(/g, severity: 'HIGH', category: 'XSS / Injection', owasp: 'A03' },
-  { id: 'XSS-003',  name: 'eval() / new Function()',   regex: /\beval\s*\(|new\s+Function\s*\(/g,  severity: 'CRITICAL', category: 'XSS / Injection', owasp: 'A03' },
-  { id: 'LOG-001',  name: 'console.log in Source',     regex: /console\.log\s*\(/g,                 severity: 'LOW',      category: 'Security Logging', owasp: 'A09' },
+  { id: 'GOOG-001', name: 'Google API Key',            regex: /AIzaSy[0-9A-Za-z_-]{33}/g,           severity: 'CRITICAL', category: 'Google Cloud',       owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'GOOG-002', name: 'Firebase Config Value',     regex: /firebase[A-Za-z]*\s*[:=]\s*["'][A-Za-z0-9_-]{20,}["']/gi, severity: 'HIGH', category: 'Google Cloud', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'GOOG-003', name: 'Google OAuth Client Secret',regex: /GOCSPX-[A-Za-z0-9_-]{28,}/g,        severity: 'CRITICAL', category: 'Google Cloud',       owasp: 'A07', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 8.2',  hipaa: null        } },
+  { id: 'AWS-001',  name: 'AWS Access Key ID',         regex: /AKIA[0-9A-Z]{16}/g,                  severity: 'CRITICAL', category: 'AWS',                owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'AWS-002',  name: 'AWS Secret Access Key',     regex: /aws_secret_access_key\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?/gi, severity: 'CRITICAL', category: 'AWS', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'AI-001',   name: 'OpenAI API Key',            regex: /sk-proj-[A-Za-z0-9]{20,}/g,          severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'AI-002',   name: 'OpenAI Legacy Key',         regex: /sk-[A-Za-z0-9]{48}/g,                severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'AI-003',   name: 'Anthropic API Key',         regex: /sk-ant-[A-Za-z0-9_-]{40,}/g,        severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'PAY-001',  name: 'Stripe Secret/Restricted Key', regex: /(?:sk_live_|rk_live_)[0-9a-zA-Z_]{20,}/g, severity: 'CRITICAL', category: 'Payment',   owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2',  hipaa: null        } },
+  { id: 'PAY-002',  name: 'Stripe Publishable Key',    regex: /pk_live_[0-9a-zA-Z]{24,}/g,          severity: 'MEDIUM',   category: 'Payment',            owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2',  hipaa: null        } },
+  { id: 'COM-001',  name: 'Twilio API Key',            regex: /SK[0-9a-fA-F]{32}/g,                 severity: 'HIGH',     category: 'Communication',      owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'COM-002',  name: 'SendGrid API Key',          regex: /SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}/g, severity: 'HIGH', category: 'Communication', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'COM-003',  name: 'Slack Bot/Webhook Token',   regex: /xox[baprs]-[0-9A-Za-z-]{10,}/g,     severity: 'HIGH',     category: 'Communication',      owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
+  { id: 'VCS-001',  name: 'GitHub PAT',                regex: /(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}/g, severity: 'CRITICAL', category: 'Version Control', owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'VCS-002',  name: 'GitHub OAuth Token',        regex: /gho_[A-Za-z0-9]{36}/g,              severity: 'HIGH',     category: 'Version Control',    owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'VCS-003',  name: 'GitLab Token',              regex: /glpat-[A-Za-z0-9_-]{20,}/g,        severity: 'CRITICAL', category: 'Version Control',    owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
+  { id: 'DB-001',   name: 'Database Connection String',regex: /(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/[^\s"']{10,}/gi, severity: 'CRITICAL', category: 'Database', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: '§164.312'  } },
+  { id: 'AUTH-001', name: 'JWT Token',                 regex: /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g, severity: 'HIGH', category: 'Authentication', owasp: 'A07', compliance: { iso27001: 'A.9.4.2', soc2: 'CC6.1', pciDss: 'Req 8.2',  hipaa: '§164.312'  } },
+  { id: 'AUTH-002', name: 'Private Key Block',         regex: /-----BEGIN\s+(RSA|EC|DSA|OPENSSH)?\s*PRIVATE KEY-----/g, severity: 'CRITICAL', category: 'Authentication', owasp: 'A02', compliance: { iso27001: 'A.10.1.1', soc2: 'CC6.1', pciDss: 'Req 3.4', hipaa: '§164.312'  } },
+  { id: 'GEN-001',  name: 'Hardcoded Secret/Password', regex: /(?:secret|token|password|passwd|pwd|api_key|apikey|access_key)\s*[:=]\s*["'][^"']{8,}["']/gi, severity: 'HIGH', category: 'Generic', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: '§164.308'  } },
+  { id: 'GEN-002',  name: 'Environment File Committed',regex: /^(?:DB_PASSWORD|SECRET_KEY|API_SECRET|PRIVATE_KEY)\s*=\s*.{3,}/gm, severity: 'CRITICAL', category: 'Generic', owasp: 'A05', compliance: { iso27001: 'A.12.1.2', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: '§164.308'  } },
+  { id: 'GEN-003',  name: 'Hardcoded IP with Port',    regex: /(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}/g, severity: 'MEDIUM',   category: 'Generic',            owasp: 'A05', compliance: { iso27001: 'A.12.1.2', soc2: 'CC7.2', pciDss: null,        hipaa: null        } },
+  { id: 'ENV-001',  name: 'VITE_ Prefix on Server Secret', regex: /VITE_(?:SECRET|KEY|PASSWORD|TOKEN|DATABASE|PRIVATE|API)[A-Z_]*\s*=/g, severity: 'HIGH', category: 'Env Misconfiguration', owasp: 'A05', compliance: { iso27001: 'A.14.2.5', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: null        } },
+  { id: 'XSS-001',  name: 'React dangerouslySetInnerHTML', regex: /dangerouslySetInnerHTML\s*=\s*\{\{/g, severity: 'HIGH', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
+  { id: 'XSS-002',  name: 'Direct DOM innerHTML',      regex: /\.innerHTML\s*=|document\.write\s*\(/g, severity: 'HIGH', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
+  { id: 'XSS-003',  name: 'eval() / new Function()',   regex: /\beval\s*\(|new\s+Function\s*\(/g,  severity: 'CRITICAL', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
+  { id: 'LOG-001',  name: 'console.log in Source',     regex: /console\.log\s*\(/g,                 severity: 'LOW',      category: 'Security Logging',   owasp: 'A09', compliance: { iso27001: 'A.12.4.1', soc2: 'CC7.2', pciDss: 'Req 10.2', hipaa: '§164.312'  } },
 ]
 
 const BLOAT_REGISTRY = [
@@ -114,6 +114,7 @@ function runSecurityScan() {
               severity:    pattern.severity,
               category:    pattern.category,
               owasp:       pattern.owasp,
+              compliance:  pattern.compliance,
               file:        path.relative(__dirname, file).replace(/\\/g, '/'),
               line:        i + 1,
               snippet:     lines[i].trim().substring(0, 80),
@@ -181,7 +182,7 @@ function buildReport() {
     meta: {
       generatedAt:  new Date().toISOString(),
       scanDurationMs: Date.now() - startTime,
-      version:      '3.0',
+      version:      '3.1',
       rulesLoaded:  SECURITY_PATTERNS.length,
     },
     summary: {
@@ -218,6 +219,40 @@ function buildReport() {
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(report, null, 2), 'utf-8')
   console.log(`[scanner-output] Report written to: ${path.relative(__dirname, OUTPUT_PATH)}`)
   console.log(`[scanner-output] Security violations: ${secViolations.length} | Unused deps: ${depReport.unused.length} | Bloat: ${bloatKb} kB`)
+
+  // ─── APPEND TO SCAN HISTORY ─────────────────────────────────
+  const HISTORY_PATH = path.join(__dirname, 'public', 'scan-history.json')
+  const MAX_HISTORY  = 30 // keep last 30 snapshots
+
+  const snapshot = {
+    date:        new Date().toISOString().split('T')[0],
+    timestamp:   report.meta.generatedAt,
+    scanMs:      report.meta.scanDurationMs,
+    critical:    report.summary.bySeverity.CRITICAL || 0,
+    high:        report.summary.bySeverity.HIGH     || 0,
+    medium:      report.summary.bySeverity.MEDIUM   || 0,
+    low:         report.summary.bySeverity.LOW      || 0,
+    total:       report.summary.totalSecurityViolations,
+    unusedDeps:  report.summary.unusedDependencies,
+    bloatKb:     report.summary.totalBloatKb,
+    gate1Status: report.summary.gate1Status,
+    gate2Status: report.summary.gate2Status,
+  }
+
+  let history = []
+  if (fs.existsSync(HISTORY_PATH)) {
+    try { history = JSON.parse(fs.readFileSync(HISTORY_PATH, 'utf-8')) } catch { history = [] }
+  }
+
+  // Avoid duplicate entries for the same day (keep the latest)
+  history = history.filter(h => h.date !== snapshot.date)
+  history.push(snapshot)
+
+  // Keep only the last MAX_HISTORY snapshots
+  if (history.length > MAX_HISTORY) history = history.slice(-MAX_HISTORY)
+
+  fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2), 'utf-8')
+  console.log(`[scanner-output] History updated: ${history.length} snapshot(s) in scan-history.json`)
 }
 
 buildReport()

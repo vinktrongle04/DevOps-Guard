@@ -3,7 +3,7 @@
 // 🛡️ SECURITY SCANNER v3.0 - DevOps-Guard Quality Gate
 // Scans all source files for leaked secrets, API keys, 
 // XSS vulnerabilities, and environment misconfigurations.
-// Supports 28 rules across 12 categories (OWASP Top 10 mapped).
+// 28 rules across 12 categories, mapped to OWASP, ISO 27001, SOC2, PCI-DSS, and HIPAA.
 // Triggered automatically via the Husky pre-commit hook.
 // On CRITICAL/HIGH violation → process.exit(1) → commit blocked.
 // ============================================================
@@ -15,7 +15,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// ─── CẤU HÌNH CÁC PATTERN NGUY HIỂM (28 RULES) ──────────────
+// ─── SECURITY RULES ENGINE (28 RULES) ──────────────────────
 const SECURITY_PATTERNS = [
   // ═══════════════════════════════════════════════════════════
   // CATEGORY 1: GOOGLE / FIREBASE
@@ -28,6 +28,7 @@ const SECURITY_PATTERNS = [
     category: 'Google Cloud',
     description: 'Google API Key found — can be abused for unauthorized cost generation',
     remediation: 'Use environment variables (e.g., VITE_GOOGLE_API_KEY) in .env',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
   {
     id: 'GOOG-002',
@@ -37,6 +38,7 @@ const SECURITY_PATTERNS = [
     category: 'Google Cloud',
     description: 'Firebase configuration key exposed',
     remediation: 'Use environment variables VITE_FIREBASE_* in .env',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
   {
     id: 'GOOG-003',
@@ -46,6 +48,7 @@ const SECURITY_PATTERNS = [
     category: 'Google Cloud',
     description: 'Google OAuth Client Secret exposed — allows authentication bypass',
     remediation: 'Keep in server-side env, never expose in client code',
+    compliance: { owasp: 'A07', iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 8.2', hipaa: null },
   },
   {
     id: 'GOOG-004',
@@ -55,6 +58,7 @@ const SECURITY_PATTERNS = [
     category: 'Google Cloud',
     description: 'Google Service Account JSON key — grants broad GCP access',
     remediation: 'Use Workload Identity Federation instead of static JSON keys',
+    compliance: { owasp: 'A02', iso27001: 'A.9.2.3', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -68,6 +72,7 @@ const SECURITY_PATTERNS = [
     category: 'AWS',
     description: 'AWS Access Key ID exposed — potential unauthorized cloud resource access',
     remediation: 'Use AWS IAM roles or AWS Secrets Manager',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
   {
     id: 'AWS-002',
@@ -77,6 +82,7 @@ const SECURITY_PATTERNS = [
     category: 'AWS',
     description: 'AWS Secret Access Key exposed',
     remediation: 'Revoke and rotate immediately in AWS IAM Console',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -90,6 +96,7 @@ const SECURITY_PATTERNS = [
     category: 'AI Services',
     description: 'OpenAI API Key found — risks unauthorized usage costs',
     remediation: 'Use environment variable OPENAI_API_KEY with usage limits',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
   {
     id: 'AI-002',
@@ -99,6 +106,7 @@ const SECURITY_PATTERNS = [
     category: 'AI Services',
     description: 'OpenAI Legacy API Key format detected',
     remediation: 'Rotate key at platform.openai.com/api-keys',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
   {
     id: 'AI-003',
@@ -108,6 +116,7 @@ const SECURITY_PATTERNS = [
     category: 'AI Services',
     description: 'Anthropic (Claude) API Key exposed',
     remediation: 'Store in ANTHROPIC_API_KEY environment variable',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -121,6 +130,7 @@ const SECURITY_PATTERNS = [
     category: 'Payment',
     description: 'Stripe Live Secret Key detected — permits real financial transactions',
     remediation: 'Use sk_test_ for development. Store live keys in server-side env',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2', hipaa: null },
   },
   {
     id: 'PAY-002',
@@ -130,6 +140,7 @@ const SECURITY_PATTERNS = [
     category: 'Payment',
     description: 'Stripe Live Publishable Key exposed',
     remediation: 'Use VITE_STRIPE_PK and restrict allowed domains in Stripe Dashboard',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -143,6 +154,7 @@ const SECURITY_PATTERNS = [
     category: 'Communication',
     description: 'Twilio API Key exposed — potential for unauthorized SMS/Calls',
     remediation: 'Store in TWILIO_API_KEY environment variable',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
   {
     id: 'COM-002',
@@ -152,6 +164,7 @@ const SECURITY_PATTERNS = [
     category: 'Communication',
     description: 'SendGrid API Key exposed — potential unauthorized email sending',
     remediation: 'Store in SENDGRID_API_KEY environment variable',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
   {
     id: 'COM-003',
@@ -161,6 +174,7 @@ const SECURITY_PATTERNS = [
     category: 'Communication',
     description: 'Slack Token exposed — unauthorized workspace access',
     remediation: 'Store in SLACK_BOT_TOKEN environment variable',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null, hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -174,6 +188,7 @@ const SECURITY_PATTERNS = [
     category: 'Version Control',
     description: 'GitHub PAT detected — potential repo/org-wide access',
     remediation: 'Use fine-grained PATs with minimal scope, store in GitHub Secrets',
+    compliance: { owasp: 'A02', iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
   {
     id: 'VCS-002',
@@ -183,6 +198,7 @@ const SECURITY_PATTERNS = [
     category: 'Version Control',
     description: 'GitHub OAuth Token exposed',
     remediation: 'Store in server-side environment variables',
+    compliance: { owasp: 'A02', iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
   {
     id: 'VCS-003',
@@ -192,6 +208,7 @@ const SECURITY_PATTERNS = [
     category: 'Version Control',
     description: 'GitLab Personal Access Token exposed',
     remediation: 'Rotate token in GitLab Settings > Access Tokens',
+    compliance: { owasp: 'A02', iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -205,6 +222,7 @@ const SECURITY_PATTERNS = [
     category: 'Database',
     description: 'Database connection string containing credentials detected',
     remediation: 'Use DATABASE_URL environment variable',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: '§164.312' },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -218,6 +236,7 @@ const SECURITY_PATTERNS = [
     category: 'Authentication',
     description: 'JWT Token hardcoded in source code',
     remediation: 'JWTs must be generated at runtime, never hardcoded',
+    compliance: { owasp: 'A07', iso27001: 'A.9.4.2', soc2: 'CC6.1', pciDss: 'Req 8.2', hipaa: '§164.312' },
   },
   {
     id: 'AUTH-002',
@@ -227,6 +246,7 @@ const SECURITY_PATTERNS = [
     category: 'Authentication',
     description: 'Private Key block detected in source',
     remediation: 'Use a secret manager (HashiCorp Vault, AWS KMS). Never commit keys',
+    compliance: { owasp: 'A02', iso27001: 'A.10.1.1', soc2: 'CC6.1', pciDss: 'Req 3.4', hipaa: '§164.312' },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -240,6 +260,7 @@ const SECURITY_PATTERNS = [
     category: 'Generic',
     description: 'Hardcoded credentials found in source',
     remediation: 'Move all secrets to .env file and add .env to .gitignore',
+    compliance: { owasp: 'A02', iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3', hipaa: '§164.308' },
   },
   {
     id: 'GEN-002',
@@ -249,6 +270,7 @@ const SECURITY_PATTERNS = [
     category: 'Generic',
     description: '.env variables found directly in codebase',
     remediation: 'Remove from git, add .env to .gitignore, and rotate secrets',
+    compliance: { owasp: 'A05', iso27001: 'A.12.1.2', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: '§164.308' },
   },
   {
     id: 'GEN-003',
@@ -258,6 +280,7 @@ const SECURITY_PATTERNS = [
     category: 'Generic',
     description: 'Hardcoded infrastructure IP/Port identified',
     remediation: 'Use environment variables or service discovery',
+    compliance: { owasp: 'A05', iso27001: 'A.12.1.2', soc2: 'CC7.2', pciDss: null, hipaa: null },
   },
   // ═══════════════════════════════════════════════════════════
   // CATEGORY 10: ENV VAR MISCONFIGURATION [OWASP A05]
@@ -270,6 +293,7 @@ const SECURITY_PATTERNS = [
     category: 'Env Misconfiguration',
     description: 'VITE_ prefix embeds this variable into the client JS bundle — server secrets become publicly readable in the browser',
     remediation: 'Remove VITE_ prefix. Access via process.env.VAR_NAME in server-side code only.',
+    compliance: { owasp: 'A05', iso27001: 'A.14.2.5', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -283,6 +307,7 @@ const SECURITY_PATTERNS = [
     category: 'XSS / Injection',
     description: 'dangerouslySetInnerHTML bypasses React DOM sanitization — enables XSS if value contains user input',
     remediation: 'Use DOMPurify.sanitize() on the value, or render as plain text: <div>{content}</div>',
+    compliance: { owasp: 'A03', iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5', hipaa: null },
   },
   {
     id: 'XSS-002',
@@ -292,6 +317,7 @@ const SECURITY_PATTERNS = [
     category: 'XSS / Injection',
     description: 'Direct innerHTML or document.write() enables XSS when user data is injected',
     remediation: 'Use element.textContent for plain text. Use DOMPurify for trusted HTML.',
+    compliance: { owasp: 'A03', iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5', hipaa: null },
   },
   {
     id: 'XSS-003',
@@ -301,6 +327,7 @@ const SECURITY_PATTERNS = [
     category: 'XSS / Injection',
     description: 'eval() and new Function(string) execute arbitrary code — critical code injection risk',
     remediation: 'Never pass user input to eval(). Use JSON.parse() for data. Use a sandboxed evaluator for expressions.',
+    compliance: { owasp: 'A03', iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5', hipaa: null },
   },
 
   // ═══════════════════════════════════════════════════════════
@@ -314,6 +341,7 @@ const SECURITY_PATTERNS = [
     category: 'Security Logging',
     description: 'console.log can leak sensitive runtime data (tokens, user objects) in production',
     remediation: 'Remove debug logs before committing. Use a structured logger with log levels.',
+    compliance: { owasp: 'A09', iso27001: 'A.12.4.1', soc2: 'CC7.2', pciDss: 'Req 10.2', hipaa: '§164.312' },
   },
 ]
 
@@ -346,7 +374,7 @@ function log(color, ...args) {
   console.log(`${COLORS[color]}${args.join(' ')}${COLORS.reset}`)
 }
 
-// ─── THU THẬP FILE ĐỆ QUY ────────────────────────────────────
+// ─── COLLECT FILES RECURSIVELY ──────────────────────────────
 function collectFiles(dir) {
   const results = []
   try {
@@ -370,7 +398,7 @@ function collectFiles(dir) {
   return results
 }
 
-// ─── QUÉT MỘT FILE ───────────────────────────────────────────
+// ─── SCAN A SINGLE FILE ─────────────────────────────────────
 function scanFile(filePath) {
   const violations = []
   try {
@@ -392,6 +420,7 @@ function scanFile(filePath) {
             category: pattern.category,
             description: pattern.description,
             remediation: pattern.remediation,
+            compliance: pattern.compliance,
             match: matches[0].substring(0, 24) + '...',
             content: line.trim().substring(0, 100),
           })
@@ -403,7 +432,7 @@ function scanFile(filePath) {
   return violations
 }
 
-// ─── BÁO CÁO THỐNG KÊ ──────────────────────────────────────
+// ─── PRINT SUMMARY REPORT ───────────────────────────────────
 function printSummary(violations) {
   const bySeverity = {}
   const byCategory = {}
@@ -430,7 +459,7 @@ function printSummary(violations) {
   console.log()
 }
 
-// ─── CHƯƠNG TRÌNH CHÍNH ──────────────────────────────────────
+// ─── MAIN ENTRY POINT ───────────────────────────────────────
 function main() {
   const startTime = Date.now()
 
@@ -445,8 +474,8 @@ function main() {
   log('dim', `  📂 Scanning directory: ${projectDir}`)
 
   const files = collectFiles(projectDir)
-  log('dim', `  📄 Tìm thấy ${files.length} file cần quét`)
-  log('dim', `  🔍 Áp dụng ${SECURITY_PATTERNS.length} quy tắc bảo mật`)
+  log('dim', `  📄 Found ${files.length} files to scan`)
+  log('dim', `  🔍 Applying ${SECURITY_PATTERNS.length} security rules`)
   console.log()
 
   let allViolations = []
@@ -459,10 +488,10 @@ function main() {
   const elapsed = Date.now() - startTime
 
   if (allViolations.length > 0) {
-    log('red', `${COLORS.bold}  ❌ CẢNH BÁO BẢO MẬT: Phát hiện ${allViolations.length} vi phạm!`)
+    log('red', `${COLORS.bold}  ❌ SECURITY ALERT: ${allViolations.length} violation(s) detected!`)
     console.log()
 
-    // Nhóm theo file
+    // Group by file
     const byFile = {}
     for (const v of allViolations) {
       if (!byFile[v.file]) byFile[v.file] = []
@@ -483,20 +512,20 @@ function main() {
       console.log()
     }
 
-    // Thống kê
+    // Statistics
     printSummary(allViolations)
 
     log('red', '━'.repeat(64))
-    log('red', `${COLORS.bold}  🚫 COMMIT BỊ CHẶN — Xóa secrets trước khi commit!`)
-    log('dim', `  ⏱️  Quét hoàn tất trong ${elapsed}ms`)
+    log('red', `${COLORS.bold}  🚫 COMMIT BLOCKED — Remove all secrets before committing!`)
+    log('dim', `  ⏱️  Scan completed in ${elapsed}ms`)
     log('red', '━'.repeat(64))
     console.log()
 
     process.exit(1)
   } else {
-    log('green', `${COLORS.bold}  ✅ AN TOÀN: Không phát hiện rò rỉ bảo mật`)
-    log('green', `  📄 Đã quét ${files.length} file × ${SECURITY_PATTERNS.length} rules`)
-    log('dim',   `  ⏱️  Hoàn tất trong ${elapsed}ms`)
+    log('green', `${COLORS.bold}  ✅ CLEAN: No security violations detected`)
+    log('green', `  📄 Scanned ${files.length} file × ${SECURITY_PATTERNS.length} rules`)
+    log('dim',   `  ⏱️  Completed in ${elapsed}ms`)
     console.log()
     log('green', '━'.repeat(64))
     console.log()

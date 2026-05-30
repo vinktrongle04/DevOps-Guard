@@ -98,9 +98,26 @@ function ViolationRow({ v, isExpanded, onToggle }) {
           <div style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.72rem', color: cfg.color, marginBottom: '0.35rem', wordBreak: 'break-all' }}>
             {v.snippet || '(no snippet)'}
           </div>
-          <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+          <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: '0.25rem' }}>
             Category: <span style={{ color: '#e2e8f0' }}>{v.category}</span>
           </div>
+          {v.compliance && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.35rem' }}>
+              {[
+                v.compliance.owasp   && { label: `OWASP ${v.compliance.owasp}`,   bg: 'rgba(239,68,68,0.1)',   color: '#fca5a5' },
+                v.compliance.iso27001&& { label: `ISO 27001 ${v.compliance.iso27001}`, bg: 'rgba(99,102,241,0.1)', color: '#a5b4fc' },
+                v.compliance.soc2    && { label: `SOC 2 ${v.compliance.soc2}`,    bg: 'rgba(34,197,94,0.1)',  color: '#86efac' },
+                v.compliance.pciDss  && { label: `PCI-DSS ${v.compliance.pciDss}`, bg: 'rgba(245,158,11,0.1)', color: '#fcd34d' },
+                v.compliance.hipaa   && { label: `HIPAA ${v.compliance.hipaa}`,   bg: 'rgba(168,85,247,0.1)', color: '#d8b4fe' },
+              ].filter(Boolean).map(tag => (
+                <span key={tag.label} style={{
+                  fontSize: '0.6rem', fontWeight: 600, padding: '0.1rem 0.4rem',
+                  borderRadius: '4px', background: tag.bg, color: tag.color,
+                  border: `1px solid ${tag.color}30`,
+                }}>{tag.label}</span>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

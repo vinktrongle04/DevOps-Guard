@@ -545,3 +545,25 @@ button:active {
   50%       { opacity: 0.6; }
 }
 
+/* ─── TREND SECTION ─────────────────────────────────────────── */
+.trend-section {
+  margin-bottom: 1.25rem;
+}
+
+.trend-section__inner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  backdrop-filter: blur(12px);
+  flex-wrap: wrap;
+}
+
+.trend-section__label {
+  display: flex;
+  align-items: center;
+  min-width: 180px;
+}

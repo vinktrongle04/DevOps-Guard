@@ -1,9 +1,11 @@
 # DevOps-Guard — Security Rules Reference
 # ============================================================
-# Standardized security rule definitions for the agent (v3.0)
+# Standardized security rule definitions for the agent (v3.1)
 # The agent MUST reference this file when scanning, analyzing,
 # and auto-remediating security violations in source code.
-# Last updated: 2026-05-28
+# Each rule is mapped to OWASP Top 10 (2021) + enterprise compliance
+# standards: ISO 27001, SOC 2 Type II, PCI-DSS v4.0, HIPAA.
+# Last updated: 2026-05-30
 
 ---
 
@@ -11,9 +13,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Total rules | 30 |
-| Categories | 11 |
+| Total rules | 28 |
+| Categories | 12 |
 | OWASP Top 10 (2021) mapped | Yes |
+| Compliance frameworks | ISO 27001, SOC 2 Type II, PCI-DSS v4.0, HIPAA |
 | Severity levels | CRITICAL / HIGH / MEDIUM / LOW |
 | Hard-block threshold | Any CRITICAL or HIGH violation → `exit(1)` |
 
@@ -30,6 +33,53 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | A05 | Security Misconfiguration | ENV-001 (VITE_ server secrets), GEN-002 |
 | A07 | Identification & Auth Failures | AUTH-001, AUTH-002, GEN-001 |
 | A09 | Security Logging Failures | LOG-001 (console.log in production) |
+
+---
+
+## Compliance Framework Mapping
+
+Every violation detected by DevOps-Guard maps directly to enterprise audit requirements.
+This bridges the gap between **Engineering** (OWASP) and **Business/Compliance** (ISO 27001, SOC 2, PCI-DSS, HIPAA).
+
+> **Business value:** Platforms like Snyk Enterprise and Checkmarx charge $10,000–$50,000/year for
+> compliance reporting features. DevOps-Guard provides this mapping at **zero cost** via a local agent.
+
+| Rule ID | OWASP | ISO 27001 | SOC 2 | PCI-DSS | HIPAA |
+|---------|-------|-----------|-------|---------|-------|
+| GOOG-001 | A02 | A.9.4.3 | CC6.1 | Req 6.3 | — |
+| GOOG-002 | A02 | A.9.4.3 | CC6.1 | Req 6.3 | — |
+| GOOG-003 | A07 | A.9.2.3 | CC6.1 | Req 8.2 | — |
+| GOOG-004 | A02 | A.9.2.3 | CC6.6 | Req 6.3 | — |
+| AWS-001  | A02 | A.9.4.3 | CC6.1 | Req 6.3 | — |
+| AWS-002  | A02 | A.9.4.3 | CC6.1 | Req 6.3 | — |
+| AI-001   | A02 | A.9.4.3 | CC6.6 | — | — |
+| AI-002   | A02 | A.9.4.3 | CC6.6 | — | — |
+| AI-003   | A02 | A.9.4.3 | CC6.6 | — | — |
+| PAY-001  | A02 | A.9.4.3 | CC6.1 | **Req 3.2** | — |
+| PAY-002  | A02 | A.9.4.3 | CC6.1 | **Req 3.2** | — |
+| COM-001  | A02 | A.9.4.3 | CC6.6 | — | — |
+| COM-002  | A02 | A.9.4.3 | CC6.6 | — | — |
+| COM-003  | A02 | A.9.4.3 | CC6.6 | — | — |
+| VCS-001  | A02 | A.9.2.3 | CC6.1 | Req 6.3 | — |
+| VCS-002  | A02 | A.9.2.3 | CC6.1 | Req 6.3 | — |
+| VCS-003  | A02 | A.9.2.3 | CC6.1 | Req 6.3 | — |
+| DB-001   | A02 | A.9.4.3 | CC6.1 | **Req 6.3** | **§164.312** |
+| AUTH-001 | A07 | A.9.4.2 | CC6.1 | Req 8.2 | **§164.312** |
+| AUTH-002 | A02 | A.10.1.1 | CC6.1 | **Req 3.4** | **§164.312** |
+| GEN-001  | A02 | A.9.4.3 | CC6.1 | Req 6.3 | §164.308 |
+| GEN-002  | A05 | A.12.1.2 | CC6.6 | Req 6.3 | §164.308 |
+| GEN-003  | A05 | A.12.1.2 | CC7.2 | — | — |
+| ENV-001  | A05 | A.14.2.5 | CC6.6 | Req 6.3 | — |
+| XSS-001  | A03 | A.14.2.5 | CC8.1 | Req 6.5 | — |
+| XSS-002  | A03 | A.14.2.5 | CC8.1 | Req 6.5 | — |
+| XSS-003  | A03 | A.14.2.5 | CC8.1 | Req 6.5 | — |
+| LOG-001  | A09 | A.12.4.1 | CC7.2 | Req 10.2 | §164.312 |
+
+**Key compliance implications:**
+- **Fintech / Banking:** PAY-001 + DB-001 violations = PCI-DSS Req 3.2 breach → potential $5,000–$100,000/month fine
+- **Healthcare / MedTech:** DB-001 + AUTH-002 violations = HIPAA §164.312 breach → potential $100–$50,000 per violation
+- **Enterprise SaaS:** Any HIGH+ violation = SOC 2 CC6.1 finding → may block customer audits and enterprise sales
+- **Global Enterprise:** ISO 27001 A.9/A.10 violations → audit non-conformity → certification suspension
 
 ---
 
@@ -53,7 +103,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | GOOG-003 | 🔴 CRITICAL | Google OAuth Client Secret | `GOCSPX-[A-Za-z0-9_-]{28,}` |
 | GOOG-004 | 🔴 CRITICAL | Google Service Account Key | `"type"\s*:\s*"service_account"` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.1 | PCI-DSS Req 6.3
 
 **Remediation:** Move to server-side environment variables. Never expose in client bundles. Use `VITE_` prefix only for non-sensitive public config (e.g., Maps public key with domain restriction).
 
@@ -66,7 +117,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | AWS-001 | 🔴 CRITICAL | AWS Access Key ID | `AKIA[0-9A-Z]{16}` |
 | AWS-002 | 🔴 CRITICAL | AWS Secret Access Key | `aws_secret_access_key\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.1 | PCI-DSS Req 6.3
 
 **Remediation:** Use AWS IAM Roles with least-privilege policy. Store keys in AWS Secrets Manager or Parameter Store. Rotate immediately if exposed.
 
@@ -80,7 +132,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | AI-002 | 🔴 CRITICAL | OpenAI Legacy Key | `sk-[A-Za-z0-9]{48}` |
 | AI-003 | 🔴 CRITICAL | Anthropic API Key | `sk-ant-[A-Za-z0-9_-]{40,}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.6
 
 **Remediation:** Store in server-side env var (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`). Set usage limits and billing alerts. Never prefix with `VITE_`.
 
@@ -93,7 +146,12 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | PAY-001 | 🔴 CRITICAL | Stripe Secret/Restricted Key | `(?:sk_live_\|rk_live_)[0-9a-zA-Z_]{20,}` |
 | PAY-002 | 🟡 MEDIUM | Stripe Publishable Key (Live) | `pk_live_[0-9a-zA-Z]{24,}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.1 | **PCI-DSS Req 3.2** ← critical for payment processors
+
+> **PCI-DSS Req 3.2** prohibits storage of sensitive authentication data post-authorization.
+> Exposing a live Stripe key in source code is a direct PCI-DSS violation that can result in
+> card scheme fines of $5,000–$100,000/month and loss of payment processing privileges.
 
 **Remediation:** `sk_live_` must live in server-side env only. `pk_live_` may use `VITE_STRIPE_PUBLISHABLE_KEY` but must be domain-restricted in Stripe Dashboard. Never use `sk_test_` in production.
 
@@ -107,7 +165,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | COM-002 | 🟠 HIGH | SendGrid API Key | `SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}` |
 | COM-003 | 🟠 HIGH | Slack Bot/Webhook Token | `xox[baprs]-[0-9A-Za-z-]{10,}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.6
 
 **Remediation:** Store in server-side env vars (`TWILIO_API_KEY`, `SENDGRID_API_KEY`, `SLACK_BOT_TOKEN`). Never prefix with `VITE_`.
 
@@ -121,7 +180,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | VCS-002 | 🟠 HIGH | GitHub OAuth Token | `gho_[A-Za-z0-9]{36}` |
 | VCS-003 | 🔴 CRITICAL | GitLab Token | `glpat-[A-Za-z0-9_-]{20,}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.2.3 | SOC 2 CC6.1 | PCI-DSS Req 6.3
 
 **Remediation:** Use fine-grained PATs with minimal scope. Store in GitHub/GitLab Secrets for CI. Rotate immediately if exposed. Never prefix with `VITE_`.
 
@@ -133,7 +193,12 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 |---------|----------|------|---------------|
 | DB-001 | 🔴 CRITICAL | Database Connection String | `(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis)://[^\s"']{10,}` |
 
-**OWASP:** A02 — Cryptographic Failures
+**OWASP:** A02 — Cryptographic Failures  
+**Compliance:** ISO 27001 A.9.4.3 | SOC 2 CC6.1 | **PCI-DSS Req 6.3** | **HIPAA §164.312**
+
+> **HIPAA §164.312(a):** Requires access controls on electronic PHI systems.
+> A hardcoded database URI with credentials exposes the data store to unauthorized access,
+> constituting a direct HIPAA Security Rule violation. Penalty: $100–$50,000 per violation.
 
 **Remediation:** Store in `DATABASE_URL` env var. Use connection pooling. Never prefix with `VITE_` — database URLs must never reach the browser.
 
@@ -146,7 +211,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | AUTH-001 | 🟠 HIGH | Hardcoded JWT Token | `eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}` |
 | AUTH-002 | 🔴 CRITICAL | Private Key Block | `-----BEGIN\s+(RSA\|EC\|DSA\|OPENSSH)?\s*PRIVATE KEY-----` |
 
-**OWASP:** A07 — Identification and Authentication Failures
+**OWASP:** A07 — Identification and Authentication Failures  
+**Compliance:** ISO 27001 A.9.4.2 / A.10.1.1 | SOC 2 CC6.1 | PCI-DSS Req 8.2 / Req 3.4 | **HIPAA §164.312**
 
 **Remediation:** JWTs must be generated at runtime from a secret signing key. Private keys must be stored in a secrets vault (HashiCorp Vault, AWS KMS). Never commit to repository.
 
@@ -160,7 +226,8 @@ All rules in this document are mapped to the [OWASP Top 10 2021](https://owasp.o
 | GEN-002 | 🔴 CRITICAL | Env File Committed | `^(?:DB_PASSWORD\|SECRET_KEY\|API_SECRET\|PRIVATE_KEY)\s*=\s*.{3,}` |
 | GEN-003 | 🟡 MEDIUM | Hardcoded IP with Port | `(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}` |
 
-**OWASP:** A02 — Cryptographic Failures / A05 — Security Misconfiguration
+**OWASP:** A02 — Cryptographic Failures / A05 — Security Misconfiguration  
+**Compliance:** ISO 27001 A.9.4.3 / A.12.1.2 | SOC 2 CC6.1 / CC6.6 | PCI-DSS Req 6.3 | HIPAA §164.308
 
 **Remediation:** Move all secrets to `.env`. Add `.env` to `.gitignore`. Use `import.meta.env.VITE_*` for public client config only.
 
@@ -341,4 +408,5 @@ GITHUB_TOKEN=your_github_pat_here
 
 ---
 
-*Security Rules v3.0 — DevOps-Guard Agent | Updated: 2026-05-28*
+*Security Rules v3.1 — DevOps-Guard Agent | Updated: 2026-05-30*  
+*Compliance mapping: OWASP Top 10 (2021) + ISO 27001:2022 + SOC 2 Type II + PCI-DSS v4.0 + HIPAA Security Rule*
