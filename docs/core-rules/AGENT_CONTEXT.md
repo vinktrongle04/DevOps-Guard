@@ -26,10 +26,12 @@ docs/
 │   ├── security_rules.md    28 security rules + compliance mapping
 │   └── PROJECT_STATE.md     auto-generated KB summary (violations, risk, trends)
 │
-kb/                    ← Knowledge Base Level 1 (auto-generated, committed to git)
-│   ├── project-state.json   structured current state (files, rules, compliance)
-│   ├── event-log.jsonl      append-only scan event log
-│   └── kb-index.json        fast lookup (rule→files, file→rules, compliance→rules)
+kb/                    ← Knowledge Base (auto-generated, committed to git)
+│   ├── project-state.json   Level 1: structured current state (files, rules, compliance)
+│   ├── event-log.jsonl      Level 1: append-only scan event log
+│   ├── kb-index.json        Level 1: fast lookup (rule→files, file→rules, compliance→rules)
+│   └── knowledge-graph.json Level 2: nodes & edges graph of violations, files, rules
+
 │
 ├── how-it-works/      ← HIỂU KIẾN TRÚC Ở ĐÂY — load when explaining
 │   ├── TRAE_INTEGRATION.md  how TRAE orchestrates all 5 gates
@@ -59,6 +61,7 @@ kb/                    ← Knowledge Base Level 1 (auto-generated, committed to 
 | Prepare a pitch or presentation | `docs/business-case/PITCH_DECK.md` |
 | Explain product requirements | `docs/business-case/PRD.md` |
 | Check current project health, trends, recent events | `docs/core-rules/PROJECT_STATE.md` |
+| Query the knowledge graph (fix impact, rule coverage) | `npm run kb:ask -- <query>` |
 
 > **Rule:** Load `core-rules/` files always. Load others only when explicitly needed.
 > Never load all files simultaneously — context window is finite.
@@ -131,7 +134,10 @@ npm run dev               # Dashboard → http://localhost:5173
 npm run build             # Production build
 npm run kb:build          # Alias for scan:export (also writes kb/)
 npm run kb:summary        # Generate docs/core-rules/PROJECT_STATE.md from KB
-npm run knowledge:update  # Full KB refresh: scan + summary
+npm run graph:build       # Build kb/knowledge-graph.json from kb/ files
+npm run graph:query       # Run queries on the knowledge graph
+npm run kb:ask -- "query" # Alias to query the graph (e.g. fix-impact, rule-coverage)
+npm run knowledge:update  # Full KB refresh: scan + graph + summary
 ```
 
 ---
