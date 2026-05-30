@@ -1,11 +1,8 @@
 # DevOps-Guard — Security Rules Reference
-# ============================================================
-# Standardized security rule definitions for the agent (v3.1)
-# The agent MUST reference this file when scanning, analyzing,
-# and auto-remediating security violations in source code.
-# Each rule is mapped to OWASP Top 10 (2021) + enterprise compliance
-# standards: ISO 27001, SOC 2 Type II, PCI-DSS v4.0, HIPAA.
-# Last updated: 2026-05-30
+
+> **Rule engine for the DevOps-Guard agent — v3.1**  
+> Each rule is mapped to OWASP Top 10 (2021), ISO 27001:2022, SOC 2 Type II, PCI-DSS v4.0, and HIPAA Security Rule.  
+> Last updated: 2026-05-30
 
 ---
 

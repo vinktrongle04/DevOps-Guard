@@ -1,10 +1,9 @@
-# DevOps-Guard — Project Rules (Agent Brain)
-# ============================================================
-# This file is the single source of truth for all agent behavior.
-# Every automated action MUST comply with the rules defined here.
-# Last updated: 2026-05-28
+# DevOps-Guard — Project Rules
 
----
+> **This file is the single source of truth for all agent behavior.**  
+> Every automated action MUST comply with the rules defined here.  
+> Last updated: 2026-05-30
+
 
 ## Pipeline Execution Order
 
@@ -237,4 +236,4 @@ The agent MUST minimize the blast radius of every change:
 
 ---
 
-*Managed by DevOps-Guard Agent. Last updated: 2026-05-28*
+*Last updated: 2026-05-30*

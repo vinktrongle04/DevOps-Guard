@@ -1,69 +1,119 @@
-# 📋 DevOps-Guard — Kịch bản Demo Live (3 Phút)
+# DevOps-Guard — Demo Script
 
-> **Mục tiêu**: Demo mượt mà, không gặp lỗi, thể hiện rõ tính năng chặn lỗi (Husky) và Tự phục hồi (TRAE Agent).  
-> **Người thực hiện**: M3 (DevOps/QA) hoặc người thuyết trình chính.
-
----
-
-## Chuẩn bị trước khi Demo
-1. Mở sẵn TRAE SOLO IDE.
-2. Mở sẵn Terminal ở thư mục dự án `D:\Project\DevOps-Guard`.
-3. Chạy sẵn `npm run dev` ở 1 tab để mở giao diện UI Dashboard cực ngầu.
-4. Mở file `src/App.jsx` ra màn hình chính của IDE.
+> **Format:** 3-minute live demo  
+> **Audience:** Hackathon judges  
+> **Presenter role:** DevOps / QA engineer
 
 ---
 
-## 🎬 BƯỚC 1: Lập trình viên "bất cẩn" (45 giây)
+## Pre-Demo Checklist
 
-**Thoại**: *"Bây giờ, hãy thử đóng vai một lập trình viên. Tôi vừa code xong tính năng và vô tình để quên Google API Key và Stripe Key trong mã nguồn. Tôi sẽ thử commit đoạn code này lên GitHub."*
-
-**Hành động**:
-1. Vào Terminal.
-2. Gõ: `git add .`
-3. Gõ: `git commit -m "update app"`
-
-**Kết quả mong đợi**:
-- Terminal hiển thị màu đỏ chót.
-- Báo lỗi: `CRITICAL — Google API Key` ở Line 17.
-- Dòng cuối: `🚫 COMMIT BỊ CHẶN — Xóa secrets trước khi commit!`
-
-**Thoại**: *"Ngay lập tức, Gate số 1 (Security Scanner) chạy cục bộ đã chặn đứng hành động này. Mã nguồn bẩn chưa hề rời khỏi máy của tôi. Zero-day leak được ngăn chặn!"*
+- [ ] TRAE SOLO open with DevOps-Guard project loaded
+- [ ] Terminal open at project root
+- [ ] `npm run dev` running — Dashboard visible at `http://localhost:5173`
+- [ ] `src/App.jsx` open in the editor (the file with intentional demo traps)
 
 ---
 
-## 🎬 BƯỚC 2: Cầu cứu AI Agent (1 Phút)
+## Step 1 — The Careless Developer (45 seconds)
 
-**Thoại**: *"Thay vì phải tự đi dò từng lỗi, dọn dẹp thư viện rác, tôi chỉ việc gọi DevOps-Guard Agent ngay trong TRAE SOLO."*
+**Narration:**
+> "Let's say a developer just finished a payment feature and accidentally left a Google API Key and a Stripe secret key in the source code. They're about to push this to GitHub."
 
-**Hành động**:
-1. Mở tab Chat của TRAE SOLO.
-2. Gõ Prompt: 
-   > *"Dọn dẹp các thư viện rác, xử lý API Key trong App.jsx, refactor ThemeContext lên React 19 và cập nhật tài liệu API cho tôi."*
+**Actions:**
 
-**Kết quả mong đợi (Agent tự chạy)**:
-- Agent phát hiện `lodash`, `axios` thừa → gỡ bỏ.
-- Agent chuyển `apiKey` thành `import.meta.env.VITE_GOOGLE_API_KEY`.
-- Agent đổi `<ThemeContext.Provider>` thành `<ThemeContext>` (React 19).
-- Agent chèn đoạn docs mới vào cuối file `API_DOCUMENTATION.md`.
+```bash
+git add .
+git commit -m "feat: add payment endpoint"
+```
 
-**Thoại**: *"Agent không chỉ dọn rác, mà nó hiểu chính xác chuẩn React 19 để refactor code, và quan trọng nhất là tuân thủ quy tắc 'Chỉ Append' khi ghi tài liệu, không đè docs cũ của team."*
+**Expected result:**
+
+```
+DEVOPS-GUARD SECURITY SCANNER v3.1
+28 rules · OWASP + ISO 27001 + SOC 2 + PCI-DSS + HIPAA
+────────────────────────────────────────────────────────────────
+
+[GOOG-001] CRITICAL — Google API Key
+  Line 17: const apiKey = "AIzaSyFakeKey..."
+  OWASP A02 | ISO 27001 A.9.4.3 | PCI-DSS Req 6.3
+
+[PAY-001] CRITICAL — Stripe Secret Key
+  Line 23: const stripeKey = "sk_live_..."
+  OWASP A02 | PCI-DSS Req 3.2
+
+COMMIT BLOCKED — Remove all secrets before committing.
+```
+
+**Narration:**
+> "Gate 1 blocked the commit instantly — locally, before anything left the machine. The secret never entered git history."
 
 ---
 
-## 🎬 BƯỚC 3: Commit thành công & Tự sinh Message (45 giây)
+## Step 2 — TRAE Resolves the Entire Pipeline (60 seconds)
 
-**Thoại**: *"Bây giờ code đã sạch. Tôi sẽ commit lại, nhưng lần này tôi lười viết commit message. Agent sẽ làm thay."*
+**Narration:**
+> "Instead of manually hunting down each violation, the developer describes the goal in plain English to TRAE SOLO."
 
-**Hành động**:
-1. Trong TRAE Chat, gõ: *"Sinh commit message cho các thay đổi vừa rồi."*
-2. Agent trả về chuẩn Conventional Commits:
-   ```
-   security(core): remove hardcoded API keys
-   refactor(context): migrate ThemeContext to React 19
-   chore(deps): remove unused lodash and axios
-   docs(api): append new endpoints
-   ```
-3. Copy message này, paste vào Terminal: `git commit -m "..."`
-4. Lệnh chạy thành công! Hiển thị màu xanh: `✅ Tất cả Quality Gates đã pass! Commit được phép.`
+**TRAE prompt:**
 
-**Thoại**: *"Commit thành công. Mã nguồn sạch sẽ, an toàn, chuẩn syntax, có docs đầy đủ. Từ 30 phút rà soát nay chỉ còn 3 phút với DevOps-Guard trên TRAE SOLO. Xin cảm ơn!"*
+```
+Clean up my codebase before I commit:
+remove all security leaks, clean unused dependencies,
+migrate React 18 patterns to React 19,
+document the changed components, and generate a commit message.
+```
+
+**What TRAE executes (governed by project_rules.md Pipeline Order 1→2→3→4→5):**
+
+| Gate | Action | Result |
+|---|---|---|
+| Gate 1 | Replace hardcoded keys with `import.meta.env.*` | 0 violations |
+| Gate 2 | Uninstall unused: lodash, axios, moment, uuid | −153 kB bundle |
+| Gate 3 | Migrate `forwardRef` → ref prop, `useContext` → `use()` | React 19 compliant |
+| Gate 4 | Append JSDoc + prop tables to API_DOCUMENTATION.md | Docs updated |
+| Gate 5 | Read `git diff --staged` → generate commit message | Ready to commit |
+
+**Narration:**
+> "TRAE reads `project_rules.md` as its job description. It knows the exact execution order, applies ISOLATED SCOPE — touching only files in the diff — and proposes each change for developer approval before applying."
+
+---
+
+## Step 3 — Clean Commit (45 seconds)
+
+**Narration:**
+> "The code is clean. Let's commit — but instead of writing the message by hand, Gate 5 generates it."
+
+**TRAE output (Gate 5):**
+
+```
+security(app): replace hardcoded API keys with environment variables
+chore(deps): remove unused lodash, axios, moment, uuid — saves 153 kB
+refactor(components): migrate UserProfile and NotificationPanel to React 19
+docs(api): append component documentation to API_DOCUMENTATION.md
+```
+
+```bash
+git commit -m "security(app): replace hardcoded API keys..."
+# → All Quality Gates passed. Commit created.
+git push origin main
+# → GitHub Actions CI runs verification (Gate 1 + Gate 2 + Build)
+```
+
+**Narration:**
+> "41 minutes of manual review compressed into 42 seconds. Clean code, zero secrets, React 19 compliant, with full documentation and a proper commit message — all from one TRAE prompt."
+
+---
+
+## Dashboard Walkthrough (30 seconds, optional)
+
+Open `http://localhost:5173` and point to:
+
+1. **Violation count** — 57 total across 12 categories
+2. **Compliance badges** — click any violation to see OWASP, ISO 27001, SOC 2, PCI-DSS, HIPAA mapping
+3. **Trend chart** — 10-day sparkline showing 89 → 57 violations (36% improvement)
+4. **Gate status cards** — live BLOCKED / WARNING / PASSED indicators
+
+---
+
+*Last updated: 2026-05-30*
