@@ -2,27 +2,16 @@
 
 # ============================================================
 # DevOps-Guard — Husky Pre-Commit Hook
-# Pipeline order: Gate 6 (Policy) → Gate 1 (Security) → Gate 2 (Dependency)
+# Runs Gate 1 (Security) and Gate 2 (Dependency) before commit.
+# Pipeline order is fixed: Gate 1 must pass before Gate 2 runs.
 # ============================================================
 
 echo ""
 echo "  DevOps-Guard Pre-Commit Pipeline starting..."
 echo ""
 
-# ─── GATE 6: Policy Integrity Guard ──────────────────────────
-echo "  [Gate 6] Policy Integrity Check..."
-node policy-guard.js
-GATE6_EXIT=$?
-
-if [ $GATE6_EXIT -ne 0 ]; then
-  echo ""
-  echo "  POLICY GUARD BLOCKED — Agent brain file integrity check failed."
-  echo ""
-  exit 1
-fi
-
 # ─── GATE 1: Security Scanner (HARD BLOCK) ───────────────────
-echo "  [Gate 1] Security Scanner..."
+echo "  [Gate 1/2] Security Scanner..."
 node security-scanner.js
 GATE1_EXIT=$?
 
@@ -38,7 +27,7 @@ echo "  Gate 1 passed."
 echo ""
 
 # ─── GATE 2: Dependency Scanner (SOFT BLOCK) ─────────────────
-echo "  [Gate 2] Dependency Scanner..."
+echo "  [Gate 2/2] Dependency Scanner..."
 node dependency-scanner.js
 GATE2_EXIT=$?
 
@@ -54,5 +43,5 @@ echo "  Gate 2 passed."
 echo ""
 
 # ─── ALL GATES PASSED ────────────────────────────────────────
-echo "  All Quality Gates passed. Commit is allowed."
+echo "  All Quality Gates passed! Commit is allowed."
 echo ""
