@@ -16,40 +16,44 @@ and re-enforces at GitHub Actions CI (cloud, non-bypassable compliance).
 
 ---
 
-## Knowledge Loading Architecture
+## Knowledge Space Structure
 
-Files are organized in 3 layers. Load only what the current task requires.
+```
+docs/
+├── core-rules/        ← CHỈNH RULE Ở ĐÂY — TRAE always loads these
+│   ├── AGENT_CONTEXT.md     (this file)
+│   ├── project_rules.md     pipeline order + behavioral rules
+│   └── security_rules.md    28 security rules + compliance mapping
+│
+├── how-it-works/      ← HIỂU KIẾN TRÚC Ở ĐÂY — load when explaining
+│   ├── TRAE_INTEGRATION.md  how TRAE orchestrates all 5 gates
+│   └── METHODOLOGY.md       hybrid architecture + metrics methodology
+│
+└── business-case/     ← PITCH & ROI Ở ĐÂY — load on demand only
+    ├── DEMO_SCRIPT.md       3-minute live demo walkthrough
+    ├── PITCH_DECK.md        8-slide presentation outline
+    ├── ROI_METRICS.md       cost savings analysis with sources
+    ├── ENTERPRISE_ADOPTION.md  setup guide + compliance story
+    └── PRD.md               product requirements document
+```
 
-### Layer 0 — Core Brain (always loaded)
+---
 
-These 3 files are always in context. Do not skip them.
+## File Routing — Load Only What the Task Needs
 
-| File | Contains |
+| Task | File to load |
 |---|---|
-| `AGENT_CONTEXT.md` | This file — entry point, routing map, quick reference |
-| `project_rules.md` | Pipeline order, behavioral rules for all 5 gates |
-| `security_rules.md` | 28 security rules with full compliance mapping |
+| Understand pipeline or behavioral rules | `docs/core-rules/project_rules.md` |
+| Look up a security rule or compliance standard | `docs/core-rules/security_rules.md` |
+| Explain how TRAE orchestrates the 5 gates | `docs/how-it-works/TRAE_INTEGRATION.md` |
+| Explain hybrid architecture or validate metrics | `docs/how-it-works/METHODOLOGY.md` |
+| Explain ROI or cost savings | `docs/business-case/ROI_METRICS.md` |
+| Prepare or run a live demo | `docs/business-case/DEMO_SCRIPT.md` |
+| Answer enterprise adoption questions | `docs/business-case/ENTERPRISE_ADOPTION.md` |
+| Prepare a pitch or presentation | `docs/business-case/PITCH_DECK.md` |
+| Explain product requirements | `docs/business-case/PRD.md` |
 
-### Layer 1 — Reference (load when task requires explanation)
-
-| Trigger | Load this file |
-|---|---|
-| "How does TRAE orchestrate the gates?" | `docs/TRAE_INTEGRATION.md` |
-| "How were the metrics measured?" | `docs/METHODOLOGY.md` |
-| "Explain the hybrid architecture" | `docs/METHODOLOGY.md` |
-
-### Layer 2 — Business Context (load on demand only)
-
-| Trigger | Load this file |
-|---|---|
-| "Explain ROI / cost savings" | `docs/ROI_METRICS.md` |
-| "Enterprise adoption / setup guide" | `docs/ENTERPRISE_ADOPTION.md` |
-| "Prepare or run the demo" | `docs/DEMO_SCRIPT.md` |
-| "Pitch / presentation slides" | `docs/PITCH_DECK.md` |
-| "What components are documented?" | `API_DOCUMENTATION.md` |
-| "Product requirements" | `docs/PRD.md` |
-
-> **Rule:** Never load Layer 2 files unless explicitly asked.
+> **Rule:** Load `core-rules/` files always. Load others only when explicitly needed.
 > Never load all files simultaneously — context window is finite.
 
 ---
@@ -86,12 +90,12 @@ MUST execute gates in this fixed order: 1 → 2 → 3 → 4 → 5.
 | Metric | Value | Source |
 |---|---|---|
 | Security rules | 28 rules, 12 categories | `security-scanner.js` |
-| Compliance standards | OWASP, ISO 27001, SOC 2, PCI-DSS, HIPAA | `security_rules.md` |
+| Compliance standards | OWASP, ISO 27001, SOC 2, PCI-DSS, HIPAA | `core-rules/security_rules.md` |
 | Output formats | Terminal · JSON (`--json`) · SARIF 2.1.0 (`--sarif`) | `security-scanner.js` |
-| Time saved per commit | 41 min → ~42 sec (97.9%) | `docs/METHODOLOGY.md §2.2` |
-| Annual value (10-dev team) | ~$180,000/year | `docs/METHODOLOGY.md §2.3` |
-| License cost eliminated | $3,516/developer/year | `docs/ROI_METRICS.md` |
-| Violation trend | Simulated demo data — real: `npm run security:json` | `docs/METHODOLOGY.md §2.1` |
+| Time saved per commit | 41 min → ~42 sec (97.9%) | `how-it-works/METHODOLOGY.md §2.2` |
+| Annual value (10-dev team) | ~$180,000/year | `how-it-works/METHODOLOGY.md §2.3` |
+| License cost eliminated | $3,516/developer/year | `business-case/ROI_METRICS.md` |
+| Violation trend | Simulated demo — real: `npm run security:json` | `how-it-works/METHODOLOGY.md §2.1` |
 
 ---
 
@@ -104,7 +108,7 @@ MUST execute gates in this fixed order: 1 → 2 → 3 → 4 → 5.
 > Yes with `--no-verify` — that is why GitHub Actions CI is the non-bypassable layer. Local = speed, CI = compliance.
 
 **"How was 97.9% measured?"**
-> Task-timing model per gate. Sources: GitGuardian 2024 + Stack Overflow Dev Survey 2023. Conservative (Gates 1–2 only): 75%. Full detail: `docs/METHODOLOGY.md`.
+> Task-timing model per gate. Sources: GitGuardian 2024 + Stack Overflow Dev Survey 2023. Conservative (Gates 1–2 only): 75%. See `how-it-works/METHODOLOGY.md`.
 
 ---
 
@@ -122,4 +126,5 @@ npm run build             # Production build
 
 ---
 
-*Entry point only. Keep under 120 lines. Detail lives in the referenced files.*
+*Entry point only. Keep under 130 lines. Detail lives in the referenced files.*
+*To add a new file: put it in the right folder, then update the routing table above.*

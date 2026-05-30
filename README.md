@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # 🛡️ DevOps-Guard
 
@@ -296,16 +296,36 @@ DevOps-Guard/
 
 ## Documentation
 
+```
+docs/
+├── core-rules/        ← Edit rules here — TRAE always loads these
+│   ├── AGENT_CONTEXT.md      knowledge space entry point
+│   ├── project_rules.md      pipeline order + behavioral rules
+│   └── security_rules.md     28 security rules + compliance mapping
+├── how-it-works/      ← Architecture and methodology reference
+│   ├── TRAE_INTEGRATION.md   how TRAE orchestrates all 5 gates
+│   └── METHODOLOGY.md        hybrid architecture + metrics methodology
+└── business-case/     ← Pitch, ROI, demo, product docs
+    ├── DEMO_SCRIPT.md         3-minute live demo walkthrough
+    ├── PITCH_DECK.md          8-slide presentation outline
+    ├── ROI_METRICS.md         cost savings analysis with sources
+    ├── ENTERPRISE_ADOPTION.md 5-min setup + compliance story
+    └── PRD.md                 product requirements document
+```
+
 | Document | Description |
 |---|---|
-| [`security_rules.md`](./security_rules.md) | All 28 rules with OWASP/ISO 27001/SOC2/PCI-DSS/HIPAA mapping |
-| [`project_rules.md`](./project_rules.md) | TRAE brain file — pipeline order, behavioral rules |
-| [`docs/TRAE_INTEGRATION.md`](./docs/TRAE_INTEGRATION.md) | How TRAE SOLO orchestrates all 5 gates |
-| [`docs/ENTERPRISE_ADOPTION.md`](./docs/ENTERPRISE_ADOPTION.md) | ROI calculator, compliance story, 5-min setup, CI/CD integration |
-| [`docs/DEMO_SCRIPT.md`](./docs/DEMO_SCRIPT.md) | Hackathon demo walkthrough |
-| [`API_DOCUMENTATION.md`](./API_DOCUMENTATION.md) | Auto-generated component docs (Gate 4) |
-
----
+| [docs/core-rules/AGENT_CONTEXT.md](./docs/core-rules/AGENT_CONTEXT.md) | Knowledge space entry point — routing map for TRAE |
+| [docs/core-rules/project_rules.md](./docs/core-rules/project_rules.md) | Pipeline order + behavioral rules for all 5 gates |
+| [docs/core-rules/security_rules.md](./docs/core-rules/security_rules.md) | 28 rules with OWASP / ISO 27001 / SOC 2 / PCI-DSS / HIPAA |
+| [docs/how-it-works/TRAE_INTEGRATION.md](./docs/how-it-works/TRAE_INTEGRATION.md) | How TRAE SOLO orchestrates all 5 gates |
+| [docs/how-it-works/METHODOLOGY.md](./docs/how-it-works/METHODOLOGY.md) | Hybrid architecture + transparent metrics methodology |
+| [docs/business-case/ENTERPRISE_ADOPTION.md](./docs/business-case/ENTERPRISE_ADOPTION.md) | ROI calculator, 5-min setup, CI/CD integration |
+| [docs/business-case/ROI_METRICS.md](./docs/business-case/ROI_METRICS.md) | Detailed ROI analysis with sources |
+| [docs/business-case/DEMO_SCRIPT.md](./docs/business-case/DEMO_SCRIPT.md) | 3-minute live demo walkthrough |
+| [docs/business-case/PITCH_DECK.md](./docs/business-case/PITCH_DECK.md) | 8-slide presentation outline |
+| [docs/business-case/PRD.md](./docs/business-case/PRD.md) | Product requirements document |
+| [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) | Auto-generated component docs (Gate 4 output) |
 
 ## License
 
