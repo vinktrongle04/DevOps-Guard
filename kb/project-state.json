@@ -1,0 +1,637 @@
+{
+  "meta": {
+    "generatedAt": "2026-05-30T06:08:48.516Z",
+    "version": "1.0",
+    "scanCount": 11
+  },
+  "currentHealth": {
+    "totalViolations": 97,
+    "bySeverity": {
+      "CRITICAL": 24,
+      "HIGH": 21,
+      "MEDIUM": 2,
+      "LOW": 50
+    },
+    "byCategory": {
+      "Generic": 14,
+      "Env Misconfiguration": 1,
+      "Google Cloud": 3,
+      "XSS / Injection": 13,
+      "Security Logging": 50,
+      "Database": 6,
+      "AWS": 1,
+      "AI Services": 2,
+      "Payment": 1,
+      "Communication": 2,
+      "Version Control": 2,
+      "Authentication": 2
+    },
+    "riskScore": 100,
+    "trend": "degrading",
+    "trendDelta": 40,
+    "gate1Status": "BLOCKED",
+    "gate2Status": "WARNING"
+  },
+  "files": {
+    "docs/business-case/DEMO_SCRIPT.md": {
+      "violations": [
+        "GEN-001:L36"
+      ],
+      "riskScore": 20,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "docs/core-rules/project_rules.md": {
+      "violations": [
+        "GEN-001:L234",
+        "ENV-001:L125"
+      ],
+      "riskScore": 40,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308",
+        "A.14.2.5",
+        "CC6.6"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "docs/core-rules/security_rules.md": {
+      "violations": [
+        "GOOG-001:L355",
+        "GEN-001:L355",
+        "XSS-001:L275",
+        "XSS-001:L279",
+        "XSS-002:L287",
+        "XSS-002:L291",
+        "XSS-002:L292",
+        "XSS-003:L267",
+        "XSS-003:L298",
+        "XSS-003:L300",
+        "XSS-003:L304",
+        "XSS-003:L305",
+        "LOG-001:L328",
+        "LOG-001:L329"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308",
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5",
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "kb-summary.js": {
+      "violations": [
+        "LOG-001:L143",
+        "LOG-001:L144"
+      ],
+      "riskScore": 4,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "README.md": {
+      "violations": [
+        "DB-001:L99"
+      ],
+      "riskScore": 40,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "security-autofix.js": {
+      "violations": [
+        "XSS-003:L144",
+        "XSS-003:L145",
+        "XSS-003:L146",
+        "LOG-001:L304",
+        "LOG-001:L359",
+        "LOG-001:L360",
+        "LOG-001:L361",
+        "LOG-001:L362",
+        "LOG-001:L363",
+        "LOG-001:L364",
+        "LOG-001:L368",
+        "LOG-001:L381",
+        "LOG-001:L396",
+        "LOG-001:L401",
+        "LOG-001:L409",
+        "LOG-001:L410",
+        "LOG-001:L413",
+        "LOG-001:L417",
+        "LOG-001:L425",
+        "LOG-001:L426",
+        "LOG-001:L427",
+        "LOG-001:L428",
+        "LOG-001:L429",
+        "LOG-001:L430",
+        "LOG-001:L431",
+        "LOG-001:L435",
+        "LOG-001:L437",
+        "LOG-001:L440",
+        "LOG-001:L442",
+        "LOG-001:L446",
+        "LOG-001:L447",
+        "LOG-001:L451",
+        "LOG-001:L452",
+        "LOG-001:L454",
+        "LOG-001:L455",
+        "LOG-001:L457",
+        "LOG-001:L461",
+        "LOG-001:L462",
+        "LOG-001:L463",
+        "LOG-001:L464",
+        "LOG-001:L466",
+        "LOG-001:L469",
+        "LOG-001:L470",
+        "LOG-001:L471"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5",
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "snapshot-generator.js": {
+      "violations": [
+        "LOG-001:L101"
+      ],
+      "riskScore": 2,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "src/App.jsx": {
+      "violations": [
+        "GOOG-001:L27",
+        "AWS-001:L39",
+        "AI-001:L30",
+        "PAY-001:L33",
+        "COM-001:L42",
+        "VCS-001:L36",
+        "DB-001:L48",
+        "GEN-001:L27",
+        "GEN-001:L33",
+        "GEN-001:L36",
+        "GEN-001:L39"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "CC6.6",
+        "Req 3.2",
+        "A.9.2.3",
+        "§164.312",
+        "§164.308"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "src/config/database.js": {
+      "violations": [
+        "DB-001:L13",
+        "DB-001:L17",
+        "DB-001:L93",
+        "DB-001:L98",
+        "GEN-001:L20",
+        "GEN-001:L94",
+        "GEN-003:L23",
+        "LOG-001:L124",
+        "LOG-001:L171",
+        "LOG-001:L215",
+        "LOG-001:L221"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312",
+        "§164.308",
+        "A.12.1.2",
+        "CC7.2",
+        "A.12.4.1",
+        "Req 10.2"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "src/services/apiClient.js": {
+      "violations": [
+        "GOOG-001:L12",
+        "AI-001:L15",
+        "COM-003:L18",
+        "GEN-001:L15",
+        "GEN-003:L21"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "CC6.6",
+        "§164.308",
+        "A.12.1.2",
+        "CC7.2"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    },
+    "src/utils/auth.js": {
+      "violations": [
+        "VCS-001:L47",
+        "AUTH-001:L15",
+        "AUTH-002:L18",
+        "GEN-001:L47",
+        "GEN-001:L50"
+      ],
+      "riskScore": 100,
+      "complianceAtRisk": [
+        "A.9.2.3",
+        "CC6.1",
+        "Req 6.3",
+        "A.9.4.2",
+        "Req 8.2",
+        "§164.312",
+        "A.10.1.1",
+        "Req 3.4",
+        "A.9.4.3",
+        "§164.308"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:08:48.516Z"
+    }
+  },
+  "rules": {
+    "GEN-001": {
+      "name": "Hardcoded Secret/Password",
+      "openCount": 12,
+      "affectedFiles": [
+        "docs/business-case/DEMO_SCRIPT.md",
+        "docs/core-rules/project_rules.md",
+        "docs/core-rules/security_rules.md",
+        "src/App.jsx",
+        "src/config/database.js",
+        "src/services/apiClient.js",
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308"
+      ]
+    },
+    "ENV-001": {
+      "name": "VITE_ Prefix on Server Secret",
+      "openCount": 1,
+      "affectedFiles": [
+        "docs/core-rules/project_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC6.6",
+        "Req 6.3"
+      ]
+    },
+    "GOOG-001": {
+      "name": "Google API Key",
+      "openCount": 3,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "src/App.jsx",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3"
+      ]
+    },
+    "XSS-001": {
+      "name": "React dangerouslySetInnerHTML",
+      "openCount": 2,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ]
+    },
+    "XSS-002": {
+      "name": "Direct DOM innerHTML",
+      "openCount": 3,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ]
+    },
+    "XSS-003": {
+      "name": "eval() / new Function()",
+      "openCount": 8,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "security-autofix.js"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ]
+    },
+    "LOG-001": {
+      "name": "console.log in Source",
+      "openCount": 50,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "kb-summary.js",
+        "security-autofix.js",
+        "snapshot-generator.js",
+        "src/config/database.js"
+      ],
+      "compliance": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ]
+    },
+    "DB-001": {
+      "name": "Database Connection String",
+      "openCount": 6,
+      "affectedFiles": [
+        "README.md",
+        "src/App.jsx",
+        "src/config/database.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312"
+      ]
+    },
+    "AWS-001": {
+      "name": "AWS Access Key ID",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3"
+      ]
+    },
+    "AI-001": {
+      "name": "OpenAI API Key",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/App.jsx",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ]
+    },
+    "PAY-001": {
+      "name": "Stripe Secret/Restricted Key",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 3.2"
+      ]
+    },
+    "COM-001": {
+      "name": "Twilio API Key",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ]
+    },
+    "VCS-001": {
+      "name": "GitHub PAT",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/App.jsx",
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.2.3",
+        "CC6.1",
+        "Req 6.3"
+      ]
+    },
+    "GEN-003": {
+      "name": "Hardcoded IP with Port",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/config/database.js",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.12.1.2",
+        "CC7.2"
+      ]
+    },
+    "COM-003": {
+      "name": "Slack Bot/Webhook Token",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ]
+    },
+    "AUTH-001": {
+      "name": "JWT Token",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.4.2",
+        "CC6.1",
+        "Req 8.2",
+        "§164.312"
+      ]
+    },
+    "AUTH-002": {
+      "name": "Private Key Block",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.10.1.1",
+        "CC6.1",
+        "Req 3.4",
+        "§164.312"
+      ]
+    }
+  },
+  "complianceExposure": {
+    "ISO-27001": {
+      "violatingRules": [
+        "GEN-001",
+        "ENV-001",
+        "GOOG-001",
+        "XSS-001",
+        "XSS-002",
+        "XSS-003",
+        "LOG-001",
+        "DB-001",
+        "AWS-001",
+        "AI-001",
+        "PAY-001",
+        "COM-001",
+        "VCS-001",
+        "GEN-003",
+        "COM-003",
+        "AUTH-001",
+        "AUTH-002"
+      ],
+      "openViolations": 97
+    },
+    "SOC-2": {
+      "violatingRules": [
+        "GEN-001",
+        "ENV-001",
+        "GOOG-001",
+        "XSS-001",
+        "XSS-002",
+        "XSS-003",
+        "LOG-001",
+        "DB-001",
+        "AWS-001",
+        "AI-001",
+        "PAY-001",
+        "COM-001",
+        "VCS-001",
+        "GEN-003",
+        "COM-003",
+        "AUTH-001",
+        "AUTH-002"
+      ],
+      "openViolations": 97
+    },
+    "PCI-DSS": {
+      "violatingRules": [
+        "GEN-001",
+        "ENV-001",
+        "GOOG-001",
+        "XSS-001",
+        "XSS-002",
+        "XSS-003",
+        "LOG-001",
+        "DB-001",
+        "AWS-001",
+        "PAY-001",
+        "VCS-001",
+        "AUTH-001",
+        "AUTH-002"
+      ],
+      "openViolations": 91
+    },
+    "HIPAA": {
+      "violatingRules": [
+        "GEN-001",
+        "LOG-001",
+        "DB-001",
+        "AUTH-001",
+        "AUTH-002"
+      ],
+      "openViolations": 70
+    }
+  },
+  "dependencies": {
+    "unused": [
+      "lodash",
+      "axios",
+      "moment",
+      "uuid"
+    ],
+    "bloat": [
+      {
+        "package": "moment",
+        "sizeKb": 67,
+        "alternative": "Day.js (7 kB) or native Intl API"
+      },
+      {
+        "package": "lodash",
+        "sizeKb": 71,
+        "alternative": "Native ES2022 array/object methods"
+      },
+      {
+        "package": "axios",
+        "sizeKb": 13,
+        "alternative": "Native fetch() or ky (4 kB)"
+      },
+      {
+        "package": "uuid",
+        "sizeKb": 1.8,
+        "alternative": "crypto.randomUUID() — zero cost"
+      }
+    ],
+    "totalBloatKb": 153
+  }
+}

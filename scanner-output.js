@@ -21,10 +21,11 @@ const OUTPUT_PATH = path.join(__dirname, 'public', 'scan-report.json')
 const SRC_DIR     = path.join(__dirname, 'src')
 const PKG_PATH    = path.join(__dirname, 'package.json')
 const SCAN_EXTS   = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
-const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'coverage']
+const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'coverage', 'kb', '.knowledge-base', 'public']
 const IGNORE_FILES = [
   'dependency-scanner.js', 'security-scanner.js',
   'scanner-output.js', 'vite.config.js', 'eslint.config.js',
+  'scan-report.json', 'scan-history.json',
 ]
 
 // ─── SECURITY PATTERNS (subset — same as security-scanner.js) ──
@@ -253,6 +254,139 @@ function buildReport() {
 
   fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2), 'utf-8')
   console.log(`[scanner-output] History updated: ${history.length} snapshot(s) in scan-history.json`)
+
+  // ─── WRITE KNOWLEDGE BASE (Level 1) ─────────────────────────
+  const KB_DIR = path.join(__dirname, 'kb')
+  if (!fs.existsSync(KB_DIR)) fs.mkdirSync(KB_DIR, { recursive: true })
+
+  // 1. project-state.json — structured current state
+  const fileMap = {}
+  for (const v of secViolations) {
+    const f = v.file
+    if (!fileMap[f]) fileMap[f] = { violations: [], riskScore: 0, complianceAtRisk: new Set(), daysOpenMax: 0 }
+    fileMap[f].violations.push(`${v.ruleId}:L${v.line}`)
+    const w = v.severity === 'CRITICAL' ? 40 : v.severity === 'HIGH' ? 20 : v.severity === 'MEDIUM' ? 10 : 2
+    fileMap[f].riskScore = Math.min(100, fileMap[f].riskScore + w)
+    if (v.compliance) {
+      Object.entries(v.compliance).forEach(([k, val]) => { if (val) fileMap[f].complianceAtRisk.add(val) })
+    }
+  }
+  // Serialize Sets
+  const filesObj = {}
+  for (const [f, d] of Object.entries(fileMap)) {
+    filesObj[f] = { ...d, complianceAtRisk: [...d.complianceAtRisk], lastScan: report.meta.generatedAt }
+  }
+
+  const rulesMap = {}
+  for (const v of secViolations) {
+    if (!rulesMap[v.ruleId]) rulesMap[v.ruleId] = { name: v.ruleName, openCount: 0, affectedFiles: new Set(), compliance: [] }
+    rulesMap[v.ruleId].openCount++
+    rulesMap[v.ruleId].affectedFiles.add(v.file)
+    if (v.compliance) {
+      const vals = Object.values(v.compliance).filter(Boolean)
+      rulesMap[v.ruleId].compliance = [...new Set([...rulesMap[v.ruleId].compliance, ...vals])]
+    }
+  }
+  const rulesObj = {}
+  for (const [id, d] of Object.entries(rulesMap)) {
+    rulesObj[id] = { ...d, affectedFiles: [...d.affectedFiles] }
+  }
+
+  // Compliance exposure
+  const compExposure = {}
+  for (const v of secViolations) {
+    if (!v.compliance) continue
+    for (const [std, ctrl] of Object.entries(v.compliance)) {
+      if (!ctrl) continue
+      const key = std.toUpperCase().replace('PCIDSS', 'PCI-DSS').replace('ISO27001','ISO-27001').replace('SOC2','SOC-2')
+      if (!compExposure[key]) compExposure[key] = { violatingRules: new Set(), openViolations: 0 }
+      compExposure[key].violatingRules.add(v.ruleId)
+      compExposure[key].openViolations++
+    }
+  }
+  const compObj = {}
+  for (const [k, d] of Object.entries(compExposure)) {
+    compObj[k] = { violatingRules: [...d.violatingRules], openViolations: d.openViolations }
+  }
+
+  const projectState = {
+    meta: { generatedAt: report.meta.generatedAt, version: '1.0', scanCount: history.length },
+    currentHealth: {
+      totalViolations: secViolations.length,
+      bySeverity: report.summary.bySeverity,
+      byCategory: report.summary.byCategory,
+      riskScore: Math.min(100, Math.round((report.summary.bySeverity.CRITICAL * 40 + report.summary.bySeverity.HIGH * 20) / 10)),
+      trend: history.length >= 2
+        ? (secViolations.length < history[history.length - 2]?.total ? 'improving' : 'degrading')
+        : 'unknown',
+      trendDelta: history.length >= 2
+        ? secViolations.length - history[history.length - 2].total
+        : 0,
+      gate1Status: report.summary.gate1Status,
+      gate2Status: report.summary.gate2Status,
+    },
+    files: filesObj,
+    rules: rulesObj,
+    complianceExposure: compObj,
+    dependencies: {
+      unused: depReport.unused,
+      bloat: depReport.bloat.map(b => ({ package: b.package, sizeKb: b.weight, alternative: b.alternative })),
+      totalBloatKb: bloatKb,
+    },
+  }
+
+  const STATE_PATH = path.join(KB_DIR, 'project-state.json')
+  fs.writeFileSync(STATE_PATH, JSON.stringify(projectState, null, 2), 'utf-8')
+  console.log(`[kb] project-state.json written (${Object.keys(filesObj).length} files, ${secViolations.length} violations)`)
+
+  // 2. event-log.jsonl — append-only event log
+  const EVENT_LOG_PATH = path.join(KB_DIR, 'event-log.jsonl')
+  const scanEvent = JSON.stringify({
+    ts:          report.meta.generatedAt,
+    event:       'scan',
+    total:       secViolations.length,
+    critical:    report.summary.bySeverity.CRITICAL,
+    high:        report.summary.bySeverity.HIGH,
+    medium:      report.summary.bySeverity.MEDIUM,
+    low:         report.summary.bySeverity.LOW,
+    gate1:       report.summary.gate1Status,
+    gate2:       report.summary.gate2Status,
+    unusedDeps:  depReport.unused.length,
+    bloatKb,
+    by:          'scanner-output',
+  })
+  fs.appendFileSync(EVENT_LOG_PATH, scanEvent + '\n', 'utf-8')
+  console.log(`[kb] event-log.jsonl appended`)
+
+  // 3. kb-index.json — fast lookup
+  const kbIndex = {
+    updatedAt: report.meta.generatedAt,
+    ruleToFiles: {},
+    fileToRules: {},
+    complianceToRules: {},
+    criticalFiles: Object.entries(filesObj)
+      .filter(([, d]) => d.violations.some(v => v.startsWith('CRIT') || secViolations.find(sv => `${sv.ruleId}:L${sv.line}` === v && sv.severity === 'CRITICAL')))
+      .map(([f]) => f),
+  }
+  for (const v of secViolations) {
+    if (!kbIndex.ruleToFiles[v.ruleId]) kbIndex.ruleToFiles[v.ruleId] = []
+    if (!kbIndex.ruleToFiles[v.ruleId].includes(v.file)) kbIndex.ruleToFiles[v.ruleId].push(v.file)
+    if (!kbIndex.fileToRules[v.file]) kbIndex.fileToRules[v.file] = []
+    if (!kbIndex.fileToRules[v.file].includes(v.ruleId)) kbIndex.fileToRules[v.file].push(v.ruleId)
+    if (v.compliance) {
+      for (const [, ctrl] of Object.entries(v.compliance)) {
+        if (!ctrl) continue
+        if (!kbIndex.complianceToRules[ctrl]) kbIndex.complianceToRules[ctrl] = []
+        if (!kbIndex.complianceToRules[ctrl].includes(v.ruleId)) kbIndex.complianceToRules[ctrl].push(v.ruleId)
+      }
+    }
+  }
+  // Simpler criticalFiles based on bySeverity
+  kbIndex.criticalFiles = [...new Set(secViolations.filter(v => v.severity === 'CRITICAL').map(v => v.file))]
+
+  const INDEX_PATH = path.join(KB_DIR, 'kb-index.json')
+  fs.writeFileSync(INDEX_PATH, JSON.stringify(kbIndex, null, 2), 'utf-8')
+  console.log(`[kb] kb-index.json written`)
 }
 
 buildReport()

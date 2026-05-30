@@ -1,0 +1,234 @@
+{
+  "updatedAt": "2026-05-30T06:08:48.516Z",
+  "ruleToFiles": {
+    "GEN-001": [
+      "docs/business-case/DEMO_SCRIPT.md",
+      "docs/core-rules/project_rules.md",
+      "docs/core-rules/security_rules.md",
+      "src/App.jsx",
+      "src/config/database.js",
+      "src/services/apiClient.js",
+      "src/utils/auth.js"
+    ],
+    "ENV-001": [
+      "docs/core-rules/project_rules.md"
+    ],
+    "GOOG-001": [
+      "docs/core-rules/security_rules.md",
+      "src/App.jsx",
+      "src/services/apiClient.js"
+    ],
+    "XSS-001": [
+      "docs/core-rules/security_rules.md"
+    ],
+    "XSS-002": [
+      "docs/core-rules/security_rules.md"
+    ],
+    "XSS-003": [
+      "docs/core-rules/security_rules.md",
+      "security-autofix.js"
+    ],
+    "LOG-001": [
+      "docs/core-rules/security_rules.md",
+      "kb-summary.js",
+      "security-autofix.js",
+      "snapshot-generator.js",
+      "src/config/database.js"
+    ],
+    "DB-001": [
+      "README.md",
+      "src/App.jsx",
+      "src/config/database.js"
+    ],
+    "AWS-001": [
+      "src/App.jsx"
+    ],
+    "AI-001": [
+      "src/App.jsx",
+      "src/services/apiClient.js"
+    ],
+    "PAY-001": [
+      "src/App.jsx"
+    ],
+    "COM-001": [
+      "src/App.jsx"
+    ],
+    "VCS-001": [
+      "src/App.jsx",
+      "src/utils/auth.js"
+    ],
+    "GEN-003": [
+      "src/config/database.js",
+      "src/services/apiClient.js"
+    ],
+    "COM-003": [
+      "src/services/apiClient.js"
+    ],
+    "AUTH-001": [
+      "src/utils/auth.js"
+    ],
+    "AUTH-002": [
+      "src/utils/auth.js"
+    ]
+  },
+  "fileToRules": {
+    "docs/business-case/DEMO_SCRIPT.md": [
+      "GEN-001"
+    ],
+    "docs/core-rules/project_rules.md": [
+      "GEN-001",
+      "ENV-001"
+    ],
+    "docs/core-rules/security_rules.md": [
+      "GOOG-001",
+      "GEN-001",
+      "XSS-001",
+      "XSS-002",
+      "XSS-003",
+      "LOG-001"
+    ],
+    "kb-summary.js": [
+      "LOG-001"
+    ],
+    "README.md": [
+      "DB-001"
+    ],
+    "security-autofix.js": [
+      "XSS-003",
+      "LOG-001"
+    ],
+    "snapshot-generator.js": [
+      "LOG-001"
+    ],
+    "src/App.jsx": [
+      "GOOG-001",
+      "AWS-001",
+      "AI-001",
+      "PAY-001",
+      "COM-001",
+      "VCS-001",
+      "DB-001",
+      "GEN-001"
+    ],
+    "src/config/database.js": [
+      "DB-001",
+      "GEN-001",
+      "GEN-003",
+      "LOG-001"
+    ],
+    "src/services/apiClient.js": [
+      "GOOG-001",
+      "AI-001",
+      "COM-003",
+      "GEN-001",
+      "GEN-003"
+    ],
+    "src/utils/auth.js": [
+      "VCS-001",
+      "AUTH-001",
+      "AUTH-002",
+      "GEN-001"
+    ]
+  },
+  "complianceToRules": {
+    "A.9.4.3": [
+      "GEN-001",
+      "GOOG-001",
+      "DB-001",
+      "AWS-001",
+      "AI-001",
+      "PAY-001",
+      "COM-001",
+      "COM-003"
+    ],
+    "CC6.1": [
+      "GEN-001",
+      "GOOG-001",
+      "DB-001",
+      "AWS-001",
+      "PAY-001",
+      "VCS-001",
+      "AUTH-001",
+      "AUTH-002"
+    ],
+    "Req 6.3": [
+      "GEN-001",
+      "ENV-001",
+      "GOOG-001",
+      "DB-001",
+      "AWS-001",
+      "VCS-001"
+    ],
+    "§164.308": [
+      "GEN-001"
+    ],
+    "A.14.2.5": [
+      "ENV-001",
+      "XSS-001",
+      "XSS-002",
+      "XSS-003"
+    ],
+    "CC6.6": [
+      "ENV-001",
+      "AI-001",
+      "COM-001",
+      "COM-003"
+    ],
+    "CC8.1": [
+      "XSS-001",
+      "XSS-002",
+      "XSS-003"
+    ],
+    "Req 6.5": [
+      "XSS-001",
+      "XSS-002",
+      "XSS-003"
+    ],
+    "A.12.4.1": [
+      "LOG-001"
+    ],
+    "CC7.2": [
+      "LOG-001",
+      "GEN-003"
+    ],
+    "Req 10.2": [
+      "LOG-001"
+    ],
+    "§164.312": [
+      "LOG-001",
+      "DB-001",
+      "AUTH-001",
+      "AUTH-002"
+    ],
+    "Req 3.2": [
+      "PAY-001"
+    ],
+    "A.9.2.3": [
+      "VCS-001"
+    ],
+    "A.12.1.2": [
+      "GEN-003"
+    ],
+    "A.9.4.2": [
+      "AUTH-001"
+    ],
+    "Req 8.2": [
+      "AUTH-001"
+    ],
+    "A.10.1.1": [
+      "AUTH-002"
+    ],
+    "Req 3.4": [
+      "AUTH-002"
+    ]
+  },
+  "criticalFiles": [
+    "docs/core-rules/security_rules.md",
+    "README.md",
+    "security-autofix.js",
+    "src/App.jsx",
+    "src/config/database.js",
+    "src/services/apiClient.js",
+    "src/utils/auth.js"
+  ]
+}

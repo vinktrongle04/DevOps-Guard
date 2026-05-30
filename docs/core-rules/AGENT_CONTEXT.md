@@ -23,7 +23,13 @@ docs/
 ├── core-rules/        ← CHỈNH RULE Ở ĐÂY — TRAE always loads these
 │   ├── AGENT_CONTEXT.md     (this file)
 │   ├── project_rules.md     pipeline order + behavioral rules
-│   └── security_rules.md    28 security rules + compliance mapping
+│   ├── security_rules.md    28 security rules + compliance mapping
+│   └── PROJECT_STATE.md     auto-generated KB summary (violations, risk, trends)
+│
+kb/                    ← Knowledge Base Level 1 (auto-generated, committed to git)
+│   ├── project-state.json   structured current state (files, rules, compliance)
+│   ├── event-log.jsonl      append-only scan event log
+│   └── kb-index.json        fast lookup (rule→files, file→rules, compliance→rules)
 │
 ├── how-it-works/      ← HIỂU KIẾN TRÚC Ở ĐÂY — load when explaining
 │   ├── TRAE_INTEGRATION.md  how TRAE orchestrates all 5 gates
@@ -52,6 +58,7 @@ docs/
 | Answer enterprise adoption questions | `docs/business-case/ENTERPRISE_ADOPTION.md` |
 | Prepare a pitch or presentation | `docs/business-case/PITCH_DECK.md` |
 | Explain product requirements | `docs/business-case/PRD.md` |
+| Check current project health, trends, recent events | `docs/core-rules/PROJECT_STATE.md` |
 
 > **Rule:** Load `core-rules/` files always. Load others only when explicitly needed.
 > Never load all files simultaneously — context window is finite.
@@ -122,6 +129,9 @@ npm run dep:scan          # Gate 2 — dependency audit
 npm run scan:export       # Gate 1+2 → scan-report.json + scan-history.json
 npm run dev               # Dashboard → http://localhost:5173
 npm run build             # Production build
+npm run kb:build          # Alias for scan:export (also writes kb/)
+npm run kb:summary        # Generate docs/core-rules/PROJECT_STATE.md from KB
+npm run knowledge:update  # Full KB refresh: scan + summary
 ```
 
 ---

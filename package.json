@@ -15,8 +15,16 @@
     "dep:scan": "node dependency-scanner.js",
     "scan:export": "node scanner-output.js",
     "gate:all": "node security-scanner.js; node dependency-scanner.js",
-    "prepare": "husky"
+    "fix:dry": "node security-autofix.js",
+    "fix:apply": "node security-autofix.js --apply",
+    "fix:src": "node security-autofix.js --apply --src src/",
+    "prepare": "husky",
+    "kb:build": "node scanner-output.js",
+    "kb:summary": "node kb-summary.js",
+    "knowledge:update": "node scanner-output.js && node kb-summary.js",
 
+    "snapshot": "node snapshot-generator.js",
+    "scan-and-snapshot": "npm run scan:export && npm run snapshot"
   },
   "dependencies": {
     "react": "^18.3.1",
