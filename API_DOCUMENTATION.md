@@ -1,32 +1,40 @@
-# 📖 DevOps-Guard API Documentation
+# DevOps-Guard — API Documentation
 
-> Tài liệu này được quản lý tự động bởi DevOps-Guard Docs Engine.  
-> ⚠️ **QUY TẮC: DO NOT OVERWRITE** — Chỉ được append nội dung mới vào cuối file.
-
----
-
-## [2026-05-23 23:35:00] — Khởi tạo tài liệu bởi Setup Agent
-
-### Tổng quan dự án
-- **Tên**: DevOps-Guard Demo Project
-- **Phiên bản**: 1.0.0
-- **Framework**: React 18.3.1 + Vite 6.0
-- **Mục đích**: Dự án mẫu để demo khả năng tự động hóa DevOps
-
-### Components
-
-#### `<UserProfile />`
-| Prop       | Type     | Default       | Mô tả                     |
-|------------|----------|---------------|----------------------------|
-| `name`     | `string` | *required*    | Tên đầy đủ của người dùng |
-| `email`    | `string` | *required*    | Địa chỉ email             |
-| `role`     | `string` | `'Developer'` | Vai trò hiển thị          |
-| `avatarUrl`| `string` | `undefined`   | URL ảnh đại diện (tùy chọn)|
-
-#### `<App />`
-- Component gốc chứa layout chính và demo cards.
-- ⚠️ **Lưu ý bảo mật**: Hiện đang chứa API Key hardcoded — cần xử lý!
+> **Managed by DevOps-Guard Gate 4 (Auto-Documentation Engine)**  
+> Rule: NEVER overwrite existing entries. Append new content only, with timestamp.
 
 ---
 
-*Cuối tài liệu — Append nội dung mới bên dưới dòng này.*
+## [2026-05-23 23:35:00 UTC] — Initial documentation — Gate 4 Setup
+
+### Project
+
+| Field | Value |
+|---|---|
+| Name | DevOps-Guard Demo Project |
+| Version | 1.0.0 |
+| Framework | React 18.3.1 + Vite 6.x |
+| Purpose | Reference codebase demonstrating DevOps-Guard quality gate enforcement |
+
+### Component: `<UserProfile />`
+
+| Prop | Type | Default | Required | Description |
+|---|---|---|---|---|
+| `name` | `string` | — | Yes | Full display name of the user |
+| `email` | `string` | — | Yes | Email address |
+| `role` | `string` | `'Developer'` | No | Role label shown in the card |
+| `avatarUrl` | `string` | `undefined` | No | Optional avatar image URL |
+| `ref` | `Ref` | — | No | React 19 forwarded ref |
+
+**Returns:** JSX — user card with avatar, name, email, and role badge  
+**Notes:** Uses `ThemeContext` via `use()` hook (React 19 pattern)
+
+### Component: `<App />`
+
+Root component containing the main layout, dashboard panels, and demo data.
+
+> **Security note:** This file intentionally contains hardcoded demo traps for DevOps-Guard demonstration purposes. In production code, all API keys must be stored in environment variables.
+
+---
+
+*Append new documentation entries below this line.*
