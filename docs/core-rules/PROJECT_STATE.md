@@ -2,7 +2,7 @@
 
 > **Knowledge Layer: 0 — Always loaded.**
 > Auto-generated from kb/project-state.json — do not edit manually.
-> Last updated: 2026-05-30T06:08:48.516Z
+> Last updated: 2026-05-30T06:13:55.052Z
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Metric | Value |
 |---|---|
-| Total violations | **97** (↑ 40 (degrading)) |
+| Total violations | **103** (↑ 46 (degrading)) |
 | Critical | 24 |
 | High | 21 |
 | Medium | 2 |
-| Low | 50 |
+| Low | 56 |
 | Risk score | 100/100 |
 | Trend | degrading |
 | Gate 1 | BLOCKED |
@@ -41,15 +41,16 @@
 
 ## Compliance Exposure
 
-- **ISO-27001**: 97 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, AI-001, PAY-001, COM-001, VCS-001, GEN-003, COM-003, AUTH-001, AUTH-002)
-- **SOC-2**: 97 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, AI-001, PAY-001, COM-001, VCS-001, GEN-003, COM-003, AUTH-001, AUTH-002)
-- **PCI-DSS**: 91 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, PAY-001, VCS-001, AUTH-001, AUTH-002)
-- **HIPAA**: 70 open violations (rules: GEN-001, LOG-001, DB-001, AUTH-001, AUTH-002)
+- **ISO-27001**: 103 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, AI-001, PAY-001, COM-001, VCS-001, GEN-003, COM-003, AUTH-001, AUTH-002)
+- **SOC-2**: 103 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, AI-001, PAY-001, COM-001, VCS-001, GEN-003, COM-003, AUTH-001, AUTH-002)
+- **PCI-DSS**: 97 open violations (rules: GEN-001, ENV-001, GOOG-001, XSS-001, XSS-002, XSS-003, LOG-001, DB-001, AWS-001, PAY-001, VCS-001, AUTH-001, AUTH-002)
+- **HIPAA**: 76 open violations (rules: GEN-001, LOG-001, DB-001, AUTH-001, AUTH-002)
 
 ---
 
 ## Recent Events (last 7 days)
 
+- 2026-05-30: Scan — 103 violations (24 CRITICAL) — Gate 1: BLOCKED
 - 2026-05-30: Scan — 97 violations (24 CRITICAL) — Gate 1: BLOCKED
 - 2026-05-30: Scan — 699 violations (438 CRITICAL) — Gate 1: BLOCKED
 

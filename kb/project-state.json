@@ -1,23 +1,23 @@
 {
   "meta": {
-    "generatedAt": "2026-05-30T06:08:48.516Z",
+    "generatedAt": "2026-05-30T06:13:55.052Z",
     "version": "1.0",
     "scanCount": 11
   },
   "currentHealth": {
-    "totalViolations": 97,
+    "totalViolations": 103,
     "bySeverity": {
       "CRITICAL": 24,
       "HIGH": 21,
       "MEDIUM": 2,
-      "LOW": 50
+      "LOW": 56
     },
     "byCategory": {
       "Generic": 14,
       "Env Misconfiguration": 1,
       "Google Cloud": 3,
       "XSS / Injection": 13,
-      "Security Logging": 50,
+      "Security Logging": 56,
       "Database": 6,
       "AWS": 1,
       "AI Services": 2,
@@ -28,7 +28,7 @@
     },
     "riskScore": 100,
     "trend": "degrading",
-    "trendDelta": 40,
+    "trendDelta": 46,
     "gate1Status": "BLOCKED",
     "gate2Status": "WARNING"
   },
@@ -45,7 +45,7 @@
         "§164.308"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "docs/core-rules/project_rules.md": {
       "violations": [
@@ -62,7 +62,7 @@
         "CC6.6"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "docs/core-rules/security_rules.md": {
       "violations": [
@@ -96,7 +96,39 @@
         "§164.312"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
+    },
+    "graph-builder.js": {
+      "violations": [
+        "LOG-001:L270",
+        "LOG-001:L271",
+        "LOG-001:L277"
+      ],
+      "riskScore": 6,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:13:55.052Z"
+    },
+    "graph-query.js": {
+      "violations": [
+        "LOG-001:L365",
+        "LOG-001:L385",
+        "LOG-001:L386"
+      ],
+      "riskScore": 6,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "daysOpenMax": 0,
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "kb-summary.js": {
       "violations": [
@@ -111,7 +143,7 @@
         "§164.312"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "README.md": {
       "violations": [
@@ -125,7 +157,7 @@
         "§164.312"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "security-autofix.js": {
       "violations": [
@@ -185,7 +217,7 @@
         "§164.312"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "snapshot-generator.js": {
       "violations": [
@@ -199,7 +231,7 @@
         "§164.312"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "src/App.jsx": {
       "violations": [
@@ -227,7 +259,7 @@
         "§164.308"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "src/config/database.js": {
       "violations": [
@@ -256,7 +288,7 @@
         "Req 10.2"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "src/services/apiClient.js": {
       "violations": [
@@ -277,7 +309,7 @@
         "CC7.2"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     },
     "src/utils/auth.js": {
       "violations": [
@@ -301,7 +333,7 @@
         "§164.308"
       ],
       "daysOpenMax": 0,
-      "lastScan": "2026-05-30T06:08:48.516Z"
+      "lastScan": "2026-05-30T06:13:55.052Z"
     }
   },
   "rules": {
@@ -389,9 +421,11 @@
     },
     "LOG-001": {
       "name": "console.log in Source",
-      "openCount": 50,
+      "openCount": 56,
       "affectedFiles": [
         "docs/core-rules/security_rules.md",
+        "graph-builder.js",
+        "graph-query.js",
         "kb-summary.js",
         "security-autofix.js",
         "snapshot-generator.js",
@@ -550,7 +584,7 @@
         "AUTH-001",
         "AUTH-002"
       ],
-      "openViolations": 97
+      "openViolations": 103
     },
     "SOC-2": {
       "violatingRules": [
@@ -572,7 +606,7 @@
         "AUTH-001",
         "AUTH-002"
       ],
-      "openViolations": 97
+      "openViolations": 103
     },
     "PCI-DSS": {
       "violatingRules": [
@@ -590,7 +624,7 @@
         "AUTH-001",
         "AUTH-002"
       ],
-      "openViolations": 91
+      "openViolations": 97
     },
     "HIPAA": {
       "violatingRules": [
@@ -600,7 +634,7 @@
         "AUTH-001",
         "AUTH-002"
       ],
-      "openViolations": 70
+      "openViolations": 76
     }
   },
   "dependencies": {

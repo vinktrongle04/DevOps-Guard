@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T06:08:48.516Z",
+  "updatedAt": "2026-05-30T06:13:55.052Z",
   "ruleToFiles": {
     "GEN-001": [
       "docs/business-case/DEMO_SCRIPT.md",
@@ -30,6 +30,8 @@
     ],
     "LOG-001": [
       "docs/core-rules/security_rules.md",
+      "graph-builder.js",
+      "graph-query.js",
       "kb-summary.js",
       "security-autofix.js",
       "snapshot-generator.js",
@@ -85,6 +87,12 @@
       "XSS-001",
       "XSS-002",
       "XSS-003",
+      "LOG-001"
+    ],
+    "graph-builder.js": [
+      "LOG-001"
+    ],
+    "graph-query.js": [
       "LOG-001"
     ],
     "kb-summary.js": [

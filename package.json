@@ -21,8 +21,10 @@
     "prepare": "husky",
     "kb:build": "node scanner-output.js",
     "kb:summary": "node kb-summary.js",
-    "knowledge:update": "node scanner-output.js && node kb-summary.js",
-
+    "graph:build": "node graph-builder.js",
+    "graph:query": "node graph-query.js",
+    "kb:ask": "node graph-query.js --ask",
+    "knowledge:update": "node scanner-output.js && node graph-builder.js && node kb-summary.js",
     "snapshot": "node snapshot-generator.js",
     "scan-and-snapshot": "npm run scan:export && npm run snapshot"
   },

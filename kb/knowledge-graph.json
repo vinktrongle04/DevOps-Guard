@@ -1,0 +1,3575 @@
+{
+  "meta": {
+    "version": "2.0",
+    "builtAt": "2026-05-30T06:13:55.052Z",
+    "nodeCount": 160,
+    "edgeCount": 262,
+    "kbScanCount": 11
+  },
+  "nodes": {
+    "file:docs/business-case/DEMO_SCRIPT.md": {
+      "type": "file",
+      "path": "docs/business-case/DEMO_SCRIPT.md",
+      "riskScore": 20,
+      "violationCount": 1,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:docs/business-case/DEMO_SCRIPT.md",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/business-case/DEMO_SCRIPT.md:GEN-001:L36": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "docs/business-case/DEMO_SCRIPT.md",
+      "line": 36,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/business-case/DEMO_SCRIPT.md:GEN-001:L36",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:GEN-001": {
+      "type": "rule",
+      "ruleId": "GEN-001",
+      "name": "Hardcoded Secret/Password",
+      "openCount": 12,
+      "affectedFiles": [
+        "docs/business-case/DEMO_SCRIPT.md",
+        "docs/core-rules/project_rules.md",
+        "docs/core-rules/security_rules.md",
+        "src/App.jsx",
+        "src/config/database.js",
+        "src/services/apiClient.js",
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308"
+      ],
+      "id": "rule:GEN-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.9.4.3": {
+      "type": "standard",
+      "control": "A.9.4.3",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.9.4.3 — Access to source code",
+      "id": "std:A.9.4.3",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:CC6.1": {
+      "type": "standard",
+      "control": "CC6.1",
+      "framework": "SOC-2",
+      "label": "SOC 2 CC6.1 — Logical access security",
+      "id": "std:CC6.1",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_6.3": {
+      "type": "standard",
+      "control": "Req 6.3",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 6.3 — Known vulnerabilities",
+      "id": "std:Req_6.3",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:_164.308": {
+      "type": "standard",
+      "control": "§164.308",
+      "framework": "HIPAA",
+      "label": "HIPAA §164.308 — Administrative safeguards",
+      "id": "std:_164.308",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:docs/core-rules/project_rules.md": {
+      "type": "file",
+      "path": "docs/core-rules/project_rules.md",
+      "riskScore": 40,
+      "violationCount": 2,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308",
+        "A.14.2.5",
+        "CC6.6"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:docs/core-rules/project_rules.md",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/project_rules.md:GEN-001:L234": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "docs/core-rules/project_rules.md",
+      "line": 234,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/project_rules.md:GEN-001:L234",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/project_rules.md:ENV-001:L125": {
+      "type": "violation",
+      "ruleId": "ENV-001",
+      "file": "docs/core-rules/project_rules.md",
+      "line": 125,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/project_rules.md:ENV-001:L125",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:ENV-001": {
+      "type": "rule",
+      "ruleId": "ENV-001",
+      "name": "VITE_ Prefix on Server Secret",
+      "openCount": 1,
+      "affectedFiles": [
+        "docs/core-rules/project_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC6.6",
+        "Req 6.3"
+      ],
+      "id": "rule:ENV-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.14.2.5": {
+      "type": "standard",
+      "control": "A.14.2.5",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.14.2.5 — Secure development principles",
+      "id": "std:A.14.2.5",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:CC6.6": {
+      "type": "standard",
+      "control": "CC6.6",
+      "framework": "SOC-2",
+      "label": "SOC 2 CC6.6 — Logical access restrictions",
+      "id": "std:CC6.6",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:docs/core-rules/security_rules.md": {
+      "type": "file",
+      "path": "docs/core-rules/security_rules.md",
+      "riskScore": 100,
+      "violationCount": 14,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.308",
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5",
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:docs/core-rules/security_rules.md",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:GOOG-001:L355": {
+      "type": "violation",
+      "ruleId": "GOOG-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 355,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:GOOG-001:L355",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:GOOG-001": {
+      "type": "rule",
+      "ruleId": "GOOG-001",
+      "name": "Google API Key",
+      "openCount": 3,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "src/App.jsx",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3"
+      ],
+      "id": "rule:GOOG-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:GEN-001:L355": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 355,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:GEN-001:L355",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-001:L275": {
+      "type": "violation",
+      "ruleId": "XSS-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 275,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-001:L275",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:XSS-001": {
+      "type": "rule",
+      "ruleId": "XSS-001",
+      "name": "React dangerouslySetInnerHTML",
+      "openCount": 2,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ],
+      "id": "rule:XSS-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:CC8.1": {
+      "type": "standard",
+      "control": "CC8.1",
+      "framework": "SOC-2",
+      "label": "SOC 2 CC8.1 — Change management",
+      "id": "std:CC8.1",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_6.5": {
+      "type": "standard",
+      "control": "Req 6.5",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 6.5 — Injection attacks",
+      "id": "std:Req_6.5",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-001:L279": {
+      "type": "violation",
+      "ruleId": "XSS-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 279,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-001:L279",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-002:L287": {
+      "type": "violation",
+      "ruleId": "XSS-002",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 287,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-002:L287",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:XSS-002": {
+      "type": "rule",
+      "ruleId": "XSS-002",
+      "name": "Direct DOM innerHTML",
+      "openCount": 3,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ],
+      "id": "rule:XSS-002",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-002:L291": {
+      "type": "violation",
+      "ruleId": "XSS-002",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 291,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-002:L291",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-002:L292": {
+      "type": "violation",
+      "ruleId": "XSS-002",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 292,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-002:L292",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-003:L267": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 267,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-003:L267",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:XSS-003": {
+      "type": "rule",
+      "ruleId": "XSS-003",
+      "name": "eval() / new Function()",
+      "openCount": 8,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "security-autofix.js"
+      ],
+      "compliance": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5"
+      ],
+      "id": "rule:XSS-003",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-003:L298": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 298,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-003:L298",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-003:L300": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 300,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-003:L300",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-003:L304": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 304,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-003:L304",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:XSS-003:L305": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 305,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:XSS-003:L305",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:LOG-001:L328": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 328,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:LOG-001:L328",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:LOG-001": {
+      "type": "rule",
+      "ruleId": "LOG-001",
+      "name": "console.log in Source",
+      "openCount": 56,
+      "affectedFiles": [
+        "docs/core-rules/security_rules.md",
+        "graph-builder.js",
+        "graph-query.js",
+        "kb-summary.js",
+        "security-autofix.js",
+        "snapshot-generator.js",
+        "src/config/database.js"
+      ],
+      "compliance": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "id": "rule:LOG-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.12.4.1": {
+      "type": "standard",
+      "control": "A.12.4.1",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.12.4.1 — Event logging",
+      "id": "std:A.12.4.1",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:CC7.2": {
+      "type": "standard",
+      "control": "CC7.2",
+      "framework": "SOC-2",
+      "label": "SOC 2 CC7.2 — System monitoring",
+      "id": "std:CC7.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_10.2": {
+      "type": "standard",
+      "control": "Req 10.2",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 10.2 — Audit log events",
+      "id": "std:Req_10.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:_164.312": {
+      "type": "standard",
+      "control": "§164.312",
+      "framework": "HIPAA",
+      "label": "HIPAA §164.312 — Technical safeguards",
+      "id": "std:_164.312",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:docs/core-rules/security_rules.md:LOG-001:L329": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "docs/core-rules/security_rules.md",
+      "line": 329,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:docs/core-rules/security_rules.md:LOG-001:L329",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:graph-builder.js": {
+      "type": "file",
+      "path": "graph-builder.js",
+      "riskScore": 6,
+      "violationCount": 3,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:graph-builder.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-builder.js:LOG-001:L270": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-builder.js",
+      "line": 270,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-builder.js:LOG-001:L270",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-builder.js:LOG-001:L271": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-builder.js",
+      "line": 271,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-builder.js:LOG-001:L271",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-builder.js:LOG-001:L277": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-builder.js",
+      "line": 277,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-builder.js:LOG-001:L277",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:graph-query.js": {
+      "type": "file",
+      "path": "graph-query.js",
+      "riskScore": 6,
+      "violationCount": 3,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:graph-query.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-query.js:LOG-001:L365": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-query.js",
+      "line": 365,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-query.js:LOG-001:L365",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-query.js:LOG-001:L385": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-query.js",
+      "line": 385,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-query.js:LOG-001:L385",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:graph-query.js:LOG-001:L386": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "graph-query.js",
+      "line": 386,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:graph-query.js:LOG-001:L386",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:kb-summary.js": {
+      "type": "file",
+      "path": "kb-summary.js",
+      "riskScore": 4,
+      "violationCount": 2,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:kb-summary.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:kb-summary.js:LOG-001:L143": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "kb-summary.js",
+      "line": 143,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:kb-summary.js:LOG-001:L143",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:kb-summary.js:LOG-001:L144": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "kb-summary.js",
+      "line": 144,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:kb-summary.js:LOG-001:L144",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:README.md": {
+      "type": "file",
+      "path": "README.md",
+      "riskScore": 40,
+      "violationCount": 1,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:README.md",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:README.md:DB-001:L99": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "README.md",
+      "line": 99,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:README.md:DB-001:L99",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:DB-001": {
+      "type": "rule",
+      "ruleId": "DB-001",
+      "name": "Database Connection String",
+      "openCount": 6,
+      "affectedFiles": [
+        "README.md",
+        "src/App.jsx",
+        "src/config/database.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312"
+      ],
+      "id": "rule:DB-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:security-autofix.js": {
+      "type": "file",
+      "path": "security-autofix.js",
+      "riskScore": 100,
+      "violationCount": 44,
+      "complianceAtRisk": [
+        "A.14.2.5",
+        "CC8.1",
+        "Req 6.5",
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:security-autofix.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:XSS-003:L144": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "security-autofix.js",
+      "line": 144,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:XSS-003:L144",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:XSS-003:L145": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "security-autofix.js",
+      "line": 145,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:XSS-003:L145",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:XSS-003:L146": {
+      "type": "violation",
+      "ruleId": "XSS-003",
+      "file": "security-autofix.js",
+      "line": 146,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:XSS-003:L146",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L304": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 304,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L304",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L359": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 359,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L359",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L360": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 360,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L360",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L361": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 361,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L361",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L362": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 362,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L362",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L363": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 363,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L363",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L364": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 364,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L364",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L368": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 368,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L368",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L381": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 381,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L381",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L396": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 396,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L396",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L401": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 401,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L401",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L409": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 409,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L409",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L410": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 410,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L410",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L413": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 413,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L413",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L417": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 417,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L417",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L425": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 425,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L425",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L426": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 426,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L426",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L427": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 427,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L427",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L428": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 428,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L428",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L429": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 429,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L429",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L430": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 430,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L430",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L431": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 431,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L431",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L435": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 435,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L435",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L437": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 437,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L437",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L440": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 440,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L440",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L442": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 442,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L442",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L446": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 446,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L446",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L447": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 447,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L447",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L451": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 451,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L451",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L452": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 452,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L452",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L454": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 454,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L454",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L455": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 455,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L455",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L457": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 457,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L457",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L461": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 461,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L461",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L462": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 462,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L462",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L463": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 463,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L463",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L464": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 464,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L464",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L466": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 466,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L466",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L469": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 469,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L469",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L470": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 470,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L470",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:security-autofix.js:LOG-001:L471": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "security-autofix.js",
+      "line": 471,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:security-autofix.js:LOG-001:L471",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:snapshot-generator.js": {
+      "type": "file",
+      "path": "snapshot-generator.js",
+      "riskScore": 2,
+      "violationCount": 1,
+      "complianceAtRisk": [
+        "A.12.4.1",
+        "CC7.2",
+        "Req 10.2",
+        "§164.312"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:snapshot-generator.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:snapshot-generator.js:LOG-001:L101": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "snapshot-generator.js",
+      "line": 101,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:snapshot-generator.js:LOG-001:L101",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:src/App.jsx": {
+      "type": "file",
+      "path": "src/App.jsx",
+      "riskScore": 100,
+      "violationCount": 11,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "CC6.6",
+        "Req 3.2",
+        "A.9.2.3",
+        "§164.312",
+        "§164.308"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:src/App.jsx",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:GOOG-001:L27": {
+      "type": "violation",
+      "ruleId": "GOOG-001",
+      "file": "src/App.jsx",
+      "line": 27,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:GOOG-001:L27",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:AWS-001:L39": {
+      "type": "violation",
+      "ruleId": "AWS-001",
+      "file": "src/App.jsx",
+      "line": 39,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:AWS-001:L39",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:AWS-001": {
+      "type": "rule",
+      "ruleId": "AWS-001",
+      "name": "AWS Access Key ID",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3"
+      ],
+      "id": "rule:AWS-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:AI-001:L30": {
+      "type": "violation",
+      "ruleId": "AI-001",
+      "file": "src/App.jsx",
+      "line": 30,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:AI-001:L30",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:AI-001": {
+      "type": "rule",
+      "ruleId": "AI-001",
+      "name": "OpenAI API Key",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/App.jsx",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ],
+      "id": "rule:AI-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:PAY-001:L33": {
+      "type": "violation",
+      "ruleId": "PAY-001",
+      "file": "src/App.jsx",
+      "line": 33,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:PAY-001:L33",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:PAY-001": {
+      "type": "rule",
+      "ruleId": "PAY-001",
+      "name": "Stripe Secret/Restricted Key",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 3.2"
+      ],
+      "id": "rule:PAY-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_3.2": {
+      "type": "standard",
+      "control": "Req 3.2",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 3.2 — Store cardholder data",
+      "id": "std:Req_3.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:COM-001:L42": {
+      "type": "violation",
+      "ruleId": "COM-001",
+      "file": "src/App.jsx",
+      "line": 42,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:COM-001:L42",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:COM-001": {
+      "type": "rule",
+      "ruleId": "COM-001",
+      "name": "Twilio API Key",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/App.jsx"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ],
+      "id": "rule:COM-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:VCS-001:L36": {
+      "type": "violation",
+      "ruleId": "VCS-001",
+      "file": "src/App.jsx",
+      "line": 36,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:VCS-001:L36",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:VCS-001": {
+      "type": "rule",
+      "ruleId": "VCS-001",
+      "name": "GitHub PAT",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/App.jsx",
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.2.3",
+        "CC6.1",
+        "Req 6.3"
+      ],
+      "id": "rule:VCS-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.9.2.3": {
+      "type": "standard",
+      "control": "A.9.2.3",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.9.2.3 — Privileged access rights",
+      "id": "std:A.9.2.3",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:DB-001:L48": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "src/App.jsx",
+      "line": 48,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:DB-001:L48",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:GEN-001:L27": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/App.jsx",
+      "line": 27,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:GEN-001:L27",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:GEN-001:L33": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/App.jsx",
+      "line": 33,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:GEN-001:L33",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:GEN-001:L36": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/App.jsx",
+      "line": 36,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:GEN-001:L36",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/App.jsx:GEN-001:L39": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/App.jsx",
+      "line": 39,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/App.jsx:GEN-001:L39",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:src/config/database.js": {
+      "type": "file",
+      "path": "src/config/database.js",
+      "riskScore": 100,
+      "violationCount": 11,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "§164.312",
+        "§164.308",
+        "A.12.1.2",
+        "CC7.2",
+        "A.12.4.1",
+        "Req 10.2"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:src/config/database.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:DB-001:L13": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "src/config/database.js",
+      "line": 13,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:DB-001:L13",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:DB-001:L17": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "src/config/database.js",
+      "line": 17,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:DB-001:L17",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:DB-001:L93": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "src/config/database.js",
+      "line": 93,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:DB-001:L93",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:DB-001:L98": {
+      "type": "violation",
+      "ruleId": "DB-001",
+      "file": "src/config/database.js",
+      "line": 98,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:DB-001:L98",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:GEN-001:L20": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/config/database.js",
+      "line": 20,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:GEN-001:L20",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:GEN-001:L94": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/config/database.js",
+      "line": 94,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:GEN-001:L94",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:GEN-003:L23": {
+      "type": "violation",
+      "ruleId": "GEN-003",
+      "file": "src/config/database.js",
+      "line": 23,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:GEN-003:L23",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:GEN-003": {
+      "type": "rule",
+      "ruleId": "GEN-003",
+      "name": "Hardcoded IP with Port",
+      "openCount": 2,
+      "affectedFiles": [
+        "src/config/database.js",
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.12.1.2",
+        "CC7.2"
+      ],
+      "id": "rule:GEN-003",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.12.1.2": {
+      "type": "standard",
+      "control": "A.12.1.2",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.12.1.2 — Change management",
+      "id": "std:A.12.1.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:LOG-001:L124": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "src/config/database.js",
+      "line": 124,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:LOG-001:L124",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:LOG-001:L171": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "src/config/database.js",
+      "line": 171,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:LOG-001:L171",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:LOG-001:L215": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "src/config/database.js",
+      "line": 215,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:LOG-001:L215",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/config/database.js:LOG-001:L221": {
+      "type": "violation",
+      "ruleId": "LOG-001",
+      "file": "src/config/database.js",
+      "line": 221,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/config/database.js:LOG-001:L221",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:src/services/apiClient.js": {
+      "type": "file",
+      "path": "src/services/apiClient.js",
+      "riskScore": 100,
+      "violationCount": 5,
+      "complianceAtRisk": [
+        "A.9.4.3",
+        "CC6.1",
+        "Req 6.3",
+        "CC6.6",
+        "§164.308",
+        "A.12.1.2",
+        "CC7.2"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:src/services/apiClient.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/services/apiClient.js:GOOG-001:L12": {
+      "type": "violation",
+      "ruleId": "GOOG-001",
+      "file": "src/services/apiClient.js",
+      "line": 12,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/services/apiClient.js:GOOG-001:L12",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/services/apiClient.js:AI-001:L15": {
+      "type": "violation",
+      "ruleId": "AI-001",
+      "file": "src/services/apiClient.js",
+      "line": 15,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/services/apiClient.js:AI-001:L15",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/services/apiClient.js:COM-003:L18": {
+      "type": "violation",
+      "ruleId": "COM-003",
+      "file": "src/services/apiClient.js",
+      "line": 18,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/services/apiClient.js:COM-003:L18",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:COM-003": {
+      "type": "rule",
+      "ruleId": "COM-003",
+      "name": "Slack Bot/Webhook Token",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/services/apiClient.js"
+      ],
+      "compliance": [
+        "A.9.4.3",
+        "CC6.6"
+      ],
+      "id": "rule:COM-003",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/services/apiClient.js:GEN-001:L15": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/services/apiClient.js",
+      "line": 15,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/services/apiClient.js:GEN-001:L15",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/services/apiClient.js:GEN-003:L21": {
+      "type": "violation",
+      "ruleId": "GEN-003",
+      "file": "src/services/apiClient.js",
+      "line": 21,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/services/apiClient.js:GEN-003:L21",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "file:src/utils/auth.js": {
+      "type": "file",
+      "path": "src/utils/auth.js",
+      "riskScore": 100,
+      "violationCount": 5,
+      "complianceAtRisk": [
+        "A.9.2.3",
+        "CC6.1",
+        "Req 6.3",
+        "A.9.4.2",
+        "Req 8.2",
+        "§164.312",
+        "A.10.1.1",
+        "Req 3.4",
+        "A.9.4.3",
+        "§164.308"
+      ],
+      "lastScan": "2026-05-30T06:13:55.052Z",
+      "id": "file:src/utils/auth.js",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/utils/auth.js:VCS-001:L47": {
+      "type": "violation",
+      "ruleId": "VCS-001",
+      "file": "src/utils/auth.js",
+      "line": 47,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/utils/auth.js:VCS-001:L47",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/utils/auth.js:AUTH-001:L15": {
+      "type": "violation",
+      "ruleId": "AUTH-001",
+      "file": "src/utils/auth.js",
+      "line": 15,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/utils/auth.js:AUTH-001:L15",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:AUTH-001": {
+      "type": "rule",
+      "ruleId": "AUTH-001",
+      "name": "JWT Token",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.9.4.2",
+        "CC6.1",
+        "Req 8.2",
+        "§164.312"
+      ],
+      "id": "rule:AUTH-001",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.9.4.2": {
+      "type": "standard",
+      "control": "A.9.4.2",
+      "framework": "UNKNOWN",
+      "label": "A.9.4.2",
+      "id": "std:A.9.4.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_8.2": {
+      "type": "standard",
+      "control": "Req 8.2",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 8.2 — User identification",
+      "id": "std:Req_8.2",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/utils/auth.js:AUTH-002:L18": {
+      "type": "violation",
+      "ruleId": "AUTH-002",
+      "file": "src/utils/auth.js",
+      "line": 18,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/utils/auth.js:AUTH-002:L18",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "rule:AUTH-002": {
+      "type": "rule",
+      "ruleId": "AUTH-002",
+      "name": "Private Key Block",
+      "openCount": 1,
+      "affectedFiles": [
+        "src/utils/auth.js"
+      ],
+      "compliance": [
+        "A.10.1.1",
+        "CC6.1",
+        "Req 3.4",
+        "§164.312"
+      ],
+      "id": "rule:AUTH-002",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:A.10.1.1": {
+      "type": "standard",
+      "control": "A.10.1.1",
+      "framework": "ISO-27001",
+      "label": "ISO 27001 A.10.1.1 — Encryption policy",
+      "id": "std:A.10.1.1",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "std:Req_3.4": {
+      "type": "standard",
+      "control": "Req 3.4",
+      "framework": "PCI-DSS",
+      "label": "PCI-DSS Req 3.4 — Cryptographic key management",
+      "id": "std:Req_3.4",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/utils/auth.js:GEN-001:L47": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/utils/auth.js",
+      "line": 47,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/utils/auth.js:GEN-001:L47",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "violation:src/utils/auth.js:GEN-001:L50": {
+      "type": "violation",
+      "ruleId": "GEN-001",
+      "file": "src/utils/auth.js",
+      "line": 50,
+      "severity": "UNKNOWN",
+      "openSince": "2026-05-30T06:13:55.052Z",
+      "status": "open",
+      "id": "violation:src/utils/auth.js:GEN-001:L50",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "dep:lodash": {
+      "type": "dependency",
+      "name": "lodash",
+      "status": "bloat",
+      "id": "dep:lodash",
+      "updatedAt": "2026-05-30T06:13:55.052Z",
+      "sizeKb": 71,
+      "alternative": "Native ES2022 array/object methods"
+    },
+    "dep:axios": {
+      "type": "dependency",
+      "name": "axios",
+      "status": "bloat",
+      "id": "dep:axios",
+      "updatedAt": "2026-05-30T06:13:55.052Z",
+      "sizeKb": 13,
+      "alternative": "Native fetch() or ky (4 kB)"
+    },
+    "dep:moment": {
+      "type": "dependency",
+      "name": "moment",
+      "status": "bloat",
+      "id": "dep:moment",
+      "updatedAt": "2026-05-30T06:13:55.052Z",
+      "sizeKb": 67,
+      "alternative": "Day.js (7 kB) or native Intl API"
+    },
+    "dep:uuid": {
+      "type": "dependency",
+      "name": "uuid",
+      "status": "bloat",
+      "id": "dep:uuid",
+      "updatedAt": "2026-05-30T06:13:55.052Z",
+      "sizeKb": 1.8,
+      "alternative": "crypto.randomUUID() — zero cost"
+    },
+    "event:scan:2026-05-30T06-07-55-776Z": {
+      "type": "event",
+      "kind": "scan",
+      "ts": "2026-05-30T06:07:55.776Z",
+      "total": 699,
+      "critical": 438,
+      "high": 107,
+      "gate1": "BLOCKED",
+      "gate2": "WARNING",
+      "by": "scanner-output",
+      "id": "event:scan:2026-05-30T06-07-55-776Z",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "event:scan:2026-05-30T06-08-48-516Z": {
+      "type": "event",
+      "kind": "scan",
+      "ts": "2026-05-30T06:08:48.516Z",
+      "total": 97,
+      "critical": 24,
+      "high": 21,
+      "gate1": "BLOCKED",
+      "gate2": "WARNING",
+      "by": "scanner-output",
+      "id": "event:scan:2026-05-30T06-08-48-516Z",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "event:scan:2026-05-30T06-13-55-052Z": {
+      "type": "event",
+      "kind": "scan",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "total": 103,
+      "critical": 24,
+      "high": 21,
+      "gate1": "BLOCKED",
+      "gate2": "WARNING",
+      "by": "scanner-output",
+      "id": "event:scan:2026-05-30T06-13-55-052Z",
+      "updatedAt": "2026-05-30T06:13:55.052Z"
+    },
+    "meta:devops-guard": {
+      "type": "meta",
+      "projectName": "DevOps-Guard",
+      "updatedAt": "2026-05-30T06:13:55.052Z",
+      "nodeCount": 159,
+      "edgeCount": 262,
+      "kbVersion": "2.0",
+      "id": "meta:devops-guard"
+    }
+  },
+  "edges": [
+    {
+      "from": "file:docs/business-case/DEMO_SCRIPT.md",
+      "to": "violation:docs/business-case/DEMO_SCRIPT.md:GEN-001:L36",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 36
+    },
+    {
+      "from": "violation:docs/business-case/DEMO_SCRIPT.md:GEN-001:L36",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-001",
+      "to": "std:_164.308",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/project_rules.md",
+      "to": "violation:docs/core-rules/project_rules.md:GEN-001:L234",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 234
+    },
+    {
+      "from": "violation:docs/core-rules/project_rules.md:GEN-001:L234",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/project_rules.md",
+      "to": "violation:docs/core-rules/project_rules.md:ENV-001:L125",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 125
+    },
+    {
+      "from": "violation:docs/core-rules/project_rules.md:ENV-001:L125",
+      "to": "rule:ENV-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:ENV-001",
+      "to": "std:A.14.2.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:ENV-001",
+      "to": "std:CC6.6",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:ENV-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:GOOG-001:L355",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 355
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:GOOG-001:L355",
+      "to": "rule:GOOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GOOG-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GOOG-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GOOG-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:GEN-001:L355",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 355
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:GEN-001:L355",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-001:L275",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 275
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-001:L275",
+      "to": "rule:XSS-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-001",
+      "to": "std:A.14.2.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-001",
+      "to": "std:CC8.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-001",
+      "to": "std:Req_6.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-001:L279",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 279
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-001:L279",
+      "to": "rule:XSS-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-002:L287",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 287
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-002:L287",
+      "to": "rule:XSS-002",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-002",
+      "to": "std:A.14.2.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-002",
+      "to": "std:CC8.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-002",
+      "to": "std:Req_6.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-002:L291",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 291
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-002:L291",
+      "to": "rule:XSS-002",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-002:L292",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 292
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-002:L292",
+      "to": "rule:XSS-002",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-003:L267",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 267
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-003:L267",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-003",
+      "to": "std:A.14.2.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-003",
+      "to": "std:CC8.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:XSS-003",
+      "to": "std:Req_6.5",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-003:L298",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 298
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-003:L298",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-003:L300",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 300
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-003:L300",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-003:L304",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 304
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-003:L304",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:XSS-003:L305",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 305
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:XSS-003:L305",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:LOG-001:L328",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 328
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:LOG-001:L328",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:LOG-001",
+      "to": "std:A.12.4.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:LOG-001",
+      "to": "std:CC7.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:LOG-001",
+      "to": "std:Req_10.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:LOG-001",
+      "to": "std:_164.312",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:docs/core-rules/security_rules.md",
+      "to": "violation:docs/core-rules/security_rules.md:LOG-001:L329",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 329
+    },
+    {
+      "from": "violation:docs/core-rules/security_rules.md:LOG-001:L329",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-builder.js",
+      "to": "violation:graph-builder.js:LOG-001:L270",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 270
+    },
+    {
+      "from": "violation:graph-builder.js:LOG-001:L270",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-builder.js",
+      "to": "violation:graph-builder.js:LOG-001:L271",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 271
+    },
+    {
+      "from": "violation:graph-builder.js:LOG-001:L271",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-builder.js",
+      "to": "violation:graph-builder.js:LOG-001:L277",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 277
+    },
+    {
+      "from": "violation:graph-builder.js:LOG-001:L277",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-query.js",
+      "to": "violation:graph-query.js:LOG-001:L365",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 365
+    },
+    {
+      "from": "violation:graph-query.js:LOG-001:L365",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-query.js",
+      "to": "violation:graph-query.js:LOG-001:L385",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 385
+    },
+    {
+      "from": "violation:graph-query.js:LOG-001:L385",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:graph-query.js",
+      "to": "violation:graph-query.js:LOG-001:L386",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 386
+    },
+    {
+      "from": "violation:graph-query.js:LOG-001:L386",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:kb-summary.js",
+      "to": "violation:kb-summary.js:LOG-001:L143",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 143
+    },
+    {
+      "from": "violation:kb-summary.js:LOG-001:L143",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:kb-summary.js",
+      "to": "violation:kb-summary.js:LOG-001:L144",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 144
+    },
+    {
+      "from": "violation:kb-summary.js:LOG-001:L144",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:README.md",
+      "to": "violation:README.md:DB-001:L99",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 99
+    },
+    {
+      "from": "violation:README.md:DB-001:L99",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:DB-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:DB-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:DB-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:DB-001",
+      "to": "std:_164.312",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:XSS-003:L144",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 144
+    },
+    {
+      "from": "violation:security-autofix.js:XSS-003:L144",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:XSS-003:L145",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 145
+    },
+    {
+      "from": "violation:security-autofix.js:XSS-003:L145",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:XSS-003:L146",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 146
+    },
+    {
+      "from": "violation:security-autofix.js:XSS-003:L146",
+      "to": "rule:XSS-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L304",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 304
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L304",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L359",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 359
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L359",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L360",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 360
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L360",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L361",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 361
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L361",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L362",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 362
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L362",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L363",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 363
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L363",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L364",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 364
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L364",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L368",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 368
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L368",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L381",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 381
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L381",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L396",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 396
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L396",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L401",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 401
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L401",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L409",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 409
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L409",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L410",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 410
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L410",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L413",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 413
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L413",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L417",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 417
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L417",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L425",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 425
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L425",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L426",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 426
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L426",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L427",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 427
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L427",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L428",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 428
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L428",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L429",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 429
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L429",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L430",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 430
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L430",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L431",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 431
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L431",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L435",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 435
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L435",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L437",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 437
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L437",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L440",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 440
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L440",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L442",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 442
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L442",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L446",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 446
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L446",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L447",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 447
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L447",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L451",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 451
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L451",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L452",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 452
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L452",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L454",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 454
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L454",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L455",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 455
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L455",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L457",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 457
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L457",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L461",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 461
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L461",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L462",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 462
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L462",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L463",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 463
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L463",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L464",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 464
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L464",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L466",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 466
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L466",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L469",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 469
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L469",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L470",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 470
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L470",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:security-autofix.js",
+      "to": "violation:security-autofix.js:LOG-001:L471",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 471
+    },
+    {
+      "from": "violation:security-autofix.js:LOG-001:L471",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:snapshot-generator.js",
+      "to": "violation:snapshot-generator.js:LOG-001:L101",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 101
+    },
+    {
+      "from": "violation:snapshot-generator.js:LOG-001:L101",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:GOOG-001:L27",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 27
+    },
+    {
+      "from": "violation:src/App.jsx:GOOG-001:L27",
+      "to": "rule:GOOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:AWS-001:L39",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 39
+    },
+    {
+      "from": "violation:src/App.jsx:AWS-001:L39",
+      "to": "rule:AWS-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AWS-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AWS-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AWS-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:AI-001:L30",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 30
+    },
+    {
+      "from": "violation:src/App.jsx:AI-001:L30",
+      "to": "rule:AI-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AI-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AI-001",
+      "to": "std:CC6.6",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:PAY-001:L33",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 33
+    },
+    {
+      "from": "violation:src/App.jsx:PAY-001:L33",
+      "to": "rule:PAY-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:PAY-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:PAY-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:PAY-001",
+      "to": "std:Req_3.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:COM-001:L42",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 42
+    },
+    {
+      "from": "violation:src/App.jsx:COM-001:L42",
+      "to": "rule:COM-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:COM-001",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:COM-001",
+      "to": "std:CC6.6",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:VCS-001:L36",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 36
+    },
+    {
+      "from": "violation:src/App.jsx:VCS-001:L36",
+      "to": "rule:VCS-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:VCS-001",
+      "to": "std:A.9.2.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:VCS-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:VCS-001",
+      "to": "std:Req_6.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:DB-001:L48",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 48
+    },
+    {
+      "from": "violation:src/App.jsx:DB-001:L48",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:GEN-001:L27",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 27
+    },
+    {
+      "from": "violation:src/App.jsx:GEN-001:L27",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:GEN-001:L33",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 33
+    },
+    {
+      "from": "violation:src/App.jsx:GEN-001:L33",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:GEN-001:L36",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 36
+    },
+    {
+      "from": "violation:src/App.jsx:GEN-001:L36",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/App.jsx",
+      "to": "violation:src/App.jsx:GEN-001:L39",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 39
+    },
+    {
+      "from": "violation:src/App.jsx:GEN-001:L39",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:DB-001:L13",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 13
+    },
+    {
+      "from": "violation:src/config/database.js:DB-001:L13",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:DB-001:L17",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 17
+    },
+    {
+      "from": "violation:src/config/database.js:DB-001:L17",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:DB-001:L93",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 93
+    },
+    {
+      "from": "violation:src/config/database.js:DB-001:L93",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:DB-001:L98",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 98
+    },
+    {
+      "from": "violation:src/config/database.js:DB-001:L98",
+      "to": "rule:DB-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:GEN-001:L20",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 20
+    },
+    {
+      "from": "violation:src/config/database.js:GEN-001:L20",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:GEN-001:L94",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 94
+    },
+    {
+      "from": "violation:src/config/database.js:GEN-001:L94",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:GEN-003:L23",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 23
+    },
+    {
+      "from": "violation:src/config/database.js:GEN-003:L23",
+      "to": "rule:GEN-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-003",
+      "to": "std:A.12.1.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:GEN-003",
+      "to": "std:CC7.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:LOG-001:L124",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 124
+    },
+    {
+      "from": "violation:src/config/database.js:LOG-001:L124",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:LOG-001:L171",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 171
+    },
+    {
+      "from": "violation:src/config/database.js:LOG-001:L171",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:LOG-001:L215",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 215
+    },
+    {
+      "from": "violation:src/config/database.js:LOG-001:L215",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/config/database.js",
+      "to": "violation:src/config/database.js:LOG-001:L221",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 221
+    },
+    {
+      "from": "violation:src/config/database.js:LOG-001:L221",
+      "to": "rule:LOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/services/apiClient.js",
+      "to": "violation:src/services/apiClient.js:GOOG-001:L12",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 12
+    },
+    {
+      "from": "violation:src/services/apiClient.js:GOOG-001:L12",
+      "to": "rule:GOOG-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/services/apiClient.js",
+      "to": "violation:src/services/apiClient.js:AI-001:L15",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 15
+    },
+    {
+      "from": "violation:src/services/apiClient.js:AI-001:L15",
+      "to": "rule:AI-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/services/apiClient.js",
+      "to": "violation:src/services/apiClient.js:COM-003:L18",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 18
+    },
+    {
+      "from": "violation:src/services/apiClient.js:COM-003:L18",
+      "to": "rule:COM-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:COM-003",
+      "to": "std:A.9.4.3",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:COM-003",
+      "to": "std:CC6.6",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/services/apiClient.js",
+      "to": "violation:src/services/apiClient.js:GEN-001:L15",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 15
+    },
+    {
+      "from": "violation:src/services/apiClient.js:GEN-001:L15",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/services/apiClient.js",
+      "to": "violation:src/services/apiClient.js:GEN-003:L21",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 21
+    },
+    {
+      "from": "violation:src/services/apiClient.js:GEN-003:L21",
+      "to": "rule:GEN-003",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/utils/auth.js",
+      "to": "violation:src/utils/auth.js:VCS-001:L47",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 47
+    },
+    {
+      "from": "violation:src/utils/auth.js:VCS-001:L47",
+      "to": "rule:VCS-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/utils/auth.js",
+      "to": "violation:src/utils/auth.js:AUTH-001:L15",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 15
+    },
+    {
+      "from": "violation:src/utils/auth.js:AUTH-001:L15",
+      "to": "rule:AUTH-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-001",
+      "to": "std:A.9.4.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-001",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-001",
+      "to": "std:Req_8.2",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-001",
+      "to": "std:_164.312",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/utils/auth.js",
+      "to": "violation:src/utils/auth.js:AUTH-002:L18",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 18
+    },
+    {
+      "from": "violation:src/utils/auth.js:AUTH-002:L18",
+      "to": "rule:AUTH-002",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-002",
+      "to": "std:A.10.1.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-002",
+      "to": "std:CC6.1",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-002",
+      "to": "std:Req_3.4",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "rule:AUTH-002",
+      "to": "std:_164.312",
+      "type": "MAPS_TO",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/utils/auth.js",
+      "to": "violation:src/utils/auth.js:GEN-001:L47",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 47
+    },
+    {
+      "from": "violation:src/utils/auth.js:GEN-001:L47",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "file:src/utils/auth.js",
+      "to": "violation:src/utils/auth.js:GEN-001:L50",
+      "type": "HAS_VIOLATION",
+      "ts": "2026-05-30T06:13:55.052Z",
+      "line": 50
+    },
+    {
+      "from": "violation:src/utils/auth.js:GEN-001:L50",
+      "to": "rule:GEN-001",
+      "type": "MATCHES_RULE",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "dep:unused-pool",
+      "to": "dep:lodash",
+      "type": "CONTAINS",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "dep:unused-pool",
+      "to": "dep:axios",
+      "type": "CONTAINS",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "dep:unused-pool",
+      "to": "dep:moment",
+      "type": "CONTAINS",
+      "ts": "2026-05-30T06:13:55.052Z"
+    },
+    {
+      "from": "dep:unused-pool",
+      "to": "dep:uuid",
+      "type": "CONTAINS",
+      "ts": "2026-05-30T06:13:55.052Z"
+    }
+  ]
+}

@@ -1,24 +1,24 @@
 {
   "meta": {
-    "generatedAt": "2026-05-30T06:08:48.516Z",
-    "scanDurationMs": 24,
+    "generatedAt": "2026-05-30T06:13:55.052Z",
+    "scanDurationMs": 25,
     "version": "3.1",
     "rulesLoaded": 27
   },
   "summary": {
-    "totalSecurityViolations": 97,
+    "totalSecurityViolations": 103,
     "bySeverity": {
       "CRITICAL": 24,
       "HIGH": 21,
       "MEDIUM": 2,
-      "LOW": 50
+      "LOW": 56
     },
     "byCategory": {
       "Generic": 14,
       "Env Misconfiguration": 1,
       "Google Cloud": 3,
       "XSS / Injection": 13,
-      "Security Logging": 50,
+      "Security Logging": 56,
       "Database": 6,
       "AWS": 1,
       "AI Services": 2,
@@ -311,6 +311,102 @@
         "file": "docs/core-rules/security_rules.md",
         "line": 329,
         "snippet": "console.log('token:', authToken)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-builder.js",
+        "line": 270,
+        "snippet": "console.log(`[graph-builder] knowledge-graph.json built`)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-builder.js",
+        "line": 271,
+        "snippet": "console.log(`[graph-builder] ${nodes.size} nodes | ${edges.length} edges`)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-builder.js",
+        "line": 277,
+        "snippet": "console.log(`[graph-builder]   ${t.padEnd(12)} ${c} node${c > 1 ? 's' : ''}`)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-query.js",
+        "line": 365,
+        "snippet": "console.log(showHelp())"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-query.js",
+        "line": 385,
+        "snippet": "console.log(output)"
+      },
+      {
+        "ruleId": "LOG-001",
+        "ruleName": "console.log in Source",
+        "severity": "LOW",
+        "category": "Security Logging",
+        "owasp": "A09",
+        "compliance": {
+          "iso27001": "A.12.4.1",
+          "soc2": "CC7.2",
+          "pciDss": "Req 10.2",
+          "hipaa": "§164.312"
+        },
+        "file": "graph-query.js",
+        "line": 386,
+        "snippet": "console.log()"
       },
       {
         "ruleId": "LOG-001",
