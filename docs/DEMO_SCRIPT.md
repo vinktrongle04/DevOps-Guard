@@ -1,8 +1,6 @@
 # DevOps-Guard — Demo Script
 
-> **Format:** 3-minute live demo  
-> **Audience:** Hackathon judges  
-> **Presenter role:** DevOps / QA engineer
+> **Knowledge Layer: 2 — Load only when preparing or delivering a live demo.**
 
 ---
 

@@ -1,7 +1,6 @@
 # DevOps-Guard — Hybrid Architecture & Measurement Methodology
 
-> This document transparently explains the system architecture and
-> the methodology behind all reported metrics.
+> **Knowledge Layer: 1 — Load when task requires explaining architecture or validating metrics.**
 > Intended audience: hackathon judges, security reviewers, enterprise evaluators.
 
 ---

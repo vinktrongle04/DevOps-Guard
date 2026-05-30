@@ -1,7 +1,6 @@
 # DevOps-Guard — ROI Analysis
 
-> Prepared for: Hackathon judges and enterprise evaluators  
-> Scenario: 10-developer engineering team, 3 commits per developer per day
+> **Knowledge Layer: 2 — Load only when explaining ROI or cost savings to a stakeholder.**
 
 ---
 

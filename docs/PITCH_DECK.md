@@ -1,7 +1,6 @@
 # DevOps-Guard — Pitch Outline
 
-> Format: 5–7 minute presentation  
-> Venue: Unbound Creativity with TRAE SOLO @ Vietnam 2026
+> **Knowledge Layer: 2 — Load only when preparing a pitch or presentation.**
 
 ---
 

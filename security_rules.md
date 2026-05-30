@@ -1,7 +1,7 @@
 # DevOps-Guard — Security Rules Reference
 
-> **Rule engine for the DevOps-Guard agent — v3.1**  
-> Each rule is mapped to OWASP Top 10 (2021), ISO 27001:2022, SOC 2 Type II, PCI-DSS v4.0, and HIPAA Security Rule.  
+> **Knowledge Layer: 0 — Always loaded.**
+> Rule engine v3.1 — 28 rules mapped to OWASP Top 10 (2021), ISO 27001:2022, SOC 2 Type II, PCI-DSS v4.0, HIPAA Security Rule.
 > Last updated: 2026-05-30
 
 ---

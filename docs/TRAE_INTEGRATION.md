@@ -1,7 +1,6 @@
 # TRAE Integration Guide — DevOps-Guard
 
-> This document describes how TRAE SOLO acts as the unified orchestrator  
-> for all 5 Quality Gates in DevOps-Guard.  
+> **Knowledge Layer: 1 — Load when task requires explaining how TRAE orchestrates the pipeline.**
 > Last updated: 2026-05-30
 
 ---

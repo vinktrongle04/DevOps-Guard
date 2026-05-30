@@ -1,9 +1,6 @@
 # DevOps-Guard — Enterprise Adoption Guide
-# ============================================================
-# Everything your team needs to evaluate, adopt, and scale
-# DevOps-Guard across an engineering organization.
-# Audience: CTO, Engineering Manager, Security Lead, DevOps Lead
-# Last updated: 2026-05-30
+
+> **Knowledge Layer: 2 — Load only when answering enterprise adoption or setup questions.**
 
 ---
 

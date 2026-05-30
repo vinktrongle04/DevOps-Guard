@@ -1,7 +1,8 @@
 # DevOps-Guard — Project Rules
 
-> **This file is the single source of truth for all agent behavior.**  
-> Every automated action MUST comply with the rules defined here.  
+> **Knowledge Layer: 0 — Always loaded.**
+> This file is the behavioral rule engine for TRAE SOLO.
+> Every automated action MUST comply with the rules defined here.
 > Last updated: 2026-05-30
 
 
