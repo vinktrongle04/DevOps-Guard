@@ -10,10 +10,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "security:scan": "node security-scanner.js",
+    "security:json": "node security-scanner.js --json",
+    "security:sarif": "node security-scanner.js --sarif",
     "dep:scan": "node dependency-scanner.js",
     "scan:export": "node scanner-output.js",
     "gate:all": "node security-scanner.js; node dependency-scanner.js",
     "prepare": "husky"
+
   },
   "dependencies": {
     "react": "^18.3.1",

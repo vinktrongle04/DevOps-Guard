@@ -459,34 +459,167 @@ function printSummary(violations) {
   console.log()
 }
 
+// ─── OUTPUT FORMATTERS ──────────────────────────────────────
+
+/**
+ * Formats violations as plain JSON for machine consumption.
+ * Usage: node security-scanner.js --json > report.json
+ * Compatible with: Jenkins, GitLab CI, Azure DevOps, custom scripts.
+ */
+function outputJson(violations, files, elapsed) {
+  const bySeverity = { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 }
+  const byCategory = {}
+  for (const v of violations) {
+    bySeverity[v.severity] = (bySeverity[v.severity] || 0) + 1
+    byCategory[v.category] = (byCategory[v.category] || 0) + 1
+  }
+  const result = {
+    tool:    'DevOps-Guard Security Scanner',
+    version: '3.1',
+    gate:    'Gate 1 — Security',
+    scannedAt:    new Date().toISOString(),
+    scanDurationMs: elapsed,
+    rulesLoaded:  SECURITY_PATTERNS.length,
+    filesScanned: files.length,
+    summary: {
+      total:    violations.length,
+      bySeverity,
+      byCategory,
+      status:   violations.filter(v => ['CRITICAL','HIGH'].includes(v.severity)).length > 0 ? 'BLOCKED' : 'PASSED',
+    },
+    violations: violations.map(v => ({
+      ruleId:      v.id,
+      ruleName:    v.pattern,
+      severity:    v.severity,
+      category:    v.category,
+      description: v.description,
+      remediation: v.remediation,
+      compliance:  v.compliance,
+      location: {
+        file: v.file.replace(/\\/g, '/'),
+        line: v.line,
+      },
+      snippet: v.content,
+    })),
+  }
+  process.stdout.write(JSON.stringify(result, null, 2) + '\n')
+  // Exit 1 if blocked (so CI can detect failures), but only for CRITICAL/HIGH
+  const hasBlocker = violations.some(v => ['CRITICAL','HIGH'].includes(v.severity))
+  process.exit(hasBlocker ? 1 : 0)
+}
+
+/**
+ * Formats violations as SARIF 2.1.0 for GitHub Code Scanning, Azure DevOps,
+ * and other SARIF-compatible platforms.
+ * Usage: node security-scanner.js --sarif > results.sarif
+ * Reference: https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html
+ */
+function outputSarif(violations, elapsed) {
+  const SEVERITY_SARIF = {
+    CRITICAL: 'error',
+    HIGH:     'error',
+    MEDIUM:   'warning',
+    LOW:      'note',
+  }
+
+  const rules = SECURITY_PATTERNS.map(p => ({
+    id:   p.id,
+    name: p.name,
+    shortDescription: { text: p.name },
+    fullDescription:  { text: p.description },
+    helpUri: `https://owasp.org/Top10/A${p.compliance.owasp?.replace('A','').padStart(2,'0')}_2021/`,
+    properties: {
+      tags:       ['security', p.category],
+      precision:  'high',
+      severity:   p.severity,
+      compliance: p.compliance,
+    },
+    defaultConfiguration: {
+      level: SEVERITY_SARIF[p.severity] || 'warning',
+    },
+  }))
+
+  const results = violations.map(v => ({
+    ruleId:  v.id,
+    level:   SEVERITY_SARIF[v.severity] || 'warning',
+    message: { text: `[${v.id}] ${v.pattern}: ${v.description}. Remediation: ${v.remediation}` },
+    locations: [{
+      physicalLocation: {
+        artifactLocation: { uri: v.file.replace(/\\/g, '/'), uriBaseId: '%SRCROOT%' },
+        region:           { startLine: v.line, startColumn: 1 },
+      },
+    }],
+    properties: {
+      severity:   v.severity,
+      category:   v.category,
+      compliance: v.compliance,
+      snippet:    v.content,
+    },
+  }))
+
+  const sarif = {
+    '$schema': 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json',
+    version:   '2.1.0',
+    runs: [{
+      tool: {
+        driver: {
+          name:            'DevOps-Guard',
+          version:         '3.1',
+          informationUri:  'https://github.com/vinktrongle04/DevOps-Guard',
+          rules,
+        },
+      },
+      results,
+      properties: {
+        scanDurationMs: elapsed,
+        gate:           'Gate 1 — Security',
+      },
+    }],
+  }
+  process.stdout.write(JSON.stringify(sarif, null, 2) + '\n')
+  const hasBlocker = violations.some(v => ['CRITICAL','HIGH'].includes(v.severity))
+  process.exit(hasBlocker ? 1 : 0)
+}
+
 // ─── MAIN ENTRY POINT ───────────────────────────────────────
 function main() {
-  const startTime = Date.now()
+  const args       = process.argv.slice(2)
+  const jsonMode   = args.includes('--json')
+  const sarifMode  = args.includes('--sarif')
+  const quietMode  = jsonMode || sarifMode  // suppress terminal colors in machine modes
+  const startTime  = Date.now()
 
-  console.log()
-  log('cyan', '━'.repeat(64))
-  log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v3.0`)
-  log('cyan', `  ${COLORS.dim}${SECURITY_PATTERNS.length} security rules loaded`)
-  log('cyan', '━'.repeat(64))
-  console.log()
+  if (!quietMode) {
+    console.log()
+    log('cyan', '━'.repeat(64))
+    log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v3.1`)
+    log('cyan', `  ${COLORS.dim}${SECURITY_PATTERNS.length} rules • OWASP + ISO 27001 + SOC 2 + PCI-DSS + HIPAA`)
+    log('cyan', '━'.repeat(64))
+    console.log()
+    const projectDir = __dirname
+    log('dim', `  📂 Scanning directory: ${projectDir}`)
+  }
 
-  const projectDir = __dirname
-  log('dim', `  📂 Scanning directory: ${projectDir}`)
+  const files = collectFiles(__dirname)
 
-  const files = collectFiles(projectDir)
-  log('dim', `  📄 Found ${files.length} files to scan`)
-  log('dim', `  🔍 Applying ${SECURITY_PATTERNS.length} security rules`)
-  console.log()
+  if (!quietMode) {
+    log('dim', `  📄 Found ${files.length} files to scan`)
+    log('dim', `  🔍 Applying ${SECURITY_PATTERNS.length} security rules`)
+    console.log()
+  }
 
   let allViolations = []
-
   for (const file of files) {
-    const violations = scanFile(file)
-    allViolations.push(...violations)
+    allViolations.push(...scanFile(file))
   }
 
   const elapsed = Date.now() - startTime
 
+  // ─── Machine output modes ────────────────────────────────
+  if (jsonMode)  return outputJson(allViolations, files, elapsed)
+  if (sarifMode) return outputSarif(allViolations, elapsed)
+
+  // ─── Human terminal output (default) ────────────────────
   if (allViolations.length > 0) {
     log('red', `${COLORS.bold}  ❌ SECURITY ALERT: ${allViolations.length} violation(s) detected!`)
     console.log()
@@ -506,6 +639,7 @@ function main() {
         log(sevColor,  `  ┌─ ${icon} [${v.id}] ${v.severity} — ${v.pattern}`)
         log('dim',     `  │  📍 Line ${v.line}: ${v.content}`)
         log('dim',     `  │  📝 ${v.description}`)
+        log('dim',     `  │  🚦 ${v.compliance.owasp ? 'OWASP '+v.compliance.owasp : ''} ${v.compliance.pciDss ? '| PCI-DSS '+v.compliance.pciDss : ''} ${v.compliance.hipaa ? '| HIPAA '+v.compliance.hipaa : ''}`)
         log('green',   `  │  💡 ${v.remediation}`)
         log(sevColor,  `  └${'─'.repeat(56)}`)
       }
@@ -520,11 +654,10 @@ function main() {
     log('dim', `  ⏱️  Scan completed in ${elapsed}ms`)
     log('red', '━'.repeat(64))
     console.log()
-
     process.exit(1)
   } else {
     log('green', `${COLORS.bold}  ✅ CLEAN: No security violations detected`)
-    log('green', `  📄 Scanned ${files.length} file × ${SECURITY_PATTERNS.length} rules`)
+    log('green', `  📄 Scanned ${files.length} files × ${SECURITY_PATTERNS.length} rules`)
     log('dim',   `  ⏱️  Completed in ${elapsed}ms`)
     console.log()
     log('green', '━'.repeat(64))
