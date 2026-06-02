@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "lastUpdated": "2026-05-30T04:45:00.000Z",
+  "projectRules": {
+    "pipelineOrder": ["Security Gate", "Dependency Gate", "Refactor Gate", "Docs Gate", "Commit Gate"],
+    "hardBlockGates": ["Security Gate"],
+    "complianceStandards": ["OWASP Top 10", "ISO 27001", "SOC 2", "PCI-DSS", "HIPAA"]
+  },
+  "interactionHistory": [
+    {
+      "id": "1",
+      "timestamp": "2026-05-30T04:40:00.000Z",
+      "type": "instruction",
+      "content": "Tìm hiểu workflow và các gate của dự án",
+      "response": "Đã hiểu workflow và 5 quality gates"
+    }
+  ],
+  "learnedPatterns": [
+    {
+      "id": "1",
+      "pattern": "Hardcoded API keys in src/App.jsx",
+      "frequency": 5,
+      "lastSeen": "2026-05-30T04:39:35.896Z",
+      "fixStrategy": "Replace with environment variables"
+    }
+  ],
+  "currentGoals": [
+    "Enhance uniqueness of DevOps-Guard",
+    "Create comprehensive temporal storage system"
+  ]
+}

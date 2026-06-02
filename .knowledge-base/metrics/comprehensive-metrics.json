@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "lastUpdated": "2026-05-30T04:45:00.000Z",
+  "projectOverview": {
+    "name": "DevOps-Guard",
+    "createdAt": "2026-05-20T00:00:00.000Z",
+    "technologyStack": ["React 18", "Vite", "Node.js", "Husky"],
+    "teamSize": 1
+  },
+  "temporalMetrics": {
+    "daily": [],
+    "weekly": [],
+    "monthly": []
+  },
+  "securityMetrics": {
+    "totalViolationsEver": 500,
+    "violationsFixed": 257,
+    "avgTimeToFix": "2h 30m",
+    "complianceStandards": ["OWASP Top 10", "ISO 27001", "SOC 2", "PCI-DSS", "HIPAA"],
+    "complianceScore": 72
+  },
+  "dependencyMetrics": {
+    "totalDependencies": 16,
+    "unusedDependencies": 4,
+    "outdatedDependencies": 2,
+    "vulnerableDependencies": 0,
+    "totalBloatKb": 153
+  },
+  "codeQualityMetrics": {
+    "totalFiles": 14,
+    "totalLines": 2500,
+    "testCoverage": 0,
+    "codeSmells": 5,
+    "technicalDebt": "3 days"
+  },
+  "teamPerformance": {
+    "avgCommitsPerDay": 3,
+    "avgGatesPassRate": 65,
+    "timeSaved": "40h 15m",
+    "costSaved": "$1,250"
+  }
+}

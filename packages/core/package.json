@@ -1,0 +1,37 @@
+{
+  "name": "devops-guard",
+  "version": "2.0.0",
+  "description": "Autonomous security scanner, dependency auditor & AI-powered autofix for any JavaScript/TypeScript project.",
+  "type": "module",
+  "bin": {
+    "devops-guard": "./src/cli.js",
+    "dg": "./src/cli.js"
+  },
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./scanner": "./src/scanner/security.js",
+    "./dependency": "./src/scanner/dependency.js",
+    "./fixer": "./src/fixer/security.js"
+  },
+  "keywords": [
+    "security",
+    "scanner",
+    "devops",
+    "cli",
+    "linter",
+    "dependency-audit",
+    "owasp",
+    "pre-commit",
+    "husky",
+    "secrets-detection",
+    "autofix"
+  ],
+  "author": "DevOps-Guard Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
