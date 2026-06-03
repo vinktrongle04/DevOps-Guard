@@ -3,27 +3,22 @@
 // SCANNER OUTPUT EXPORTER
 // Runs both Gate 1 (security) and Gate 2 (dependency) scanners
 // and writes a combined JSON report to:
-//   public/scan-report.json
-//
-// This file is called by `npm run scan:export` which the
-// Dashboard UI fetches at runtime to display real violations.
-// ============================================================
-
 import fs   from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)
-
 const TARGET_DIR = process.cwd()
 
 // ─── CONFIGURATION ─────────────────────────────────────────
-const OUTPUT_PATH = path.join(TARGET_DIR, 'public', 'scan-report.json')
+// Output directory: .devops-guard/ (gitignored, project-local)
+const OUT_DIR     = path.join(TARGET_DIR, '.devops-guard')
+const OUTPUT_PATH = path.join(OUT_DIR, 'scan-report.json')
 const SRC_DIR     = path.join(TARGET_DIR, 'src')
 const PKG_PATH    = path.join(TARGET_DIR, 'package.json')
 const SCAN_EXTS   = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
-const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'coverage', 'kb', '.knowledge-base', 'public', 'docs']
+const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard', '.knowledge-base', 'public', 'docs']
 const IGNORE_FILES = [
   'dependency-scanner.js', 'security-scanner.js',
   'scanner-output.js', 'vite.config.js', 'eslint.config.js',
@@ -101,7 +96,7 @@ function collectFiles(dir, exts, ignoreDirs, ignoreFiles) {
 
 // ─── GATE 1: SECURITY SCAN ────────────────────────────────────
 function runSecurityScan() {
-  const allFiles = collectFiles(__dirname, ['.js','.jsx','.ts','.tsx','.json','.env','.yml','.yaml','.md'], IGNORE_DIRS, [...IGNORE_FILES,'package-lock.json','yarn.lock'])
+  const allFiles = collectFiles(TARGET_DIR, ['.js','.jsx','.ts','.tsx','.json','.env','.yml','.yaml','.md'], IGNORE_DIRS, [...IGNORE_FILES,'package-lock.json','yarn.lock'])
   const violations = []
 
   for (const file of allFiles) {
@@ -119,7 +114,7 @@ function runSecurityScan() {
               category:    pattern.category,
               owasp:       pattern.owasp,
               compliance:  pattern.compliance,
-              file:        path.relative(__dirname, file).replace(/\\/g, '/'),
+              file:        path.relative(TARGET_DIR, file).replace(/\\/g, '/'),
               line:        i + 1,
               snippet:     lines[i].trim().substring(0, 80),
             })
@@ -216,16 +211,15 @@ function buildReport() {
     },
   }
 
-  // Ensure public/ directory exists
-  const publicDir = path.join(TARGET_DIR, 'public')
-  if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true })
+  // Ensure .devops-guard/ output directory exists
+  if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(report, null, 2), 'utf-8')
-  console.log(`[scanner-output] Report written to: ${path.relative(__dirname, OUTPUT_PATH)}`)
+  console.log(`[scanner-output] Report written to: ${path.relative(TARGET_DIR, OUTPUT_PATH)}`)
   console.log(`[scanner-output] Security violations: ${secViolations.length} | Unused deps: ${depReport.unused.length} | Bloat: ${bloatKb} kB`)
 
   // ─── APPEND TO SCAN HISTORY ─────────────────────────────────
-  const HISTORY_PATH = path.join(TARGET_DIR, 'public', 'scan-history.json')
+  const HISTORY_PATH = path.join(OUT_DIR, 'scan-history.json')
   const MAX_HISTORY  = 30 // keep last 30 snapshots
 
   const snapshot = {
@@ -259,7 +253,7 @@ function buildReport() {
   console.log(`[scanner-output] History updated: ${history.length} snapshot(s) in scan-history.json`)
 
   // ─── WRITE KNOWLEDGE BASE (Level 1) ─────────────────────────
-  const KB_DIR = path.join(TARGET_DIR, 'kb')
+  const KB_DIR = path.join(OUT_DIR, 'kb')
   if (!fs.existsSync(KB_DIR)) fs.mkdirSync(KB_DIR, { recursive: true })
 
   // 1. project-state.json — structured current state
@@ -392,4 +386,8 @@ function buildReport() {
   console.log(`[kb] kb-index.json written`)
 }
 
-buildReport()
+export async function main() {
+  buildReport()
+}
+
+if (process.argv[1]?.endsWith('scanner-output.js')) main()

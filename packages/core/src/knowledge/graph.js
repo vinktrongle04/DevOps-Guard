@@ -19,8 +19,9 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const TARGET_DIR = process.cwd()
 
-const KB_DIR    = path.join(TARGET_DIR, 'kb')
+const KB_DIR    = path.join(TARGET_DIR, '.devops-guard', 'kb')
 const STATE     = path.join(KB_DIR, 'project-state.json')
 const EVENTS    = path.join(KB_DIR, 'event-log.jsonl')
 const GRAPH_OUT = path.join(KB_DIR, 'knowledge-graph.json')
@@ -268,9 +269,9 @@ function buildGraph() {
   fs.writeFileSync(GRAPH_OUT, JSON.stringify(graph, null, 2), 'utf-8')
   console.log(`[graph-builder] knowledge-graph.json built`)
 
-  // Also save a copy to public/ for the UI dashboard to fetch
-  const PUBLIC_OUTPUT_PATH = path.join(TARGET_DIR, 'public', 'knowledge-graph.json')
-  fs.writeFileSync(PUBLIC_OUTPUT_PATH, JSON.stringify(graph, null, 2), 'utf-8')
+  // Also save a copy to .devops-guard/ for dashboard to fetch via API
+  const DG_GRAPH_PATH = path.join(TARGET_DIR, '.devops-guard', 'knowledge-graph.json')
+  fs.writeFileSync(DG_GRAPH_PATH, JSON.stringify(graph, null, 2), 'utf-8')
 
   console.log(`[graph-builder] ${nodes.size} nodes | ${edges.length} edges`)
 
@@ -282,4 +283,6 @@ function buildGraph() {
   }
 }
 
-buildGraph()
+export async function main() { buildGraph() }
+
+if (process.argv[1]?.endsWith('graph.js')) main()

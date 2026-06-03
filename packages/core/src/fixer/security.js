@@ -24,10 +24,10 @@
 
 import fs    from 'fs'
 import path  from 'path'
-import { execSync } from 'child_process'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const TARGET_DIR = process.cwd()
 
 // ─── CLI ARGS ─────────────────────────────────────────────────
 const args    = process.argv.slice(2)
@@ -211,7 +211,7 @@ function applyFix(violation, envVarsCollected) {
 
 // ─── APPLY ALL FIXES TO A SINGLE FILE ─────────────────────────
 function fixFile(filePath, violations, envVarsCollected, dryRun) {
-  const absPath = path.resolve(__dirname, filePath)
+  const absPath = path.resolve(TARGET_DIR, filePath)
   if (!fs.existsSync(absPath)) {
     return { skipped: true, reason: 'File not found' }
   }
@@ -285,7 +285,7 @@ function writeEnvExample(envVars, dryRun) {
 
 // ─── ENSURE .gitignore COVERS .env ────────────────────────────
 function ensureGitignore(dryRun) {
-  const gitignorePath = path.join(__dirname, '.gitignore')
+  const gitignorePath = path.join(TARGET_DIR, '.gitignore')
   if (!fs.existsSync(gitignorePath)) return
 
   const content = fs.readFileSync(gitignorePath, 'utf-8')
@@ -298,7 +298,7 @@ function ensureGitignore(dryRun) {
   return missing
 }
 
-function loadViolations() {
+async function loadViolations() {
   function mapViolation(v) {
     return {
       ...v,
@@ -307,60 +307,44 @@ function loadViolations() {
     }
   }
 
-  console.log(C.dim('  Running security scanner in JSON mode...\n'))
-  const scopeArg = SRC_DIR ? ` --scope "${SRC_DIR.replace(/"/g, '\\"')}"` : ''
+  // Fallback: read from .devops-guard/scan-report.json or public/scan-report.json
+  const candidates = [
+    path.join(TARGET_DIR, '.devops-guard', 'scan-report.json'),
+    path.join(TARGET_DIR, 'public', 'scan-report.json'),
+  ]
+  for (const reportPath of candidates) {
+    if (fs.existsSync(reportPath)) {
+      const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
+      const violations = report?.gate1?.violations || []
+      return violations.map(v => {
+        const mapped = mapViolation(v)
+        return { ...mapped, lineContent: readLine(mapped.file, mapped.line) }
+      })
+    }
+  }
+
+  // Run security scanner programmatically and collect violations
   try {
-    const output = execSync(`node security-scanner.js --json${scopeArg} 2>&1`, {
-      encoding: 'utf-8',
-      cwd: __dirname,
-      maxBuffer: 10 * 1024 * 1024,
-    })
-    const jsonStart = output.indexOf('[')
-    const jsonEnd   = output.lastIndexOf(']')
-    if (jsonStart !== -1 && jsonEnd !== -1) {
-      const data = JSON.parse(output.slice(jsonStart, jsonEnd + 1))
-      return Array.isArray(data) ? data.map(mapViolation) : []
-    }
-  } catch (e) {
-    const out = e.stdout || ''
-    const jsonStart = out.indexOf('[')
-    const jsonEnd   = out.lastIndexOf(']')
-    if (jsonStart !== -1 && jsonEnd !== -1) {
-      try {
-        const data = JSON.parse(out.slice(jsonStart, jsonEnd + 1))
-        return Array.isArray(data) ? data.map(mapViolation) : []
-      } catch { /* fall through */ }
-    }
+    const { collectFiles, SECURITY_PATTERNS, IGNORE_DIRS, IGNORE_FILES } = await import('../scanner/security.js')
+    console.log(C.dim('  Running security scanner programmatically...\n'))
+  } catch {
+    // scanner doesn't export those — just warn
   }
 
-  // Fallback: read from scan-report.json
-  const reportPath = path.join(TARGET_DIR, 'public', 'scan-report.json')
-  if (fs.existsSync(reportPath)) {
-    const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
-    const violations = report?.gate1?.violations || []
-    return violations.map(v => {
-      const mapped = mapViolation(v)
-      return {
-        ...mapped,
-        lineContent: readLine(mapped.file, mapped.line),
-      }
-    })
-  }
-
-  console.error(C.red('  Could not load violations. Run `npm run scan:export` first.'))
+  console.error(C.red('  No scan report found. Run `devops-guard scan` first, then `devops-guard fix`.'))
   process.exit(1)
 }
 
 function readLine(filePath, lineNumber) {
   try {
-    const absPath = path.resolve(__dirname, filePath)
+    const absPath = path.resolve(TARGET_DIR, filePath)
     const lines   = fs.readFileSync(absPath, 'utf-8').split('\n')
     return lines[lineNumber - 1] || ''
   } catch { return '' }
 }
 
 // ─── MAIN ─────────────────────────────────────────────────────
-function main() {
+async function main() {
   const DRY_RUN = !APPLY
 
   console.log()
@@ -371,7 +355,7 @@ function main() {
   console.log()
 
   // Load violations
-  const allViolations = loadViolations()
+  const allViolations = await loadViolations()
   console.log(C.dim(`  Loaded ${allViolations.length} violations from scan report\n`))
 
   // Filter by --src if specified

@@ -13,10 +13,11 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const TARGET_DIR = process.cwd()
 
-const STATE_PATH    = path.join(TARGET_DIR, 'kb', 'project-state.json')
-const EVENT_PATH    = path.join(TARGET_DIR, 'kb', 'event-log.jsonl')
-const OUTPUT_PATH   = path.join(TARGET_DIR, 'docs', 'core-rules', 'PROJECT_STATE.md')
+const STATE_PATH    = path.join(TARGET_DIR, '.devops-guard', 'kb', 'project-state.json')
+const EVENT_PATH    = path.join(TARGET_DIR, '.devops-guard', 'kb', 'event-log.jsonl')
+const OUTPUT_PATH   = path.join(TARGET_DIR, '.devops-guard', 'PROJECT_STATE.md')
 
 function loadState() {
   if (!fs.existsSync(STATE_PATH)) {
@@ -135,10 +136,12 @@ ${bypassEvents.length > 0
 `
 }
 
-const state  = loadState()
-const events = loadRecentEvents(7)
-const md     = generateMarkdown(state, events)
+export async function main() {
+  const state  = loadState()
+  const events = loadRecentEvents(7)
+  const md     = generateMarkdown(state, events)
+  fs.writeFileSync(OUTPUT_PATH, md, 'utf-8')
+  console.log(`[kb-summary] PROJECT_STATE.md written to .devops-guard/`)
+}
 
-fs.writeFileSync(OUTPUT_PATH, md, 'utf-8')
-console.log(`[kb-summary] PROJECT_STATE.md written to docs/core-rules/`)
-// SECURITY: removed console.log with sensitive data
+if (process.argv[1]?.endsWith('summary.js')) main()
