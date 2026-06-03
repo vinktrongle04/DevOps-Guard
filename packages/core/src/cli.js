@@ -44,7 +44,10 @@ function printHelp() {
   log('green',  '  fix                  Auto-fix security violations (dry-run)')
   log('dim',    '                       Options: --apply, --src <dir>')
   log('green',  '  kb                   Rebuild knowledge graph and summary')
+  log('green',  '  query <cmd>          Query the knowledge graph (security intelligence)')
+  log('dim',    '                       Commands: summary, violations, files-by-risk, compliance, rules, deps, graph, history')
   log('green',  '  all                  Run scan + dep in sequence')
+  log('green',  '  init                 One-time project setup (husky, pre-commit, config)')
   log('green',  '  help                 Show this help message')
   console.log()
   log('white', `  ${COLORS.bold}EXAMPLES${COLORS.reset}`)
@@ -112,6 +115,14 @@ async function main() {
     case 'init': {
       const { runInit } = await import('./init.js')
       await runInit()
+      break
+    }
+    case 'query':
+    case 'q': {
+      // Pass the sub-command and remaining args through
+      process.argv = [process.argv[0], process.argv[1], ...passthrough]
+      const { main: run } = await import('./knowledge/query.js')
+      await run()
       break
     }
     default: {
