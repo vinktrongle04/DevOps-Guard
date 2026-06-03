@@ -49,8 +49,8 @@ function resolveScanTarget(targetDir) {
 const { srcDir: _resolvedSrc, pkgPath: _resolvedPkg } = resolveScanTarget(TARGET_DIR)
 const SRC_DIR        = path.join(TARGET_DIR, 'src')
 const PKG_PATH       = path.join(TARGET_DIR, 'package.json')
-const SCAN_EXTS      = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
-const IGNORE_DIRS    = ['node_modules', '.git', 'dist', 'build', 'coverage']
+let SCAN_EXTS      = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
+let IGNORE_DIRS    = ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard']
 
 // Source files to skip entirely (scanner files, config files)
 const IGNORE_FILES   = ['dependency-scanner.js', 'security-scanner.js', 'vite.config.js', 'eslint.config.js']
@@ -413,8 +413,21 @@ function printSummary({ unused, missing, bloat, dupes, fileCount, pkgCount, elap
   return 0
 }
 
-// ─── MAIN ──────────────────────────────────────────────────────
-function main() {
+// ─── MAIN ──────────────────────────────────────────────────────────
+async function main() {
+  try {
+    const configPath = path.join(TARGET_DIR, 'guard.config.js')
+    if (fs.existsSync(configPath)) {
+      const moduleUrl = new URL(`file://${configPath}`).href
+      const imported = await import(moduleUrl)
+      const config = imported.default || imported
+      if (config.ignorePaths) IGNORE_DIRS = config.ignorePaths
+      if (config.extensions) SCAN_EXTS = config.extensions
+    }
+  } catch (e) {
+    // Ignore config load error
+  }
+
   const startTime = Date.now()
 
   console.log()

@@ -212,7 +212,7 @@ export default function ViolationsPanel({ data, metrics, status, error, refresh,
           {error}
         </div>
         <div style={{ color: '#94a3b8', fontSize: '0.75rem', marginBottom: '1rem' }}>
-          Run <code style={{ background: 'rgba(255,255,255,0.05)', padding: '0.1rem 0.4rem', borderRadius: '4px', color: '#22c55e' }}>npm run scan:export</code> to generate the report.
+          Run <code style={{ background: 'rgba(255,255,255,0.05)', padding: '0.1rem 0.4rem', borderRadius: '4px', color: '#22c55e' }}>devops-guard all</code> from the project root to generate the report.
         </div>
         <button onClick={refresh} style={{ fontSize: '0.78rem', padding: '0.4rem 1rem' }}>
           Retry

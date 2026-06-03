@@ -27,13 +27,13 @@ const QUALITY_GATES = [
     id: 'gate-1', name: 'Security Gate',    icon: '🔐',
     description: 'Scans 28 patterns across 12 OWASP-mapped categories. Hard-blocks on CRITICAL/HIGH.',
     details: ['GOOG-001: Google API Key', 'AI-001: OpenAI Key', 'PAY-001: Stripe Live Key', 'VCS-001: GitHub PAT', 'AWS-001: AWS Access Key', 'DB-001: MongoDB URI', 'XSS-001..003: Injection', 'LOG-001: console.log'],
-    action: 'npm run security:scan',
+    action: 'devops-guard scan',
   },
   {
     id: 'gate-2', name: 'Dependency Gate',  icon: '📦',
     description: 'Checks for unused, missing, bloated, and duplicate packages.',
     details: ['lodash — declared but never imported', 'axios — declared but never imported', 'moment — declared but never imported', 'uuid — declared but never imported'],
-    action: 'npm run dep:scan',
+    action: 'devops-guard dep',
   },
   {
     id: 'gate-3', name: 'Refactor Engine', icon: '⚛️',

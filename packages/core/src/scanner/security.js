@@ -348,9 +348,9 @@ const SECURITY_PATTERNS = [
 ]
 
 // ─── IGNORED DIRECTORIES AND FILES ─────────────────────────
-const IGNORE_DIRS  = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', 'packages', '.devops-guard']
-const IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'security-scanner.js', 'security-autofix.js', 'scanner-output.js', 'graph-builder.js', 'graph-query.js', 'kb-summary.js', '.env.example']
-const SCAN_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf']
+let IGNORE_DIRS  = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', 'packages', '.devops-guard']
+let IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'security-scanner.js', 'security-autofix.js', 'scanner-output.js', 'graph-builder.js', 'graph-query.js', 'kb-summary.js', '.env.example']
+let SCAN_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf']
 
 // ─── UTILITIES ─────────────────────────────────────────────────────
 const COLORS = {
@@ -591,7 +591,20 @@ function outputSarif(violations, elapsed, hasBlocker) {
 }
 
 // ─── MAIN ENTRY POINT ───────────────────────────────────────
-function main() {
+async function main() {
+  try {
+    const configPath = path.join(TARGET_DIR, 'guard.config.js')
+    if (fs.existsSync(configPath)) {
+      const moduleUrl = new URL(`file://${configPath}`).href
+      const imported = await import(moduleUrl)
+      const config = imported.default || imported
+      if (config.ignorePaths) IGNORE_DIRS = config.ignorePaths
+      if (config.extensions) SCAN_EXTENSIONS = config.extensions
+    }
+  } catch (e) {
+    // Ignore config load error
+  }
+
   const args       = process.argv.slice(2)
   const jsonMode   = args.includes('--json')
   const sarifMode  = args.includes('--sarif')

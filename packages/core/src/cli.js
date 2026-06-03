@@ -105,11 +105,15 @@ async function main() {
       break
     }
     case 'all': {
-      // Run both scanners, let exit code of second determine final exit
-      const { main: runSec } = await import('./scanner/security.js')
-      const { main: runDep } = await import('./scanner/dependency.js')
-      await runSec()
-      await runDep()
+      const { spawnSync } = await import('child_process')
+      const nodePath = process.argv[0]
+      const scriptPath = process.argv[1]
+      
+      const secRes = spawnSync(nodePath, [scriptPath, 'scan'], { stdio: 'inherit' })
+      if (secRes.status !== 0) process.exit(secRes.status)
+      
+      const depRes = spawnSync(nodePath, [scriptPath, 'dep'], { stdio: 'inherit' })
+      process.exit(depRes.status)
       break
     }
     case 'init': {
