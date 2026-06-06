@@ -8,6 +8,7 @@
 //   devops-guard fix             → Run security autofix (dry-run)
 //   devops-guard fix --apply     → Apply all autofixes
 //   devops-guard kb              → Rebuild knowledge graph & summary
+//   devops-guard dashboard       → Open the security dashboard in browser
 //   devops-guard help            → Show this help
 //
 // Shorthand (after npm install -g devops-guard):
@@ -47,6 +48,8 @@ function printHelp() {
   log('green',  '  query <cmd>          Query the knowledge graph (security intelligence)')
   log('dim',    '                       Commands: summary, violations, files-by-risk, compliance, rules, deps, graph, history')
   log('green',  '  all                  Run scan + dep in sequence')
+  log('green',  '  dashboard            Open the security dashboard in your browser')
+  log('dim',    '                       Options: --port <number>, --no-open')
   log('green',  '  init                 One-time project setup (husky, pre-commit, config)')
   log('green',  '  help                 Show this help message')
   console.log()
@@ -127,6 +130,15 @@ async function main() {
       process.argv = [process.argv[0], process.argv[1], ...passthrough]
       const { main: run } = await import('./knowledge/query.js')
       await run()
+      break
+    }
+    case 'dashboard':
+    case 'ui': {
+      const { startDashboard } = await import('./server.js')
+      const portIdx = passthrough.indexOf('--port')
+      const port    = portIdx !== -1 ? parseInt(passthrough[portIdx + 1], 10) : undefined
+      const noOpen  = passthrough.includes('--no-open')
+      startDashboard({ port, noOpen })
       break
     }
     default: {

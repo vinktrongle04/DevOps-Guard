@@ -9,11 +9,16 @@
   },
   "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js",
-    "./scanner": "./src/scanner/security.js",
+    ".":            "./src/index.js",
+    "./scanner":    "./src/scanner/security.js",
     "./dependency": "./src/scanner/dependency.js",
-    "./fixer": "./src/fixer/security.js"
+    "./fixer":      "./src/fixer/security.js",
+    "./dashboard":  "./src/server.js"
   },
+  "files": [
+    "src/",
+    "dashboard-dist/"
+  ],
   "keywords": [
     "security",
     "scanner",

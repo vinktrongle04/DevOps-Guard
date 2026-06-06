@@ -1,7 +1,11 @@
 // ============================================================
 // useScanHistory — Custom React Hook
-// Fetches /scan-history.json and returns historical scan data
+// Fetches scan-history.json and returns historical scan data
 // for the trend sparkline chart in the Dashboard.
+//
+// Data source detection:
+//   - CLI server (devops-guard dashboard): /api/scan-history.json
+//   - Vite dev server:                     /scan-history.json
 // ============================================================
 
 import { useState, useEffect } from 'react'
@@ -13,16 +17,24 @@ export function useScanHistory() {
   useEffect(() => {
     const load = async () => {
       setStatus('loading')
-      try {
-        const res  = await fetch(`/scan-history.json?t=${Date.now()}`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const data = await res.json()
-        // Ensure chronological order
-        setHistory([...data].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)))
-        setStatus('ready')
-      } catch {
-        setStatus('error')
+
+      // Try CLI server route first, fall back to Vite public
+      const urls = ['/api/scan-history.json', '/scan-history.json']
+
+      for (const url of urls) {
+        try {
+          const res = await fetch(`${url}?t=${Date.now()}`)
+          if (!res.ok) continue
+          const data = await res.json()
+          setHistory([...data].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)))
+          setStatus('ready')
+          return
+        } catch {
+          // try next URL
+        }
       }
+
+      setStatus('error')
     }
     load()
   }, [])

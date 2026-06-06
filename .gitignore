@@ -8,6 +8,7 @@ dist/
 build/
 dashboard/dist/
 dashboard/build/
+!packages/core/dashboard-dist/
 
 # Environment variables (NEVER commit secrets!)
 .env
