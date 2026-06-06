@@ -21,6 +21,8 @@
     "fix:apply":        "devops-guard fix --apply",
     "all":              "devops-guard all",
     "kb":               "devops-guard kb",
+    "guard:scan":       "devops-guard scan",
+    "guard:dep":        "cd dashboard && devops-guard dep",
     "prepare":          "husky"
   },
   "dependencies": {

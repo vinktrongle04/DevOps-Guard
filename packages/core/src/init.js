@@ -155,6 +155,20 @@ export default {
   // Values: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   failOnSeverity: 'HIGH',
 
+  // Custom Security Rules
+  // Define company-specific tokens or patterns you want to catch
+  customRules: [
+    // Example:
+    // {
+    //   id: 'CUSTOM-001',
+    //   name: 'Internal Company Token',
+    //   regex: /COMP-[A-Z0-9]{20}/,
+    //   severity: 'CRITICAL',
+    //   description: 'Company internal access tokens must never be committed.',
+    //   remediation: 'Revoke the token and use environment variables.'
+    // }
+  ],
+
   // Auto-fix behavior: 'off' | 'dry-run' | 'apply'
   fix: 'dry-run',
 

@@ -600,6 +600,17 @@ async function main() {
       const config = imported.default || imported
       if (config.ignorePaths) IGNORE_DIRS = config.ignorePaths
       if (config.extensions) SCAN_EXTENSIONS = config.extensions
+      if (config.customRules && Array.isArray(config.customRules)) {
+        const formattedRules = config.customRules.map(rule => ({
+          ...rule,
+          // Support regex passed as strings from JSON-like configs, or native RegExp
+          regex: typeof rule.regex === 'string' ? new RegExp(rule.regex, 'g') : rule.regex,
+          category: rule.category || 'Custom Rule',
+          severity: rule.severity || 'HIGH',
+          compliance: rule.compliance || { owasp: null, iso27001: null, soc2: null, pciDss: null, hipaa: null }
+        }))
+        SECURITY_PATTERNS.push(...formattedRules)
+      }
     }
   } catch (e) {
     // Ignore config load error
