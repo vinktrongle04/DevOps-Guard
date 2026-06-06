@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
-
 # ============================================================
 # DevOps-Guard — Husky Pre-Commit Hook v2.0
 # Runs Gate 1 (Security) and Gate 2 (Dependency) before commit.
-# Pipeline order is fixed: Gate 1 must pass before Gate 2 runs.
 # ============================================================
 
 echo ""
@@ -12,7 +10,7 @@ echo ""
 
 # ─── GATE 1: Security Scanner (HARD BLOCK) ───────────────────
 echo "  [Gate 1/2] Security Scanner..."
-npm run scan
+npm run guard:scan
 GATE1_EXIT=$?
 
 if [ $GATE1_EXIT -ne 0 ]; then
@@ -28,20 +26,17 @@ echo ""
 
 # ─── GATE 2: Dependency Scanner (SOFT BLOCK) ─────────────────
 echo "  [Gate 2/2] Dependency Scanner..."
-npm run dep
+npm run guard:dep
 GATE2_EXIT=$?
 
 if [ $GATE2_EXIT -ne 0 ]; then
   echo ""
-  echo "  GATE 2 BLOCKED — Commit rejected by Dependency Scanner."
-  echo "  Fix missing dependencies before committing."
+  echo "  GATE 2 BLOCKED — Fix missing dependencies before committing."
   echo ""
   exit 1
 fi
 
 echo "  Gate 2 passed."
 echo ""
-
-# ─── ALL GATES PASSED ────────────────────────────────────────
 echo "  All Quality Gates passed! Commit is allowed."
 echo ""

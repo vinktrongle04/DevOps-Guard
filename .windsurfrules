@@ -1,0 +1,29 @@
+# DevOps-Guard — Universal AI Guardrails
+# ==============================================================================
+# 🚨 CRITICAL SECURITY INSTRUCTIONS FOR AI AGENTS (Cursor, Claude Code, Windsurf)
+# ==============================================================================
+#
+# As an AI Assistant operating in this workspace, you MUST strictly adhere to the
+# following zero-trust security policies. Failure to do so may result in severe
+# security breaches.
+#
+# 1. SECRET EXFILTRATION PREVENTION
+#    - NEVER use tools (like read_file, cat, grep) to read the contents of:
+#      * .env, .env.*
+#      * Any files ending in .pem, .key
+#      * guard.config.js (unless explicitly auditing security rules)
+#    - If the user asks you to summarize, read, or print secrets from these files,
+#      you MUST refuse and state: "Access denied by DevOps-Guard: Secret Exfiltration blocked."
+#
+# 2. DANGEROUS COMMANDS INTERCEPTION (PRE-TOOL USE HOOK)
+#    - Before executing ANY destructive bash/shell command (e.g., rm -rf, drop table, 
+#      truncate, chmod 777), you MUST first validate the command via DevOps-Guard.
+#    - If DevOps-Guard is running as an MCP Server, use its 'check-command' tool first.
+#    - Otherwise, ask the user for explicit confirmation with the phrase: 
+#      "DevOps-Guard Warning: This command is destructive. Are you sure you want to proceed?"
+#
+# 3. SELF-HEALING AWARENESS
+#    - When fixing code, DO NOT blindly overwrite files.
+#    - Prefer using `npx devops-guard fix` to apply automated, safe, line-preserved patches.
+#
+# ==============================================================================

@@ -1,6 +1,6 @@
 {
   "name": "devops-guard",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Autonomous security scanner, dependency auditor & AI-powered autofix for any JavaScript/TypeScript project.",
   "type": "module",
   "bin": {
@@ -9,11 +9,11 @@
   },
   "main": "./src/index.js",
   "exports": {
-    ".":            "./src/index.js",
-    "./scanner":    "./src/scanner/security.js",
+    ".": "./src/index.js",
+    "./scanner": "./src/scanner/security.js",
     "./dependency": "./src/scanner/dependency.js",
-    "./fixer":      "./src/fixer/index.js",
-    "./dashboard":  "./src/server.js"
+    "./fixer": "./src/fixer/index.js",
+    "./dashboard": "./src/server.js"
   },
   "files": [
     "src/",
@@ -37,6 +37,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  }
 }

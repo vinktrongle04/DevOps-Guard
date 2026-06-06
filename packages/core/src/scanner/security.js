@@ -593,6 +593,18 @@ function outputSarif(violations, elapsed, hasBlocker) {
 // ─── MAIN ENTRY POINT ───────────────────────────────────────
 async function main() {
   try {
+    // -- Immutable Audit Trail (Phase 3) --
+    const { verifySignature } = await import('../knowledge/audit.js')
+    const HISTORY_PATH = path.join(TARGET_DIR, '.devops-guard', 'scan-history.json')
+    if (!verifySignature(HISTORY_PATH)) {
+      console.error('\n🚨 DevOps-Guard: Audit Trail verification failed. Execution blocked to prevent tamper escalation.\n')
+      process.exit(1)
+    }
+  } catch (e) {
+    // Ignore if module not found during early bootstrap
+  }
+
+  try {
     const configPath = path.join(TARGET_DIR, 'guard.config.js')
     if (fs.existsSync(configPath)) {
       const moduleUrl = new URL(`file://${configPath}`).href
@@ -654,14 +666,30 @@ async function main() {
     console.log()
   }
 
+  // Cache file contents to pass to AI verifier
+  const fileContentsCache = {}
+  for (const f of files) {
+    const relPath = path.relative(TARGET_DIR, f).replace(/\\/g, '/')
+    fileContentsCache[relPath] = fs.readFileSync(f, 'utf-8').split('\n')
+  }
+
   let allViolations = []
   for (const file of files) {
     allViolations.push(...scanFile(file))
   }
+  
+  // -- Local Semantic Engine (Phase 3) --
+  const { verifyViolationsWithAI } = await import('./ai-verifier.js')
+  allViolations = await verifyViolationsWithAI(allViolations, fileContentsCache)
+  
+  const falsePositives = allViolations.filter(v => v.isFalsePositive)
+  if (!quietMode && falsePositives.length > 0) {
+    log('cyan', `  🧠 AI Semantic Engine filtered out ${falsePositives.length} false positive(s).`)
+  }
 
-  const hasBlocker = allViolations.some(v => ['CRITICAL','HIGH'].includes(v.severity))
+  const hasBlocker = allViolations.some(v => ['CRITICAL','HIGH'].includes(v.severity) && !v.isFalsePositive)
   const minRank = SEVERITY_RANK[minSeverity] ?? 0
-  const visibleViolations = allViolations.filter(v => (SEVERITY_RANK[v.severity] ?? 0) >= minRank)
+  const visibleViolations = allViolations.filter(v => (SEVERITY_RANK[v.severity] ?? 0) >= minRank && !v.isFalsePositive)
 
   const elapsed = Date.now() - startTime
 

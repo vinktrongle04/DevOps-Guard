@@ -11,7 +11,7 @@
 
 export { main as runScan }        from './scanner/security.js'
 export { main as runDepScan }     from './scanner/dependency.js'
-export { main as runFix }         from './fixer/security.js'
+export { main as runFix }         from './fixer/index.js'
 export { main as runGraphBuild }  from './knowledge/graph.js'
 export { main as runOutput }      from './knowledge/output.js'
 export { main as runSummary }     from './knowledge/summary.js'

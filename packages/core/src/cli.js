@@ -48,6 +48,8 @@ function printHelp() {
   log('green',  '  query <cmd>          Query the knowledge graph (security intelligence)')
   log('dim',    '                       Commands: summary, violations, files-by-risk, compliance, rules, deps, graph, history')
   log('green',  '  all                  Run scan + dep in sequence')
+  log('green',  '  protect              Generate AI Guardrails (.cursorrules, etc.)')
+  log('green',  '  mcp                  Start the Model Context Protocol server (stdio)')
   log('green',  '  dashboard            Open the security dashboard in your browser')
   log('dim',    '                       Options: --port <number>, --no-open')
   log('green',  '  init                 One-time project setup (husky, pre-commit, config)')
@@ -117,6 +119,16 @@ async function main() {
       
       const depRes = spawnSync(nodePath, [scriptPath, 'dep'], { stdio: 'inherit' })
       process.exit(depRes.status)
+      break
+    }
+    case 'protect': {
+      const { runProtect } = await import('./guardrails/rules.js')
+      await runProtect()
+      break
+    }
+    case 'mcp': {
+      const { runMcpServer } = await import('./mcp/server.js')
+      await runMcpServer()
       break
     }
     case 'init': {

@@ -252,6 +252,13 @@ function buildReport() {
   fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2), 'utf-8')
   console.log(`[scanner-output] History updated: ${history.length} snapshot(s) in scan-history.json`)
 
+  // -- Immutable Audit Trail (Phase 3) --
+  import('./audit.js').then(({ signFile }) => {
+    if (signFile(HISTORY_PATH)) {
+      console.log(`[scanner-output] History cryptographically signed (Immutable Audit Trail)`)
+    }
+  }).catch(() => {})
+
   // ─── WRITE KNOWLEDGE BASE (Level 1) ─────────────────────────
   const KB_DIR = path.join(OUT_DIR, 'kb')
   if (!fs.existsSync(KB_DIR)) fs.mkdirSync(KB_DIR, { recursive: true })

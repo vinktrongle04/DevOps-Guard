@@ -358,6 +358,22 @@ async function main() {
   console.log(C.cyan('━'.repeat(64)))
   console.log()
 
+  let originalBranch = 'main'
+  let patchBranch = null
+
+  if (!DRY_RUN) {
+    const { execSync } = await import('child_process')
+    try {
+      originalBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8', stdio: 'pipe' }).trim()
+      patchBranch = `.devops-guard-patch-${Date.now()}`
+      execSync(`git checkout -b ${patchBranch}`, { stdio: 'pipe' })
+      console.log(C.dim(`  [Git] Created sandboxed patch branch: ${patchBranch}\n`))
+    } catch (e) {
+      console.log(C.yellow(`  [Git] Failed to create sandboxed branch. Applying fixes directly.\n`))
+      patchBranch = null
+    }
+  }
+
   // Load violations
   const { violations: allViolations, gate2 } = await loadViolations()
   console.log(C.dim(`  Loaded ${allViolations.length} security violations and dependency data from scan report\n`))
@@ -485,6 +501,48 @@ async function main() {
   console.log()
   console.log(C.cyan('━'.repeat(64)))
   console.log()
+
+  // ─── SAFE SELF-HEALING LOOP (MERGE PATCH) ──────────────────
+  if (!DRY_RUN && patchBranch) {
+    const { execSync } = await import('child_process')
+    const readline = await import('readline')
+    
+    console.log(C.cyan('━'.repeat(64)))
+    console.log(C.bold('  ✅ Patch generated in sandboxed branch.'))
+    console.log(C.cyan('━'.repeat(64)))
+    
+    console.log(C.dim(`  Running tests to verify patch integrity...`))
+    try {
+      execSync('npm test', { stdio: 'pipe' })
+      console.log(C.green(`  ✓ Tests passed successfully.`))
+    } catch (e) {
+      console.log(C.yellow(`  ⚠ Tests failed or 'npm test' not configured. Manual review strongly recommended.`))
+    }
+
+    console.log()
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+    
+    await new Promise(resolve => {
+      rl.question(C.bold(`  Merge patch into ${originalBranch}? (Y/n): `), (answer) => {
+        rl.close()
+        if (answer.toLowerCase() !== 'n') {
+          try {
+            execSync('git add .')
+            execSync('git commit -m "chore: devops-guard auto-remediation patch"')
+            execSync(`git checkout ${originalBranch}`, { stdio: 'pipe' })
+            execSync(`git merge --squash ${patchBranch}`, { stdio: 'pipe' })
+            execSync(`git branch -D ${patchBranch}`, { stdio: 'pipe' })
+            console.log(C.green(`  ✓ Patch merged successfully into ${originalBranch}.`))
+          } catch(e) {
+            console.log(C.red(`  ✗ Failed to merge patch: ${e.message}`))
+          }
+        } else {
+          console.log(C.dim(`  Patch remains in branch ${patchBranch}. Current branch is still ${patchBranch}.`))
+        }
+        resolve()
+      })
+    })
+  }
 }
 
 export { main }

@@ -26,20 +26,27 @@ Furthermore, it builds a self-updating **Knowledge Graph** of your project's sec
 
 ## The Architecture
 
-DevOps-Guard operates in three core layers:
+DevOps-Guard operates in four core layers:
 
 ### 1. The Execution Layer (Quality Gates)
 A Git `pre-commit` hook that automatically runs before every commit:
 - **Gate 1: Security Scanner** (28 rules mapped to OWASP, PCI-DSS, SOC 2, HIPAA). Hard blocks on `CRITICAL` or `HIGH` violations.
 - **Gate 2: Dependency Scanner** (Detects bloat, unused, and missing packages).
-- *(Future Gates: Refactor, Docs, Commit)*
+- **Gate 3: Immutable Audit Trail** (SHA-256 HMAC cryptographic signing prevents tampering with security logs).
 
-### 2. The Intelligence Layer (Knowledge Base)
+### 2. The AI-Native Layer (Phase 3)
+DevOps-Guard doesn't just scan code, it actively manages other AI agents:
+- **Universal AI Guardrails:** Automatically injects `.cursorrules`, `.claudecode`, and `.windsurfrules` to restrict AI IDEs from accessing sensitive files.
+- **Pre-Tool Use Hook (MCP Server):** Exposes a Model Context Protocol server that intercepts and blocks dangerous shell commands (like `rm -rf`) requested by AI code assistants.
+- **Local Semantic Engine:** Integrates with local LLMs (Ollama) to semantically verify regex matches, completely eliminating False Positives for mock/test data.
+- **Safe Self-Healing Loop:** The `devops-guard fix` command automatically creates sandboxed Git branches, applies security patches, runs `npm test`, and interactively prompts the user before squash-merging.
+
+### 3. The Intelligence Layer (Knowledge Base)
 Instead of just printing errors to the terminal, DevOps-Guard ingests scan results into a permanent state machine:
 - **Structured JSON & Event Logs:** Captures a snapshot of project health and telemetry.
 - **Knowledge Graph:** A relational graph connecting files, violations, rules, and compliance standards.
 
-### 3. The Visualization Layer (Dashboard)
+### 4. The Visualization Layer (Dashboard)
 A modern React + Vite dashboard that provides real-time visibility into the project's security posture, knowledge graph, and historical trends.
 
 ---
@@ -54,11 +61,14 @@ cd DevOps-Guard
 # 2. Install dependencies (auto-installs Husky git hooks)
 npm install
 
-# 3. Run full pipeline to generate Knowledge Graph and UI data
+# 3. Apply Universal AI Guardrails (Cursor/Claude/Windsurf)
+npm run protect
+
+# 4. Run full pipeline to generate Knowledge Graph and UI data
 npm run all
 npm run kb
 
-# 4. Start the interactive UI Dashboard
+# 5. Start the interactive UI Dashboard
 npm run dev
 # 🚀 Open http://localhost:5173
 ```
@@ -77,9 +87,11 @@ DevOps-Guard/
 │       └── src/
 │           ├── cli.js             # Unified CLI entry point
 │           ├── index.js           # Public JS API
-│           ├── scanner/           # Security & Dependency scanners
-│           ├── fixer/             # Auto-remediation engine
-│           └── knowledge/         # Graph & KB builders
+│           ├── scanner/           # Security, Dependency & AI-Verifier
+│           ├── fixer/             # Safe auto-remediation (Git Sandboxed)
+│           ├── mcp/               # Model Context Protocol Server
+│           ├── guardrails/        # Agentic Rules Generator
+│           └── knowledge/         # Graph, Audit & KB builders
 │
 ├── dashboard/                     # 📊 React+Vite UI (frontend)
 │   ├── package.json
@@ -96,10 +108,12 @@ The `devops-guard` CLI is the core interaction layer.
 
 | Command | Description |
 |---|---|
+| `devops-guard protect` | Generate Universal AI Guardrails (`.cursorrules`, etc.) |
+| `devops-guard mcp` | Start the local MCP Server (Pre-tool use hook) |
 | `devops-guard scan` | **Gate 1:** Scan for secrets & vulnerabilities |
 | `devops-guard dep` | **Gate 2:** Scan for bloated/unused dependencies |
 | `devops-guard kb` | Build KB, Knowledge Graph, and Markdown summary |
-| `devops-guard fix --apply` | Apply auto-remediation to violations |
+| `devops-guard fix --apply` | Sandboxed Auto-remediation with interactive merge |
 | `devops-guard all` | Run all gates sequentially |
 
 *If you are running from the workspace root via npm, you can use `npm run scan`, `npm run dep`, etc.*
