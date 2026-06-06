@@ -12,7 +12,7 @@
     ".":            "./src/index.js",
     "./scanner":    "./src/scanner/security.js",
     "./dependency": "./src/scanner/dependency.js",
-    "./fixer":      "./src/fixer/security.js",
+    "./fixer":      "./src/fixer/index.js",
     "./dashboard":  "./src/server.js"
   },
   "files": [

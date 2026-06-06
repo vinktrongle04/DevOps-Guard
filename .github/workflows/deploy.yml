@@ -35,18 +35,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Gate 1 — Security Scan (28 rules, OWASP mapped)
-        run: npm run scan
+      - name: Gate 1 & Gate 2 — DevOps-Guard Action
+        uses: ./
+        with:
+          command: all
         continue-on-error: true
-        # NOTE: Demo project contains intentional security traps for demonstration.
-        # Real blocking happens at local pre-commit via Husky (exit 1).
-        # CI runs in advisory mode so the pipeline can complete.
-
-      - name: Gate 2 — Dependency Scan (unused, missing, bloat)
-        run: npm run dep
-        continue-on-error: true
-        # NOTE: Demo project contains intentional dead dependencies as traps.
+        # NOTE: Demo project contains intentional security and dependency traps.
         # Real blocking happens at local pre-commit via Husky.
+        # CI runs in advisory mode (continue-on-error) so the pipeline can complete.
 
       - name: Gate 3 — Lint (Code Quality)
         run: npm run lint

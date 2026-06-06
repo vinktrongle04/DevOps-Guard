@@ -1,0 +1,24 @@
+name: 'DevOps-Guard Security Scan'
+description: 'Autonomous security scanner, dependency auditor & AI-powered autofix for JavaScript/TypeScript'
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  command:
+    description: 'The devops-guard command to run (scan, dep, or all)'
+    required: false
+    default: 'all'
+  args:
+    description: 'Additional arguments to pass to the CLI (e.g., --sarif, --json)'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run DevOps-Guard CLI
+      shell: bash
+      run: |
+        echo "🚀 Running DevOps-Guard..."
+        node "${{ github.action_path }}/packages/core/src/cli.js" ${{ inputs.command }} ${{ inputs.args }}
