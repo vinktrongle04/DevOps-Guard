@@ -315,11 +315,15 @@ async function loadViolations() {
   for (const reportPath of candidates) {
     if (fs.existsSync(reportPath)) {
       const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
-      const violations = report?.gate1?.violations || []
-      return violations.map(v => {
+      const gate1Violations = report?.gate1?.violations || []
+      const gate2 = report?.gate2 || { unused: [], missing: [] }
+      
+      const violations = gate1Violations.map(v => {
         const mapped = mapViolation(v)
         return { ...mapped, lineContent: readLine(mapped.file, mapped.line) }
       })
+      
+      return { violations, gate2 }
     }
   }
 
@@ -355,8 +359,8 @@ async function main() {
   console.log()
 
   // Load violations
-  const allViolations = await loadViolations()
-  console.log(C.dim(`  Loaded ${allViolations.length} violations from scan report\n`))
+  const { violations: allViolations, gate2 } = await loadViolations()
+  console.log(C.dim(`  Loaded ${allViolations.length} security violations and dependency data from scan report\n`))
 
   // Filter by --src if specified
   const violations = SRC_DIR
@@ -386,15 +390,15 @@ async function main() {
   for (const [file, fileViolations] of Object.entries(byFile)) {
     console.log(C.bold(`  📄 ${file}`) + C.dim(` (${fileViolations.length} violation${fileViolations.length > 1 ? 's' : ''})`))
 
-    const { results, skipped } = fixFile(file, fileViolations, envVarsCollected, DRY_RUN)
+    const fixResult = fixFile(file, fileViolations, envVarsCollected, DRY_RUN)
 
-    if (skipped) {
-      console.log(C.dim(`     ⊘ Skipped — ${skipped.reason}`))
+    if (fixResult.skipped) {
+      console.log(C.dim(`     ⊘ Skipped — ${fixResult.reason}`))
       summary.skipped += fileViolations.length
       continue
     }
 
-    for (const r of results) {
+    for (const r of fixResult.results) {
       if (r.fixed) {
         summary.fixed++
         console.log(C.green(`     ✓ Line ${r.line} [${r.ruleId}] → ${r.result?.trim().substring(0, 60)}${r.result?.length > 60 ? '…' : ''}`))
@@ -451,10 +455,31 @@ async function main() {
   if (DRY_RUN) {
     console.log(C.bold(C.cyan('  DRY RUN COMPLETE — no files were modified.')))
     console.log(C.dim('  Run with --apply to write fixes to disk:'))
-    console.log(C.dim('  node security-autofix.js --apply'))
-    console.log(C.dim('  node security-autofix.js --apply --src src/  (limit to src/ only)'))
+    console.log(C.dim('  node packages/core/src/fixer/index.js --apply'))
   } else {
-    console.log(C.bold(C.green(`  ✓ ${summary.fixed} fixes applied. Run 'npm run security:scan' to verify.`)))
+    console.log(C.bold(C.green(`  ✓ ${summary.fixed} security fixes applied. Run 'npm run guard:scan' to verify.`)))
+  }
+
+  // ─── GATE 2: DEPENDENCY FIXES (INTERACTIVE/GUIDED) ─────────
+  if (gate2 && (gate2.unused?.length > 0 || gate2.missing?.length > 0)) {
+    console.log()
+    console.log(C.cyan('━'.repeat(64)))
+    console.log(C.bold('  📦 Dependency Remediation (Guided)'))
+    console.log(C.cyan('━'.repeat(64)))
+    console.log(C.dim('  For safety, dependency changes are NOT applied automatically.'))
+    console.log(C.dim('  Run the following commands in your terminal to fix them:\n'))
+
+    if (gate2.unused?.length > 0) {
+      console.log(C.yellow(`  ⚠ Found ${gate2.unused.length} unused package(s). To remove:`))
+      console.log(C.bold(`    npm uninstall ${gate2.unused.join(' ')}`))
+      console.log()
+    }
+
+    if (gate2.missing?.length > 0) {
+      console.log(C.red(`  ❌ Found ${gate2.missing.length} missing package(s). To install:`))
+      console.log(C.bold(`    npm install ${gate2.missing.join(' ')}`))
+      console.log()
+    }
   }
 
   console.log()

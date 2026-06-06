@@ -93,7 +93,7 @@ async function main() {
       break
     }
     case 'fix': {
-      const { main: run } = await import('./fixer/security.js')
+      const { main: run } = await import('./fixer/index.js')
       await run()
       break
     }
