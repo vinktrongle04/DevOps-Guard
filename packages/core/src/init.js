@@ -78,7 +78,7 @@ export async function runInit() {
   const preCommitPath = path.join(huskyDir, 'pre-commit')
   const preCommitContent = `#!/usr/bin/env sh
 # ============================================================
-# DevOps-Guard — Husky Pre-Commit Hook v2.0
+# DevOps-Guard — Husky Pre-Commit Hook v1.0.0
 # Runs Gate 1 (Security) and Gate 2 (Dependency) before commit.
 # ============================================================
 

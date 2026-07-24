@@ -1,8 +1,8 @@
 # ============================================================
 # DevOps-Guard CI/CD Pipeline
 # Runs all Quality Gates on every push/PR to main.
-# Deploy step is intentionally omitted for the demo project —
-# the focus is demonstrating Gate 1-3 in CI, not production deploy.
+# A deploy step is intentionally omitted — this repo ships an npm
+# package and a GitHub Action, not a hosted service.
 # ============================================================
 
 name: DevOps-Guard CI/CD Pipeline
@@ -39,14 +39,12 @@ jobs:
         uses: ./
         with:
           command: all
-        continue-on-error: true
-        # NOTE: Demo project contains intentional security and dependency traps.
-        # Real blocking happens at local pre-commit via Husky.
-        # CI runs in advisory mode (continue-on-error) so the pipeline can complete.
 
       - name: Gate 3 — Lint (Code Quality)
         run: npm run lint
-        continue-on-error: true
+
+      - name: Gate 4 — Test suite
+        run: npm test
 
       - name: Build — Verify production bundle
         run: npm run build

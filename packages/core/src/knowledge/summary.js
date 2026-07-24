@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // ============================================================
 // kb-summary.js — Knowledge Base Summary Generator
-// Reads kb/project-state.json and kb/event-log.jsonl,
-// then writes docs/core-rules/PROJECT_STATE.md
+// Reads .devops-guard/kb/project-state.json and .devops-guard/kb/event-log.jsonl,
+// then writes .devops-guard/PROJECT_STATE.md
 // as a human+agent-readable summary.
 //
 // Usage: node kb-summary.js
@@ -21,7 +21,7 @@ const OUTPUT_PATH   = path.join(TARGET_DIR, '.devops-guard', 'PROJECT_STATE.md')
 
 function loadState() {
   if (!fs.existsSync(STATE_PATH)) {
-    console.error('[kb-summary] kb/project-state.json not found. Run npm run scan:export first.')
+    console.error('[kb-summary] kb/project-state.json not found. Run `devops-guard kb` first.')
     process.exit(1)
   }
   return JSON.parse(fs.readFileSync(STATE_PATH, 'utf-8'))

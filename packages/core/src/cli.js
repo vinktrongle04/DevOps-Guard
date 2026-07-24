@@ -29,7 +29,7 @@ const command   = args[0]
 function printHelp() {
   console.log()
   divider('cyan')
-  log('cyan',  `${COLORS.bold}  🛡️  DevOps-Guard — Autonomous DevOps Security Agent v2.0`)
+  log('cyan',  `${COLORS.bold}  🛡️  DevOps-Guard — Autonomous DevOps Security Agent v1.0.0`)
   log('cyan',  `  ${COLORS.dim}27 rules • OWASP + ISO 27001 + SOC 2 + PCI-DSS + HIPAA`)
   divider('cyan')
   console.log()

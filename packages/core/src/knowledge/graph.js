@@ -52,12 +52,12 @@ const STD_META = {
 
 // ─── HELPERS ──────────────────────────────────────────────────
 function safeId(str) {
-  return str.replace(/[^a-zA-Z0-9_\-:.\/]/g, '_')
+  return str.replace(/[^a-zA-Z0-9_\-:./]/g, '_')
 }
 
 function loadState() {
   if (!fs.existsSync(STATE)) {
-    console.error('[graph-builder] kb/project-state.json not found. Run npm run kb:build first.')
+    console.error('[graph-builder] kb/project-state.json not found. Run `devops-guard kb` first.')
     process.exit(1)
   }
   return JSON.parse(fs.readFileSync(STATE, 'utf-8'))

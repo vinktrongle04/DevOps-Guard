@@ -1,7 +1,7 @@
 {
   "name": "devops-guard-workspace",
   "private": true,
-  "version": "2.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "DevOps-Guard Monorepo — Security Scanner + Dashboard",
   "workspaces": [
@@ -13,6 +13,7 @@
     "build":            "npm run build --workspace=devops-guard-dashboard",
     "preview":          "npm run preview --workspace=devops-guard-dashboard",
     "lint":             "eslint .",
+    "test":             "vitest run --passWithNoTests",
     "scan":             "devops-guard scan",
     "scan:json":        "devops-guard scan --json",
     "scan:sarif":       "devops-guard scan --sarif",
@@ -31,6 +32,8 @@
   "devDependencies": {
     "@eslint/js":                "^9.13.0",
     "eslint":                    "^9.13.0",
-    "husky":                     "^9.1.7"
+    "globals":                   "^15.11.0",
+    "husky":                     "^9.1.7",
+    "vitest":                    "^4.1.10"
   }
 }

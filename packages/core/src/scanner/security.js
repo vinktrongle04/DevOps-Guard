@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // ============================================================
-// 🛡️ SECURITY SCANNER v3.0 - DevOps-Guard Quality Gate
-// Scans all source files for leaked secrets, API keys, 
+// 🛡️ SECURITY SCANNER v1.0.0 - DevOps-Guard Quality Gate
+// Scans all source files for leaked secrets, API keys,
 // XSS vulnerabilities, and environment misconfigurations.
-// 28 rules across 12 categories, mapped to OWASP, ISO 27001, SOC2, PCI-DSS, and HIPAA.
+// 27 rules across 11 categories, mapped to OWASP, ISO 27001, SOC2, PCI-DSS, and HIPAA.
 // Triggered automatically via the Husky pre-commit hook.
 // On CRITICAL/HIGH violation → process.exit(1) → commit blocked.
 // ============================================================
@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename)
 
 const TARGET_DIR = process.cwd()
 
-// ─── SECURITY RULES ENGINE (28 RULES) ──────────────────────
+// ─── SECURITY RULES ENGINE (27 RULES) ──────────────────────
 const SECURITY_PATTERNS = [
   // ═══════════════════════════════════════════════════════════
   // CATEGORY 1: GOOGLE / FIREBASE
@@ -479,7 +479,7 @@ function outputJson(violations, files, elapsed, scopedTo, hasBlocker) {
   }
   const result = {
     tool:    'DevOps-Guard Security Scanner',
-    version: '3.1',
+    version: '1.0.0',
     gate:    'Gate 1 — Security',
     scannedAt:    new Date().toISOString(),
     scanDurationMs: elapsed,
@@ -571,7 +571,7 @@ function outputSarif(violations, elapsed, hasBlocker) {
       tool: {
         driver: {
           name:            'DevOps-Guard',
-          version:         '3.1',
+          version:         '1.0.0',
           informationUri:  'https://github.com/vinktrongle04/DevOps-Guard',
           rules,
         },
@@ -641,7 +641,7 @@ async function main() {
   if (!quietMode) {
     console.log()
     log('cyan', '━'.repeat(64))
-    log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v3.1`)
+    log('cyan', `${COLORS.bold}  🛡️  DEVOPS-GUARD SECURITY SCANNER v1.0.0`)
     log('cyan', `  ${COLORS.dim}${SECURITY_PATTERNS.length} rules • OWASP + ISO 27001 + SOC 2 + PCI-DSS + HIPAA`)
     log('cyan', '━'.repeat(64))
     console.log()

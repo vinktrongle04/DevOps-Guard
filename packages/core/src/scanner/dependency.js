@@ -194,9 +194,9 @@ function extractImports(files) {
   // Match: require('pkg') OR require("pkg")
   // Match: import('pkg') dynamic import
   const patterns = [
-    /from\s+['"]([^.\/][^'"]*)['"]/g,
-    /require\s*\(\s*['"]([^.\/][^'"]*)['"]\s*\)/g,
-    /import\s*\(\s*['"]([^.\/][^'"]*)['"]\s*\)/g,
+    /from\s+['"]([^./][^'"]*)['"]/g,
+    /require\s*\(\s*['"]([^./][^'"]*)['"]\s*\)/g,
+    /import\s*\(\s*['"]([^./][^'"]*)['"]\s*\)/g,
   ]
 
   for (const file of files) {

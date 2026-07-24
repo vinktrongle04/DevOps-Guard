@@ -136,8 +136,8 @@ function runDependencyScan() {
   const srcFiles = collectFiles(SRC_DIR, SCAN_EXTS, IGNORE_DIRS, IGNORE_FILES)
   const imported = new Set()
   const importPatterns = [
-    /from\s+['"]([^.\/][^'"]*)['"]/g,
-    /require\s*\(\s*['"]([^.\/][^'"]*)['"]\s*\)/g,
+    /from\s+['"]([^./][^'"]*)['"]/g,
+    /require\s*\(\s*['"]([^./][^'"]*)['"]\s*\)/g,
   ]
   for (const file of srcFiles) {
     try {
@@ -181,7 +181,7 @@ function buildReport() {
     meta: {
       generatedAt:  new Date().toISOString(),
       scanDurationMs: Date.now() - startTime,
-      version:      '3.1',
+      version:      '1.0.0',
       rulesLoaded:  SECURITY_PATTERNS.length,
     },
     summary: {

@@ -1,7 +1,7 @@
 {
   "name": "devops-guard-dashboard",
   "private": true,
-  "version": "2.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "DevOps-Guard Live Dashboard — React + Vite",
   "scripts": {

@@ -19,8 +19,8 @@ import './App.css'
 const QUALITY_GATES = [
   {
     id: 'gate-1', name: 'Security Gate',    icon: '🔐',
-    description: 'Scans 28 patterns across 12 OWASP-mapped categories. Hard-blocks on CRITICAL/HIGH.',
-    details: ['GOOG-001: Google API Key', 'AI-001: OpenAI Key', 'PAY-001: Stripe Live Key', 'VCS-001: GitHub PAT', 'AWS-001: AWS Access Key', 'DB-001: MongoDB URI', 'XSS-001..003: Injection', 'LOG-001: console.log'],
+    description: 'Scans 27 patterns across 11 OWASP-mapped categories. Hard-blocks on CRITICAL/HIGH.',
+    details: ['GOOG-001: Google API Key', 'AI-001: OpenAI Key', 'PAY-001: Stripe Live Key', 'VCS-001: GitHub PAT', 'AWS-001: AWS Access Key', 'DB-001: MongoDB URI', 'XSS-001..003: Injection', 'ENV-001: VITE_ secret leak'],
     action: 'devops-guard scan',
   },
   {
@@ -107,7 +107,7 @@ function DashboardContent() {
           Agentic Git &amp; CI/CD Guard — Autonomous DevOps Assistant
         </p>
         <p className="subtitle-detail">
-          5 Quality Gates × {metrics?.rulesLoaded ?? 28} Security Rules × React 19 Auto-Migration × OWASP Top 10
+          5 Quality Gates × {metrics?.rulesLoaded ?? 27} Security Rules × React 19 Auto-Migration × OWASP Top 10
         </p>
       </header>
 
