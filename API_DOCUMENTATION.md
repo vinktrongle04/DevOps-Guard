@@ -37,24 +37,28 @@ devops-guard all
 
 ## 2. Configuration (`guard.config.js`)
 
-You can place a `guard.config.js` or `guard.config.json` in your project root to customize behavior.
+Place a `guard.config.js` in your project root to customize behavior. Only the keys below are
+currently read by the scanners — see [CONTRIBUTING.md](CONTRIBUTING.md) if you'd like to help
+wire up additional options.
 
 ```javascript
 // guard.config.js
 module.exports = {
-  // Directories to ignore during scanning
-  ignoreDirs: ['node_modules', 'dist', 'build', '.git'],
-  
-  // Specific files to ignore
-  ignoreFiles: ['vite.config.js', 'eslint.config.js'],
-  
-  // Thresholds
-  failOnCritical: true,
-  failOnHigh: true,
-  failOnMedium: false,
-  
-  // Knowledge Base path
-  kbPath: './.knowledge-base'
+  // Directories the security & dependency scanners skip
+  ignorePaths: ['node_modules', 'dist', 'build', '.git'],
+
+  // Extensions the dependency scanner checks for imports
+  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
+
+  // Additional secret-detection rules, merged with the built-in 27
+  customRules: [
+    {
+      id: 'CUSTOM-001',
+      name: 'Internal API Key',
+      regex: 'INTERNAL_[A-Z0-9]{32}',
+      severity: 'HIGH',
+    },
+  ],
 };
 ```
 
