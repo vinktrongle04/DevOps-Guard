@@ -751,7 +751,7 @@ async function main() {
 
   // -- Local Semantic Engine (Phase 3) --
   const { verifyViolationsWithAI } = await import('./ai-verifier.js')
-  allViolations = await verifyViolationsWithAI(allViolations, fileContentsCache)
+  allViolations = await verifyViolationsWithAI(allViolations, fileContentsCache, config, { quiet: quietMode })
   
   const falsePositives = allViolations.filter(v => v.isFalsePositive)
   if (!quietMode && falsePositives.length > 0) {

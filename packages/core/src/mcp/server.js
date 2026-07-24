@@ -5,7 +5,13 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js'
-import { log, COLORS } from '../utils/colors.js'
+import { loadConfig } from '../utils/config.js'
+import { resolveProvider } from '../scanner/ai-providers/index.js'
+import { classifySnippet } from '../scanner/ai-verifier.js'
+
+function jsonContent(payload) {
+  return { content: [{ type: 'text', text: JSON.stringify(payload) }] }
+}
 
 // ─── DEVOPS-GUARD MCP SERVER ─────────────────────────────────
 // This Model Context Protocol server exposes DevOps-Guard capabilities
@@ -17,7 +23,7 @@ export async function runMcpServer() {
   const server = new Server(
     {
       name: 'devops-guard-mcp',
-      version: '1.0.0',
+      version: '1.1.0',
     },
     {
       capabilities: {
@@ -88,25 +94,36 @@ export async function runMcpServer() {
         }
       }
 
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify({ isSafe, reason }),
-          },
-        ],
-      }
+      return jsonContent({ isSafe, reason })
     }
 
     if (name === 'analyze_snippet_security') {
-      // In a real scenario, this would call the ai-verifier.js
-      return {
-        content: [
-          {
-            type: 'text',
-            text: JSON.stringify({ status: 'analyzed', note: 'DevOps-Guard AI Semantic engine hook triggered.' }),
-          },
-        ],
+      const code = String(args?.code || '').trim()
+      if (!code) return jsonContent({ status: 'error', error: 'No code provided' })
+
+      const config = await loadConfig(process.cwd())
+      const provider = resolveProvider(config.aiVerifier)
+      if (!provider) return jsonContent({ status: 'skipped', reason: 'No AI provider configured' })
+
+      // MCP is a programmatic stdio caller — there's no interactive channel to
+      // prompt on. Cloud calls here therefore require PRE-authorization via
+      // config/env; unlike the CLI scan path, this never shows a prompt.
+      if (provider.isCloud && !config.aiVerifier?.autoConfirm && process.env.DEVOPS_GUARD_YES !== '1') {
+        return jsonContent({
+          status: 'consent_required',
+          reason: 'Cloud AI provider configured but not auto-confirmed. Set aiVerifier.autoConfirm: true in guard.config.js to allow MCP calls to use paid APIs.',
+        })
+      }
+
+      try {
+        const availability = await provider.checkAvailability()
+        if (!availability.available) {
+          return jsonContent({ status: 'skipped', reason: `Provider "${provider.name}" is not reachable/configured` })
+        }
+        const verdict = await classifySnippet(provider, { ruleId: 'MCP-SNIPPET', contextCode: code })
+        return jsonContent({ status: 'analyzed', verdict, provider: provider.name })
+      } catch (err) {
+        return jsonContent({ status: 'error', error: err.message })
       }
     }
 

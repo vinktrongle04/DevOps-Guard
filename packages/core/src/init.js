@@ -188,6 +188,16 @@ export default {
     // }
   ],
 
+  // AI Semantic Engine — double-checks regex matches against surrounding
+  // code context to filter out mock/test-fixture false positives.
+  aiVerifier: {
+    provider: 'ollama',    // 'ollama' (local, free) | 'anthropic' | 'openai' | 'off'
+    // model: null,        // null = provider-specific default
+    // apiKey: null,       // or set ANTHROPIC_API_KEY / OPENAI_API_KEY in your environment
+    // autoConfirm: false, // skip the cloud-cost consent prompt (needed for CI) — also settable via --yes
+    // concurrency: 5,     // parallel verification calls
+  },
+
   // Auto-fix behavior: 'off' | 'dry-run' | 'apply'
   fix: 'dry-run',
 

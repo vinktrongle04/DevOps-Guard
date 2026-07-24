@@ -39,6 +39,16 @@ const DEFAULTS = {
   failOnSeverity: 'HIGH',
   // Auto-fix behavior: 'off' | 'dry-run' | 'apply'
   fix: 'dry-run',
+  // AI Semantic Engine — verifies regex matches against surrounding code
+  // context to filter out mock/test-fixture false positives.
+  aiVerifier: {
+    provider: 'ollama',        // 'ollama' | 'anthropic' | 'openai' | 'off'
+    model: null,               // null = provider-specific default
+    apiKey: null,               // explicit override; null = fall back to ANTHROPIC_API_KEY / OPENAI_API_KEY env var
+    autoConfirm: false,         // skip the cloud-cost consent prompt (also settable via --yes / DEVOPS_GUARD_YES=1)
+    concurrency: 5,             // bounded parallel verification calls
+    ollama: { host: '127.0.0.1', port: 11434 },
+  },
 }
 
 /**
