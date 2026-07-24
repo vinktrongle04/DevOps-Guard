@@ -62,11 +62,6 @@ const RUNTIME_ONLY   = [
   'eslint',       // linting — CLI only
 ]
 
-// Demo trap packages — intentionally missing to demonstrate Gate 2 detection.
-// These are used via dynamic import() inside trap files for demo purposes.
-// Remove this list in a real project.
-const DEMO_TRAPS     = ['mongodb', 'pg', 'redis']
-
 // Known heavy packages with recommended lighter alternatives
 const BLOAT_REGISTRY = [
   {
@@ -253,7 +248,7 @@ function checkMissing(declared, imported) {
 
   const issues = []
   for (const pkg of imported) {
-    if (!declared.includes(pkg) && !builtins.has(pkg) && !DEMO_TRAPS.includes(pkg)) {
+    if (!declared.includes(pkg) && !builtins.has(pkg)) {
       issues.push(pkg)
     }
   }

@@ -1,9 +1,5 @@
 // ============================================================
-// 🪤 BẪY REFACTOR (REFACTOR TRAP)
-// Component này CỐ TÌNH dùng cú pháp React 18 cũ:
-//   - forwardRef  → React 19 cho phép nhận ref như prop thường
-//   - useContext  → React 19 khuyến khích dùng use()
-// DevOps-Guard Refactor Engine sẽ tự động nâng cấp lên React 19.
+// UserProfile.jsx — team member card
 // ============================================================
 
 import React, { forwardRef, useContext, createContext } from 'react'

@@ -1,9 +1,5 @@
 // ============================================================
 // App.jsx — DevOps-Guard Dashboard
-// 
-// SECURITY TRAP FILE: This file intentionally contains
-// hardcoded secrets so Gate 1 (Security Scanner) can detect
-// and block the commit during the demo.
 // ============================================================
 
 import { useState, useContext, useRef } from 'react'
@@ -18,8 +14,6 @@ import { ThemeProvider, ThemeContext } from './contexts/ThemeContext.jsx'
 import { useScannerData } from './hooks/useScannerData.js'
 import { useScanHistory } from './hooks/useScanHistory.js'
 import './App.css'
-
-// Demo preparation: The hardcoded secrets have been removed to provide a clean baseline.
 
 // ─── STATIC GATE INFO (non-data parts of the pipeline cards) ───
 const QUALITY_GATES = [
@@ -43,8 +37,8 @@ const QUALITY_GATES = [
   },
   {
     id: 'gate-4', name: 'Docs Engine',     icon: '📝',
-    description: '6 components and utilities missing API documentation.',
-    details: ['NotificationPanel — undocumented', 'SearchBar — undocumented', 'MetricsCard — undocumented', 'apiClient.js — undocumented', 'database.js — undocumented', 'auth.js — undocumented'],
+    description: '3 components missing API documentation.',
+    details: ['NotificationPanel — undocumented', 'SearchBar — undocumented', 'MetricsCard — undocumented'],
     action: 'Agent appends to API_DOCUMENTATION.md (append-only)',
   },
   {
