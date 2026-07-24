@@ -10,10 +10,9 @@
 
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import { execSync } from 'child_process'
+import { loadConfig } from '../utils/config.js'
+import { loadIgnoreSet, computeFingerprint } from './ignore-list.js'
 
 const TARGET_DIR = process.cwd()
 
@@ -400,6 +399,56 @@ function collectFiles(dir) {
   return results
 }
 
+// ─── STAGED-FILE SCANNING (for fast pre-commit hooks) ───────
+// Resolves the file list from `git diff --cached` instead of walking the
+// whole repo, so pre-commit stays fast regardless of total repo size.
+// Returns null (signal to fall back to a full scan) if git isn't available
+// or this isn't a git repo — never silently scans nothing.
+function isIgnoredPath(fullPath) {
+  const parts = fullPath.split(path.sep)
+  return parts.some(p => IGNORE_DIRS.includes(p))
+}
+
+function isScannableFile(fullPath) {
+  const name = path.basename(fullPath)
+  if (IGNORE_FILES.includes(name)) return false
+  const ext = path.extname(name).toLowerCase()
+  return SCAN_EXTENSIONS.includes(ext) || name.startsWith('.env')
+}
+
+function getStagedFiles(targetDir) {
+  try {
+    const output = execSync('git diff --cached --name-only --diff-filter=ACM', {
+      cwd: targetDir,
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+    return output.split('\n').filter(Boolean)
+      .map(f => path.resolve(targetDir, f))
+      .filter(f => fs.existsSync(f) && !isIgnoredPath(f) && isScannableFile(f))
+  } catch {
+    return null
+  }
+}
+
+// ─── ENTROPY GATE (reduces false positives on the generic catch-all rule) ───
+// Branded key patterns (AWS/Google/Stripe/etc.) are specific enough on their
+// own; only GEN-001's broad "secret|token|password = '...'" pattern benefits
+// from an extra randomness check — plain-English placeholders like
+// "changeme123" or "your_password_here" score well below a real secret.
+const GEN_001_MIN_ENTROPY = 3.3
+
+function shannonEntropy(str) {
+  if (!str) return 0
+  const freq = {}
+  for (const ch of str) freq[ch] = (freq[ch] || 0) + 1
+  const len = str.length
+  return Object.values(freq).reduce((sum, count) => {
+    const p = count / len
+    return sum - p * Math.log2(p)
+  }, 0)
+}
+
 // ─── SCAN A SINGLE FILE ─────────────────────────────────────
 function scanFile(filePath) {
   const violations = []
@@ -413,9 +462,14 @@ function scanFile(filePath) {
         pattern.regex.lastIndex = 0
         const matches = line.match(pattern.regex)
         if (matches) {
+          if (pattern.id === 'GEN-001') {
+            const valueMatch = matches[0].match(/["']([^"']+)["']/)
+            const value = valueMatch ? valueMatch[1] : ''
+            if (shannonEntropy(value) < GEN_001_MIN_ENTROPY) continue
+          }
           violations.push({
             id: pattern.id,
-            file: path.relative(__dirname, filePath),
+            file: path.relative(TARGET_DIR, filePath),
             line: i + 1,
             pattern: pattern.name,
             severity: pattern.severity,
@@ -604,35 +658,27 @@ async function main() {
     // Ignore if module not found during early bootstrap
   }
 
-  try {
-    const configPath = path.join(TARGET_DIR, 'guard.config.js')
-    if (fs.existsSync(configPath)) {
-      const moduleUrl = new URL(`file://${configPath}`).href
-      const imported = await import(moduleUrl)
-      const config = imported.default || imported
-      if (config.ignorePaths) IGNORE_DIRS = config.ignorePaths
-      if (config.extensions) SCAN_EXTENSIONS = config.extensions
-      if (config.customRules && Array.isArray(config.customRules)) {
-        const formattedRules = config.customRules.map(rule => ({
-          ...rule,
-          // Support regex passed as strings from JSON-like configs, or native RegExp
-          regex: typeof rule.regex === 'string' ? new RegExp(rule.regex, 'g') : rule.regex,
-          category: rule.category || 'Custom Rule',
-          severity: rule.severity || 'HIGH',
-          compliance: rule.compliance || { owasp: null, iso27001: null, soc2: null, pciDss: null, hipaa: null }
-        }))
-        SECURITY_PATTERNS.push(...formattedRules)
-      }
-    }
-  } catch (e) {
-    // Ignore config load error
+  const config = await loadConfig(TARGET_DIR)
+  IGNORE_DIRS = config.ignorePaths
+  SCAN_EXTENSIONS = config.secretExtensions
+  if (config.customRules && Array.isArray(config.customRules) && config.customRules.length > 0) {
+    const formattedRules = config.customRules.map(rule => ({
+      ...rule,
+      // Support regex passed as strings from JSON-like configs, or native RegExp
+      regex: typeof rule.regex === 'string' ? new RegExp(rule.regex, 'g') : rule.regex,
+      category: rule.category || 'Custom Rule',
+      severity: rule.severity || 'HIGH',
+      compliance: rule.compliance || { owasp: null, iso27001: null, soc2: null, pciDss: null, hipaa: null }
+    }))
+    SECURITY_PATTERNS.push(...formattedRules)
   }
 
   const args       = process.argv.slice(2)
   const jsonMode   = args.includes('--json')
   const sarifMode  = args.includes('--sarif')
+  const stagedMode = args.includes('--staged')
   const minSeverityIdx = args.indexOf('--min-severity')
-  const minSeverity = minSeverityIdx !== -1 ? (args[minSeverityIdx + 1] || 'LOW') : 'LOW'
+  const minSeverity = minSeverityIdx !== -1 ? (args[minSeverityIdx + 1] || config.minSeverity) : config.minSeverity
   const scopeIdx = args.indexOf('--scope')
   const scopeArg = scopeIdx !== -1 ? args[scopeIdx + 1] : null
   const quietMode  = jsonMode || sarifMode  // suppress terminal colors in machine modes
@@ -650,7 +696,13 @@ async function main() {
   }
 
   const scanRoot = scopeArg ? path.resolve(TARGET_DIR, scopeArg) : TARGET_DIR
+  let stagedFallback = false
   const files = (() => {
+    if (stagedMode) {
+      const staged = getStagedFiles(TARGET_DIR)
+      if (staged !== null) return staged
+      stagedFallback = true
+    }
     try {
       const stat = fs.statSync(scanRoot)
       if (stat.isFile()) return [scanRoot]
@@ -659,6 +711,14 @@ async function main() {
     }
     return []
   })()
+
+  if (!quietMode && stagedMode) {
+    if (stagedFallback) {
+      log('dim', `  ⚠ --staged requested but this isn't a git repo (or git is unavailable) — falling back to a full scan`)
+    } else {
+      log('dim', `  📌 --staged: scanning only files staged for commit`)
+    }
+  }
 
   if (!quietMode) {
     log('dim', `  📄 Found ${files.length} files to scan`)
@@ -677,7 +737,18 @@ async function main() {
   for (const file of files) {
     allViolations.push(...scanFile(file))
   }
-  
+
+  // -- Permanent false-positive baseline (.devops-guard-ignore.json) --
+  const ignoreSet = loadIgnoreSet(TARGET_DIR)
+  if (ignoreSet.size > 0) {
+    const beforeCount = allViolations.length
+    allViolations = allViolations.filter(v => !ignoreSet.has(computeFingerprint(v.id, v.file, v.content)))
+    const suppressed = beforeCount - allViolations.length
+    if (!quietMode && suppressed > 0) {
+      log('dim', `  🔕 Ignore baseline suppressed ${suppressed} previously-confirmed false positive(s).`)
+    }
+  }
+
   // -- Local Semantic Engine (Phase 3) --
   const { verifyViolationsWithAI } = await import('./ai-verifier.js')
   allViolations = await verifyViolationsWithAI(allViolations, fileContentsCache)
@@ -687,7 +758,8 @@ async function main() {
     log('cyan', `  🧠 AI Semantic Engine filtered out ${falsePositives.length} false positive(s).`)
   }
 
-  const hasBlocker = allViolations.some(v => ['CRITICAL','HIGH'].includes(v.severity) && !v.isFalsePositive)
+  const failRank = SEVERITY_RANK[config.failOnSeverity] ?? SEVERITY_RANK.HIGH
+  const hasBlocker = allViolations.some(v => (SEVERITY_RANK[v.severity] ?? 0) >= failRank && !v.isFalsePositive)
   const minRank = SEVERITY_RANK[minSeverity] ?? 0
   const visibleViolations = allViolations.filter(v => (SEVERITY_RANK[v.severity] ?? 0) >= minRank && !v.isFalsePositive)
 
@@ -748,7 +820,7 @@ async function main() {
   }
 }
 
-export { main }
+export { main, SECURITY_PATTERNS }
 
 // Run directly via node or via devops-guard CLI
 if (process.argv[1] && (process.argv[1].endsWith('security.js') || process.argv[1].endsWith('dependency.js') || process.argv[1].endsWith('fixer/security.js') || process.argv[1].endsWith('graph.js') || process.argv[1].endsWith('output.js') || process.argv[1].endsWith('summary.js'))) {

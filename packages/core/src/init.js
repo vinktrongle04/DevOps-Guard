@@ -76,7 +76,10 @@ export async function runInit() {
 
   // ─── Step 5: Write pre-commit hook ─────────────────────────
   const preCommitPath = path.join(huskyDir, 'pre-commit')
-  const preCommitContent = `#!/usr/bin/env sh
+  if (fs.existsSync(preCommitPath)) {
+    log('green', '  ✓ .husky/pre-commit already exists — leaving your version untouched')
+  } else {
+    const preCommitContent = `#!/usr/bin/env sh
 # ============================================================
 # DevOps-Guard — Husky Pre-Commit Hook v1.0.0
 # Runs Gate 1 (Security) and Gate 2 (Dependency) before commit.
@@ -87,8 +90,11 @@ echo "  DevOps-Guard Pre-Commit Pipeline starting..."
 echo ""
 
 # ─── GATE 1: Security Scanner (HARD BLOCK) ───────────────────
+# --staged scans only files staged for commit, so the hook stays fast
+# regardless of total repo size (falls back to a full scan automatically
+# if this isn't a git repo).
 echo "  [Gate 1/2] Security Scanner..."
-npm run guard:scan
+npx devops-guard scan --staged
 GATE1_EXIT=$?
 
 if [ $GATE1_EXIT -ne 0 ]; then
@@ -119,8 +125,9 @@ echo ""
 echo "  All Quality Gates passed! Commit is allowed."
 echo ""
 `
-  fs.writeFileSync(preCommitPath, preCommitContent, { mode: 0o755 })
-  log('green', '  ✓ .husky/pre-commit written (Gate 1 + Gate 2)')
+    fs.writeFileSync(preCommitPath, preCommitContent, { mode: 0o755 })
+    log('green', '  ✓ .husky/pre-commit written (Gate 1 + Gate 2)')
+  }
 
   // ─── Step 6: Suggest package.json scripts ──────────────────
   const hasGuardScripts = pkg.scripts?.['guard:scan']
@@ -145,13 +152,25 @@ echo ""
 // See: https://github.com/vinktrongle04/DevOps-Guard
 
 export default {
-  // Directories to skip during scanning
+  // Directories to skip during scanning (both the security & dependency scanners)
   ignorePaths: ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard'],
 
-  // File extensions to scan
-  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue', '.svelte'],
+  // File extensions the dependency scanner treats as source (import/require extraction)
+  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
 
-  // Severity threshold: only fail on violations at or above this level
+  // Source directory to scan for dependency import-extraction, relative to project root.
+  // Leave unset to auto-detect (looks for src/ at the root, then in each npm workspace).
+  // srcDir: 'src',
+
+  // Packages that are always considered "used" even if never imported in src/
+  // (build tools, git hooks, linters — these run from the CLI, not from your source code)
+  runtimeDeps: ['husky', 'vite', 'eslint', 'prettier', 'typescript'],
+
+  // Severity threshold: only report violations at or above this level
+  // Values: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+  minSeverity: 'LOW',
+
+  // Severity threshold that hard-blocks a commit/CI run
   // Values: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   failOnSeverity: 'HIGH',
 

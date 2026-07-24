@@ -20,6 +20,7 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { loadConfig } from '../utils/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)
@@ -47,20 +48,13 @@ function resolveScanTarget(targetDir) {
   return { srcDir: path.join(targetDir, 'src'), pkgPath }
 }
 const { srcDir: _resolvedSrc, pkgPath: _resolvedPkg } = resolveScanTarget(TARGET_DIR)
-const SRC_DIR        = path.join(TARGET_DIR, 'src')
-const PKG_PATH       = path.join(TARGET_DIR, 'package.json')
+let SRC_DIR          = _resolvedSrc ?? path.join(TARGET_DIR, 'src')
+const PKG_PATH       = _resolvedPkg ?? path.join(TARGET_DIR, 'package.json')
 let SCAN_EXTS      = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
 let IGNORE_DIRS    = ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard']
 
 // Source files to skip entirely (scanner files, config files)
 const IGNORE_FILES   = ['dependency-scanner.js', 'security-scanner.js', 'vite.config.js', 'eslint.config.js']
-
-// Packages that are intentionally runtime-only (not imported in src)
-const RUNTIME_ONLY   = [
-  'husky',        // git hooks — CLI only
-  'vite',         // build tool — CLI only
-  'eslint',       // linting — CLI only
-]
 
 // Known heavy packages with recommended lighter alternatives
 const BLOAT_REGISTRY = [
@@ -410,18 +404,10 @@ function printSummary({ unused, missing, bloat, dupes, fileCount, pkgCount, elap
 
 // ─── MAIN ──────────────────────────────────────────────────────────
 async function main() {
-  try {
-    const configPath = path.join(TARGET_DIR, 'guard.config.js')
-    if (fs.existsSync(configPath)) {
-      const moduleUrl = new URL(`file://${configPath}`).href
-      const imported = await import(moduleUrl)
-      const config = imported.default || imported
-      if (config.ignorePaths) IGNORE_DIRS = config.ignorePaths
-      if (config.extensions) SCAN_EXTS = config.extensions
-    }
-  } catch (e) {
-    // Ignore config load error
-  }
+  const config = await loadConfig(TARGET_DIR)
+  IGNORE_DIRS = config.ignorePaths
+  SCAN_EXTS = config.extensions
+  if (config.srcDir) SRC_DIR = path.resolve(TARGET_DIR, config.srcDir)
 
   const startTime = Date.now()
 
@@ -445,7 +431,7 @@ async function main() {
   const importedPackages = extractImports(sourceFiles)
 
   // 4. Run all checks (only check runtime deps for unused, not devDeps like husky/vite)
-  const unusedDeps    = checkUnused(dependencies, importedPackages, RUNTIME_ONLY)
+  const unusedDeps    = checkUnused(dependencies, importedPackages, config.runtimeDeps)
   const missingDeps   = checkMissing(allDeclared, importedPackages)
   const bloatedDeps   = checkBloat(allDeclared)
   const duplicateDeps = checkDuplicates(allDeclared)

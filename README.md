@@ -30,12 +30,24 @@ safe to re-run (it won't clobber an existing config). From then on, every `git c
 
 ```bash
 devops-guard scan              # run Gate 1 manually
+devops-guard scan --staged      # only scan files staged for commit (what the hook uses)
 devops-guard scan --json        # for Jenkins / GitLab CI / Splunk
 devops-guard scan --sarif       # for GitHub Code Scanning / Azure DevOps
 devops-guard dep                # run Gate 2 manually
 devops-guard fix                # preview auto-fixes (dry run)
 devops-guard fix --apply        # apply them, in a sandboxed git branch
 ```
+
+Confirmed a violation is a false positive (mock data, a test fixture)? Suppress it permanently
+instead of dismissing it on every scan:
+
+```bash
+devops-guard ignore add src/fixtures/mock-keys.js 42 --reason "test fixture, not a real key"
+```
+
+This appends a content-based fingerprint to `.devops-guard-ignore.json` (commit it — it's a
+shared team baseline, similar to `detect-secrets`' baseline file) — it survives the line moving
+around, and doesn't depend on the AI verifier being available.
 
 ## Why not just use Gitleaks / TruffleHog?
 

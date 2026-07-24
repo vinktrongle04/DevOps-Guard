@@ -40,10 +40,12 @@ function printHelp() {
   log('white', `  ${COLORS.bold}COMMANDS${COLORS.reset}`)
   console.log()
   log('green',  '  scan                 Run security scanner (Gate 1)')
-  log('dim',    '                       Options: --json, --sarif, --min-severity <level>')
+  log('dim',    '                       Options: --json, --sarif, --staged, --min-severity <level>, --scope <path>')
   log('green',  '  dep                  Run dependency scanner (Gate 2)')
   log('green',  '  fix                  Auto-fix security violations (dry-run)')
   log('dim',    '                       Options: --apply, --src <dir>')
+  log('green',  '  ignore add <f> <n>   Permanently suppress a confirmed false positive')
+  log('dim',    '                       Options: --reason "..."')
   log('green',  '  kb                   Rebuild knowledge graph and summary')
   log('green',  '  query <cmd>          Query the knowledge graph (security intelligence)')
   log('dim',    '                       Commands: summary, violations, files-by-risk, compliance, rules, deps, graph, history')
@@ -151,6 +153,20 @@ async function main() {
       const port    = portIdx !== -1 ? parseInt(passthrough[portIdx + 1], 10) : undefined
       const noOpen  = passthrough.includes('--no-open')
       startDashboard({ port, noOpen })
+      break
+    }
+    case 'ignore': {
+      const sub = passthrough[0]
+      if (sub === 'add') {
+        const reasonIdx = passthrough.indexOf('--reason')
+        const reason = reasonIdx !== -1 ? passthrough[reasonIdx + 1] : null
+        const { runIgnoreAdd } = await import('./scanner/ignore-cli.js')
+        await runIgnoreAdd(passthrough[1], passthrough[2], reason)
+      } else {
+        log('red', `\n  ✗ Unknown ignore subcommand: "${sub}"`)
+        log('dim', '  Usage: devops-guard ignore add <file> <line> [--reason "..."]\n')
+        process.exit(1)
+      }
       break
     }
     default: {

@@ -9,8 +9,11 @@ echo "  DevOps-Guard Pre-Commit Pipeline starting..."
 echo ""
 
 # ─── GATE 1: Security Scanner (HARD BLOCK) ───────────────────
+# --staged scans only files staged for commit, so the hook stays fast
+# regardless of total repo size (falls back to a full scan automatically
+# if this isn't a git repo).
 echo "  [Gate 1/2] Security Scanner..."
-npm run guard:scan
+npx devops-guard scan --staged
 GATE1_EXIT=$?
 
 if [ $GATE1_EXIT -ne 0 ]; then
