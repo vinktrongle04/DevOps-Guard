@@ -166,15 +166,6 @@ function fixLogging(lineContent) {
   return { fixed: false, reason: 'Log content unclear — manual review' }
 }
 
-/**
- * Weak auth: == → ===
- */
-function fixWeakAuth(lineContent) {
-  const result = lineContent.replace(/([^=!])={2}([^=])/g, '$1===$2')
-  if (result !== lineContent) return { fixed: true, result, note: '== → === (strict equality)' }
-  return { fixed: false, reason: 'Pattern unclear — manual review' }
-}
-
 // ─── ROUTE VIOLATION TO FIX STRATEGY ─────────────────────────
 function applyFix(violation, envVarsCollected) {
   const { ruleId, lineContent, file } = violation
@@ -188,7 +179,7 @@ function applyFix(violation, envVarsCollected) {
     'PAY-001','PAY-002',
     'COM-001','COM-002','COM-003',
     'VCS-001','VCS-002','VCS-003',
-    'DB-001','GEN-001',
+    'DB-001','GEN-001','AUTH-001',
   ]
 
   if (secretRules.includes(ruleId)) {
@@ -199,7 +190,6 @@ function applyFix(violation, envVarsCollected) {
     return result
   }
 
-  if (ruleId === 'AUTH-001') return fixWeakAuth(lineContent)
   if (ruleId === 'AUTH-002') {
     return { fixed: false, reason: 'Private key block — delete the file, rotate the key, use a secret manager (HashiCorp Vault, AWS KMS)' }
   }
@@ -337,7 +327,7 @@ async function loadViolations() {
     // scanner doesn't export those — just warn
   }
 
-  console.error(C.red('  No scan report found. Run `devops-guard scan` first, then `devops-guard fix`.'))
+  console.error(C.red('  No scan report found. Run `devops-guard kb` first, then `devops-guard fix`.'))
   process.exit(1)
 }
 
@@ -568,6 +558,6 @@ async function main() {
 export { main }
 
 // Run directly via node or via devops-guard CLI
-if (process.argv[1] && (process.argv[1].endsWith('security.js') || process.argv[1].endsWith('dependency.js') || process.argv[1].endsWith('fixer/security.js') || process.argv[1].endsWith('graph.js') || process.argv[1].endsWith('output.js') || process.argv[1].endsWith('summary.js'))) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main()
 }

@@ -285,4 +285,4 @@ function buildGraph() {
 
 export async function main() { buildGraph() }
 
-if (process.argv[1]?.endsWith('graph.js')) main()
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main()

@@ -17,7 +17,8 @@
   },
   "files": [
     "src/",
-    "dashboard-dist/"
+    "dashboard-dist/",
+    "!src/**/*.test.js"
   ],
   "keywords": [
     "security",
@@ -30,7 +31,10 @@
     "pre-commit",
     "husky",
     "secrets-detection",
-    "autofix"
+    "autofix",
+    "mcp",
+    "model-context-protocol",
+    "ai-agent-guardrails"
   ],
   "author": "DevOps-Guard Team",
   "license": "MIT",

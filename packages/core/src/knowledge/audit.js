@@ -4,26 +4,46 @@ import path from 'path'
 import { log } from '../utils/colors.js'
 
 // ============================================================================
-// Immutable Audit Trail (Cryptographic Hashing)
+// Audit Trail (Cryptographic Hashing)
 //
-// Ensures that security scan logs and histories cannot be tampered with.
-// Uses SHA-256 HMAC or plain hashing to sign critical files.
+// Detects accidental or casual tampering with security scan logs by HMAC-
+// signing them with a key generated locally on first use (never hardcoded
+// in source — a signing key baked into public source code would let
+// anyone recompute a valid signature, defeating the whole point). The key
+// lives at .devops-guard/.audit-key, next to what it signs, and is never
+// committed (the whole .devops-guard/ directory is gitignored) — so this
+// protects against a casual git-history edit or hand-edited log file, not
+// against someone with full filesystem/local access to regenerate the key.
 // ============================================================================
 
-const SECRET_SALT = 'devops-guard-immutable-salt-v3'
+function getAuditKeyPath(signedFilePath) {
+  return path.join(path.dirname(signedFilePath), '.audit-key')
+}
+
+function getOrCreateAuditKey(signedFilePath) {
+  const keyPath = getAuditKeyPath(signedFilePath)
+  if (fs.existsSync(keyPath)) {
+    return fs.readFileSync(keyPath, 'utf-8').trim()
+  }
+  const key = crypto.randomBytes(32).toString('hex')
+  fs.mkdirSync(path.dirname(keyPath), { recursive: true })
+  fs.writeFileSync(keyPath, key, 'utf-8')
+  return key
+}
 
 /**
- * Computes a SHA-256 hash for a given file and writes it to a .sig file.
+ * Computes a SHA-256 HMAC for a given file and writes it to a .sig file.
  */
 export function signFile(filePath) {
   if (!fs.existsSync(filePath)) return false
-  
+
   try {
+    const key = getOrCreateAuditKey(filePath)
     const content = fs.readFileSync(filePath, 'utf-8')
-    const hash = crypto.createHmac('sha256', SECRET_SALT)
+    const hash = crypto.createHmac('sha256', key)
                        .update(content)
                        .digest('hex')
-    
+
     fs.writeFileSync(`${filePath}.sig`, hash, 'utf-8')
     return true
   } catch (err) {
@@ -38,28 +58,29 @@ export function signFile(filePath) {
  */
 export function verifySignature(filePath) {
   const sigPath = `${filePath}.sig`
-  
+
   if (!fs.existsSync(filePath)) return true // Nothing to verify
-  
+
   if (!fs.existsSync(sigPath)) {
     // If file exists but signature doesn't, that's a violation of immutability
     log('red', `[Audit] Missing signature for ${path.basename(filePath)}. File may have been tampered with.`)
     return false
   }
-  
+
   try {
+    const key = getOrCreateAuditKey(filePath)
     const content = fs.readFileSync(filePath, 'utf-8')
     const storedHash = fs.readFileSync(sigPath, 'utf-8').trim()
-    
-    const computedHash = crypto.createHmac('sha256', SECRET_SALT)
+
+    const computedHash = crypto.createHmac('sha256', key)
                                .update(content)
                                .digest('hex')
-                               
+
     if (computedHash !== storedHash) {
       log('red', `[Audit] 🚨 TAMPERING DETECTED! Signature mismatch for ${path.basename(filePath)}.`)
       return false
     }
-    
+
     return true
   } catch (err) {
     log('red', `[Audit] Verification error for ${filePath}: ${err.message}`)

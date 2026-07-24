@@ -144,4 +144,4 @@ export async function main() {
   console.log(`[kb-summary] PROJECT_STATE.md written to .devops-guard/`)
 }
 
-if (process.argv[1]?.endsWith('summary.js')) main()
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main()

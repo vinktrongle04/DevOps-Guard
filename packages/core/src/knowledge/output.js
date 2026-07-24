@@ -18,7 +18,7 @@ const OUTPUT_PATH = path.join(OUT_DIR, 'scan-report.json')
 const SRC_DIR     = path.join(TARGET_DIR, 'src')
 const PKG_PATH    = path.join(TARGET_DIR, 'package.json')
 const SCAN_EXTS   = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
-const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard', '.knowledge-base', 'public', 'docs']
+const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', 'packages', '.devops-guard']
 const IGNORE_FILES = [
   'dependency-scanner.js', 'security-scanner.js',
   'scanner-output.js', 'vite.config.js', 'eslint.config.js',
@@ -397,4 +397,4 @@ export async function main() {
   buildReport()
 }
 
-if (process.argv[1]?.endsWith('scanner-output.js')) main()
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main()

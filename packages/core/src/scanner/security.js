@@ -10,9 +10,12 @@
 
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { execSync } from 'child_process'
 import { loadConfig } from '../utils/config.js'
 import { loadIgnoreSet, computeFingerprint } from './ignore-list.js'
+import { verifySignature } from '../knowledge/audit.js'
+import { verifyViolationsWithAI } from './ai-verifier.js'
 
 const TARGET_DIR = process.cwd()
 
@@ -646,16 +649,11 @@ function outputSarif(violations, elapsed, hasBlocker) {
 
 // ─── MAIN ENTRY POINT ───────────────────────────────────────
 async function main() {
-  try {
-    // -- Immutable Audit Trail (Phase 3) --
-    const { verifySignature } = await import('../knowledge/audit.js')
-    const HISTORY_PATH = path.join(TARGET_DIR, '.devops-guard', 'scan-history.json')
-    if (!verifySignature(HISTORY_PATH)) {
-      console.error('\n🚨 DevOps-Guard: Audit Trail verification failed. Execution blocked to prevent tamper escalation.\n')
-      process.exit(1)
-    }
-  } catch (e) {
-    // Ignore if module not found during early bootstrap
+  // -- Audit Trail --
+  const HISTORY_PATH = path.join(TARGET_DIR, '.devops-guard', 'scan-history.json')
+  if (!verifySignature(HISTORY_PATH)) {
+    console.error('\n🚨 DevOps-Guard: Audit Trail verification failed. Execution blocked to prevent tamper escalation.\n')
+    process.exit(1)
   }
 
   const config = await loadConfig(TARGET_DIR)
@@ -749,8 +747,7 @@ async function main() {
     }
   }
 
-  // -- Local Semantic Engine (Phase 3) --
-  const { verifyViolationsWithAI } = await import('./ai-verifier.js')
+  // -- Local Semantic Engine --
   allViolations = await verifyViolationsWithAI(allViolations, fileContentsCache, config, { quiet: quietMode })
   
   const falsePositives = allViolations.filter(v => v.isFalsePositive)
@@ -820,9 +817,9 @@ async function main() {
   }
 }
 
-export { main, SECURITY_PATTERNS }
+export { main, SECURITY_PATTERNS, scanFile, shannonEntropy }
 
 // Run directly via node or via devops-guard CLI
-if (process.argv[1] && (process.argv[1].endsWith('security.js') || process.argv[1].endsWith('dependency.js') || process.argv[1].endsWith('fixer/security.js') || process.argv[1].endsWith('graph.js') || process.argv[1].endsWith('output.js') || process.argv[1].endsWith('summary.js'))) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main()
 }
