@@ -14,9 +14,9 @@ const CONFIG_FILES = ['guard.config.js', 'guard.config.mjs', '.guardrc.js']
 const DEFAULTS = {
   // Directories to skip during scanning (shared by the security & dependency scanners)
   ignorePaths: [
-    'node_modules', '.git', 'dist', 'build', '.husky', '.github',
+    'node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github',
     'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs',
-    'packages', '.devops-guard',
+    '.devops-guard',
   ],
   // File extensions the dependency scanner treats as source (import/require extraction)
   extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
@@ -26,8 +26,6 @@ const DEFAULTS = {
   secretExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf'],
   // Additional secret-detection rules, merged with the built-in rule set
   customRules: [],
-  // Output directory for reports and knowledge graph
-  outputDir: '.devops-guard',
   // Source directory to scan for dependency import-extraction (relative to project root,
   // null = auto-detect the first workspace with a src/, falling back to project root)
   srcDir: null,
@@ -37,8 +35,6 @@ const DEFAULTS = {
   minSeverity: 'LOW',
   // Severity threshold that hard-blocks a commit/CI run
   failOnSeverity: 'HIGH',
-  // Auto-fix behavior: 'off' | 'dry-run' | 'apply'
-  fix: 'dry-run',
   // AI Semantic Engine — verifies regex matches against surrounding code
   // context to filter out mock/test-fixture false positives.
   aiVerifier: {
@@ -70,23 +66,4 @@ export async function loadConfig(projectRoot) {
     }
   }
   return { ...DEFAULTS }
-}
-
-/**
- * Returns the absolute path to the output directory.
- * @param {string} projectRoot
- * @param {typeof DEFAULTS} config
- */
-export function getOutputDir(projectRoot, config) {
-  return path.resolve(projectRoot, config.outputDir)
-}
-
-/**
- * Ensures the output directory exists.
- * @param {string} outputDir
- */
-export function ensureOutputDir(outputDir) {
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true })
-  }
 }

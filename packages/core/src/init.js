@@ -197,12 +197,6 @@ export default {
     // autoConfirm: false, // skip the cloud-cost consent prompt (needed for CI) — also settable via --yes
     // concurrency: 5,     // parallel verification calls
   },
-
-  // Auto-fix behavior: 'off' | 'dry-run' | 'apply'
-  fix: 'dry-run',
-
-  // Output directory for reports and knowledge graph
-  outputDir: '.devops-guard',
 }
 `
     fs.writeFileSync(configPath, configContent, 'utf-8')

@@ -350,7 +350,7 @@ const SECURITY_PATTERNS = [
 ]
 
 // ─── IGNORED DIRECTORIES AND FILES ─────────────────────────
-let IGNORE_DIRS  = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', 'packages', '.devops-guard']
+let IGNORE_DIRS  = ['node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', '.devops-guard']
 let IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'security-scanner.js', 'security-autofix.js', 'scanner-output.js', 'graph-builder.js', 'graph-query.js', 'kb-summary.js', '.env.example']
 let SCAN_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf']
 

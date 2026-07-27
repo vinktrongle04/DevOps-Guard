@@ -79,6 +79,57 @@ installable, tested tool.
 - Added a root `eslint.config.js` — `npm run lint` at the workspace root had
   never actually run (no config file existed).
 - Excluded test files from the published npm package.
+- **Command injection in the fixer's git integration**: `originalBranch`
+  (read from whatever ref happens to be checked out) was interpolated
+  directly into shell command strings via `execSync`. A branch named e.g.
+  `x&whoami&y` would execute `whoami` as a separate shell command during
+  `fix --apply`'s merge-back step. All git invocations in the fixer now use
+  `execFileSync` with argv arrays, never a shell string.
+- **Path traversal in the fixer**: `scan-report.json` was trusted without
+  any integrity check, and a `file` field escaping the project root (e.g.
+  `../../../etc/passwd`) was only filtered by a substring blocklist, not a
+  real containment check. The fixer now requires a valid audit-trail
+  signature on the report (signed by `devops-guard kb`, the same mechanism
+  already used for `scan-history.json`) and independently verifies every
+  resolved file path stays inside the project directory before reading or
+  writing it.
+- **Default `ignorePaths` silently skipped every directory literally named
+  `packages`** anywhere in a scanned tree — not just this repo's own
+  top-level folder. Any consumer using npm/yarn/pnpm workspaces (a very
+  common JS monorepo convention) had that entire subtree excluded from
+  `scan`/`dep`/`kb` by default, with no warning. Replaced with an explicit
+  `dashboard-dist` entry, which was the actual thing that needed excluding.
+- **`knowledge/output.js` (powers `kb`, the dashboard, and compliance
+  queries) carried its own hand-copied, drifted rule set** instead of
+  importing the canonical one from `scanner/security.js` — it was missing
+  the `GOOG-004` (Google Service Account Key, CRITICAL) rule entirely, and
+  one rule's `name` field had been corrupted into unreadable text by the
+  fixer's own context-free regex rewriting matching inside a string
+  literal. Now imports `SECURITY_PATTERNS` directly, so it can't drift again.
+- **`DEMO_TRAPS` (`mongodb`/`pg`/`redis`) was still hiding missing
+  dependencies from `devops-guard kb`** via a second, forgotten copy of the
+  allowlist in `knowledge/output.js` — Phase 1 had only removed it from
+  `scanner/dependency.js`. Also fixed the same file's hardcoded
+  `RUNTIME_ONLY` list to read `config.runtimeDeps`, matching `dependency.js`.
+- Hardened the MCP `check_command` advisory check against split/long-form
+  `rm` flags (`rm -r -f`, `--recursive --force`) and PowerShell's
+  `Remove-Item -Recurse -Force`; corrected its README/guardrails description
+  from implying active enforcement to what it actually is — a best-effort,
+  bypassable advisory check the calling AI agent chooses to consult.
+- Capped the MCP `analyze_snippet_security` tool's input size (2000 chars)
+  — unbounded, it was a plausible sink for a prompt-injection payload to
+  exfiltrate large file contents to a configured cloud AI provider once
+  `aiVerifier.autoConfirm` is set.
+- Fixed a TOCTOU race in the audit-trail signing key's first-use creation
+  (two concurrent `devops-guard` processes could generate different keys
+  and race to write, later causing a false "tampering detected" alarm) and
+  restricted the key file to owner-only permissions.
+- Fixed the dashboard server's path-containment check, which used a bare
+  `startsWith(basedir)` — a sibling directory sharing the same string
+  prefix (e.g. `dashboard-dist-old/` next to `dashboard-dist/`) would have
+  incorrectly passed.
+- Removed `outputDir` and `fix` from `guard.config.js`'s documented default
+  keys — neither was ever read anywhere; they did nothing.
 
 ### Removed
 - Deleted demo/fixture files that were mixed into the real, shipped dashboard

@@ -27,8 +27,22 @@ function getOrCreateAuditKey(signedFilePath) {
   }
   const key = crypto.randomBytes(32).toString('hex')
   fs.mkdirSync(path.dirname(keyPath), { recursive: true })
-  fs.writeFileSync(keyPath, key, 'utf-8')
-  return key
+  try {
+    // Exclusive create ('wx') instead of a plain write: if two processes
+    // both reach this point for the first time concurrently (e.g. a
+    // pre-commit hook and a manually-run `devops-guard kb` firing close
+    // together), only one of them actually creates the key file. Without
+    // this, both would generate different random keys and race to write
+    // last, and whichever one loses would later fail its own signature
+    // verification with a false "tampering detected" alarm.
+    fs.writeFileSync(keyPath, key, { encoding: 'utf-8', flag: 'wx', mode: 0o600 })
+    return key
+  } catch (err) {
+    if (err.code === 'EEXIST') {
+      return fs.readFileSync(keyPath, 'utf-8').trim()
+    }
+    throw err
+  }
 }
 
 /**

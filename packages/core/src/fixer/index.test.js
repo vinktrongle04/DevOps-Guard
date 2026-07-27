@@ -4,6 +4,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { signFile } from '../knowledge/audit.js'
 
 // See scanner/security.test.js for why these run via subprocess rather than
 // a direct import of fixer/index.js.
@@ -27,10 +28,16 @@ afterEach(() => {
 })
 
 function writeScanReport(violations) {
+  const reportPath = path.join(tmpDir, '.devops-guard', 'scan-report.json')
   fs.writeFileSync(
-    path.join(tmpDir, '.devops-guard', 'scan-report.json'),
+    reportPath,
     JSON.stringify({ gate1: { violations }, gate2: { unused: [], missing: [] } })
   )
+  // The fixer now refuses to trust a scan-report.json without a valid audit
+  // signature (see fixer/index.js's loadViolations) — sign it here the same
+  // way a real `devops-guard kb` run would, so these tests exercise the fixer
+  // itself rather than the signature gate.
+  signFile(reportPath)
 }
 
 function commitAll(message = 'init') {

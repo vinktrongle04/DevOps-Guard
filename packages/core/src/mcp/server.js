@@ -13,6 +13,15 @@ function jsonContent(payload) {
   return { content: [{ type: 'text', text: JSON.stringify(payload) }] }
 }
 
+// A "snippet" is meant to be a few lines of suspicious code, not an entire
+// file. Without a cap, a prompt-injection payload hidden in scanned content
+// could induce a connected AI agent to pass much larger — even whole-file —
+// content through this tool as a way to smuggle it to a configured cloud AI
+// provider (once aiVerifier.autoConfirm is set, every call goes out with no
+// further per-call confirmation). Rejecting oversized input keeps this tool
+// scoped to what it's actually for.
+const MAX_SNIPPET_CHARS = 2000
+
 // ─── DEVOPS-GUARD MCP SERVER ─────────────────────────────────
 // This Model Context Protocol server exposes DevOps-Guard capabilities
 // directly to AI IDEs (Claude Code, Cursor, Windsurf).
@@ -73,17 +82,25 @@ export async function runMcpServer() {
     const { name, arguments: args } = request.params
 
     if (name === 'check_command') {
+      // This is a best-effort advisory check, not an enforcement boundary —
+      // nothing stops the calling agent from running the command through a
+      // different tool regardless of the verdict, and no fixed pattern list
+      // can cover every dangerous command. It exists to catch the common,
+      // easy-to-miss cases before an AI agent runs them unsupervised.
       const cmd = String(args?.command || '').toLowerCase()
       let isSafe = true
-      let reason = 'Command looks safe.'
+      let reason = 'Command looks safe (best-effort check — not a guarantee).'
 
       const dangerousPatterns = [
         /rm\s+-rf/,
-        /drop\s+database/i,
-        /drop\s+table/i,
+        /find\s+.+-delete/,
+        /drop\s+database/,
+        /drop\s+table/,
+        /truncate\s+table/,
         /chmod\s+777/,
         />\s*\.env/,
-        /curl.*\|\s*bash/
+        /curl[^|]*\|\s*(bash|sh)/,
+        /wget[^|]*\|\s*(bash|sh)/,
       ]
 
       for (const pattern of dangerousPatterns) {
@@ -94,12 +111,35 @@ export async function runMcpServer() {
         }
       }
 
+      // `rm -rf` above only catches the combined-flag form — also catch split
+      // (`rm -r -f`) and long-form (`--recursive`/`--force`) flags in any order.
+      if (isSafe && /\brm\b/.test(cmd)) {
+        const hasRecursive = /(^|\s)-[a-z]*r[a-z]*(\s|$)/.test(cmd) || /--recursive\b/.test(cmd)
+        const hasForce     = /(^|\s)-[a-z]*f[a-z]*(\s|$)/.test(cmd) || /--force\b/.test(cmd)
+        if (hasRecursive && hasForce) {
+          isSafe = false
+          reason = 'BLOCKED by DevOps-Guard: rm with recursive + force flags (split or long-form) is destructive.'
+        }
+      }
+
+      // PowerShell equivalent of `rm -rf`.
+      if (isSafe && /remove-item\b/.test(cmd) && /-recurse\b/.test(cmd) && /-force\b/.test(cmd)) {
+        isSafe = false
+        reason = 'BLOCKED by DevOps-Guard: Remove-Item -Recurse -Force is destructive.'
+      }
+
       return jsonContent({ isSafe, reason })
     }
 
     if (name === 'analyze_snippet_security') {
       const code = String(args?.code || '').trim()
       if (!code) return jsonContent({ status: 'error', error: 'No code provided' })
+      if (code.length > MAX_SNIPPET_CHARS) {
+        return jsonContent({
+          status: 'error',
+          error: `Snippet too large (${code.length} chars, max ${MAX_SNIPPET_CHARS}). This tool analyzes short suspicious excerpts, not whole files.`,
+        })
+      }
 
       const config = await loadConfig(process.cwd())
       const provider = resolveProvider(config.aiVerifier)

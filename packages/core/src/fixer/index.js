@@ -26,6 +26,7 @@
 import fs    from 'fs'
 import path  from 'path'
 import { fileURLToPath } from 'url'
+import { verifySignature } from '../knowledge/audit.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const TARGET_DIR = process.cwd()
@@ -201,11 +202,22 @@ function applyFix(violation, envVarsCollected) {
   return { fixed: false, reason: 'No auto-fix strategy for this rule type' }
 }
 
+// Violations come from a scan report whose `file` field we should not trust
+// blindly — resolve it and reject anything that escapes TARGET_DIR (e.g. a
+// crafted `../../../etc/passwd`-style path) instead of just string-matching
+// against a handful of known substrings.
+function resolveWithinTarget(filePath) {
+  const absPath = path.resolve(TARGET_DIR, filePath)
+  const rel = path.relative(TARGET_DIR, absPath)
+  if (rel === '' || rel.startsWith('..') || path.isAbsolute(rel)) return null
+  return absPath
+}
+
 // ─── APPLY ALL FIXES TO A SINGLE FILE ─────────────────────────
 function fixFile(filePath, violations, envVarsCollected, dryRun) {
-  const absPath = path.resolve(TARGET_DIR, filePath)
-  if (!fs.existsSync(absPath)) {
-    return { skipped: true, reason: 'File not found' }
+  const absPath = resolveWithinTarget(filePath)
+  if (!absPath || !fs.existsSync(absPath)) {
+    return { skipped: true, reason: absPath ? 'File not found' : 'Path escapes the project directory — refusing to touch it' }
   }
 
   const original = fs.readFileSync(absPath, 'utf-8')
@@ -306,6 +318,16 @@ async function loadViolations() {
   ]
   for (const reportPath of candidates) {
     if (fs.existsSync(reportPath)) {
+      // The fixer trusts this report's file/line locations enough to open and
+      // rewrite files based on them — refuse to act on one that isn't signed
+      // by this machine's own audit key (e.g. a scan-report.json planted by a
+      // malicious PR rather than produced by a real `devops-guard kb` run).
+      if (!verifySignature(reportPath)) {
+        console.error(C.red(`\n  ✗ Audit trail verification failed for ${path.relative(TARGET_DIR, reportPath)}.`))
+        console.error(C.red(`    Refusing to trust an unsigned or tampered scan report.`))
+        console.error(C.dim(`    Run \`devops-guard kb\` to regenerate a freshly signed report, then try again.\n`))
+        process.exit(1)
+      }
       const report = JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
       const gate1Violations = report?.gate1?.violations || []
       const gate2 = report?.gate2 || { unused: [], missing: [] }
@@ -333,7 +355,8 @@ async function loadViolations() {
 
 function readLine(filePath, lineNumber) {
   try {
-    const absPath = path.resolve(TARGET_DIR, filePath)
+    const absPath = resolveWithinTarget(filePath)
+    if (!absPath) return ''
     const lines   = fs.readFileSync(absPath, 'utf-8').split('\n')
     return lines[lineNumber - 1] || ''
   } catch { return '' }
@@ -354,7 +377,7 @@ async function main() {
   let patchBranch = null
 
   if (!DRY_RUN) {
-    const { execSync } = await import('child_process')
+    const { execSync, execFileSync } = await import('child_process')
     try {
       originalBranch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8', stdio: 'pipe' }).trim()
       // NOTE: git ref names can't start with a dot — a leading-dot branch
@@ -362,7 +385,7 @@ async function main() {
       // silently falling back to "apply directly" and defeating the whole
       // point of the sandboxed-branch workflow.
       patchBranch = `devops-guard-patch-${Date.now()}`
-      execSync(`git checkout -b ${patchBranch}`, { stdio: 'pipe' })
+      execFileSync('git', ['checkout', '-b', patchBranch], { stdio: 'pipe' })
       console.log(C.dim(`  [Git] Created sandboxed patch branch: ${patchBranch}\n`))
     } catch (e) {
       console.log(C.yellow(`  [Git] Failed to create sandboxed branch. Applying fixes directly.\n`))
@@ -500,7 +523,7 @@ async function main() {
 
   // ─── SAFE SELF-HEALING LOOP (MERGE PATCH) ──────────────────
   if (!DRY_RUN && patchBranch) {
-    const { execSync } = await import('child_process')
+    const { execSync, execFileSync } = await import('child_process')
 
     console.log(C.cyan('━'.repeat(64)))
     console.log(C.bold('  ✅ Patch generated in sandboxed branch.'))
@@ -542,9 +565,14 @@ async function main() {
       try {
         execSync('git add .')
         execSync('git commit -m "chore: devops-guard auto-remediation patch"')
-        execSync(`git checkout ${originalBranch}`, { stdio: 'pipe' })
-        execSync(`git merge --squash ${patchBranch}`, { stdio: 'pipe' })
-        execSync(`git branch -D ${patchBranch}`, { stdio: 'pipe' })
+        // originalBranch reflects whatever branch/ref was checked out when this
+        // process started — on a hostile checkout (e.g. an attacker-named PR
+        // branch), that string is not something we can safely interpolate into
+        // a shell command. execFileSync passes it as a single argv element,
+        // never through a shell, so it can't be used to inject extra commands.
+        execFileSync('git', ['checkout', originalBranch], { stdio: 'pipe' })
+        execFileSync('git', ['merge', '--squash', patchBranch], { stdio: 'pipe' })
+        execFileSync('git', ['branch', '-D', patchBranch], { stdio: 'pipe' })
         console.log(C.green(`  ✓ Patch merged successfully into ${originalBranch}.`))
       } catch (e) {
         console.log(C.red(`  ✗ Failed to merge patch: ${e.message}`))

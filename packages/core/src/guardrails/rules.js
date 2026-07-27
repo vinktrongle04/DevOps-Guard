@@ -23,7 +23,7 @@ const RULES_CONTENT = `
 # 2. DANGEROUS COMMANDS INTERCEPTION (PRE-TOOL USE HOOK)
 #    - Before executing ANY destructive bash/shell command (e.g., rm -rf, drop table, 
 #      truncate, chmod 777), you MUST first validate the command via DevOps-Guard.
-#    - If DevOps-Guard is running as an MCP Server, use its 'check-command' tool first.
+#    - If DevOps-Guard is running as an MCP Server, use its 'check_command' tool first.
 #    - Otherwise, ask the user for explicit confirmation with the phrase: 
 #      "DevOps-Guard Warning: This command is destructive. Are you sure you want to proceed?"
 #

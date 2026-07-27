@@ -60,7 +60,13 @@ const SECURITY_HEADERS = {
 // ─── HELPER: Safe path resolution (prevent traversal) ───────
 function safePath(basedir, requestedPath) {
   const resolved = path.resolve(basedir, requestedPath)
-  if (!resolved.startsWith(basedir)) return null // traversal blocked
+  // A bare startsWith(basedir) would let a sibling directory that happens to
+  // share the same string prefix through (e.g. basedir /a/b would wrongly
+  // accept /a/b-evil/x). Comparing against the relative path instead makes
+  // this an actual containment check.
+  const rel = path.relative(basedir, resolved)
+  if (rel === '' ) return resolved
+  if (rel.startsWith('..') || path.isAbsolute(rel)) return null // traversal blocked
   return resolved
 }
 

@@ -6,6 +6,8 @@
 import fs   from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import { SECURITY_PATTERNS } from '../scanner/security.js'
+import { loadConfig } from '../utils/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname  = path.dirname(__filename)
@@ -18,7 +20,7 @@ const OUTPUT_PATH = path.join(OUT_DIR, 'scan-report.json')
 const SRC_DIR     = path.join(TARGET_DIR, 'src')
 const PKG_PATH    = path.join(TARGET_DIR, 'package.json')
 const SCAN_EXTS   = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
-const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', 'packages', '.devops-guard']
+const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', '.devops-guard']
 const IGNORE_FILES = [
   'dependency-scanner.js', 'security-scanner.js',
   'scanner-output.js', 'vite.config.js', 'eslint.config.js',
@@ -26,36 +28,11 @@ const IGNORE_FILES = [
   'graph-query.js', 'kb-summary.js', 'security-autofix.js', '.env.example'
 ]
 
-// ─── SECURITY PATTERNS (subset — same as security-scanner.js) ──
-const SECURITY_PATTERNS = [
-  { id: 'GOOG-001', name: 'Google API Key',            regex: /AIzaSy[0-9A-Za-z_-]{33}/g,           severity: 'CRITICAL', category: 'Google Cloud',       owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'GOOG-002', name: 'Firebase Config Value',     regex: /firebase[A-Za-z]*\s*[:=]\s*["'][A-Za-z0-9_-]{20,}["']/gi, severity: 'HIGH', category: 'Google Cloud', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'GOOG-003', name: 'Google OAuth Client Secret',regex: /GOCSPX-[A-Za-z0-9_-]{28,}/g,        severity: 'CRITICAL', category: 'Google Cloud',       owasp: 'A07', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 8.2',  hipaa: null        } },
-  { id: 'AWS-001',  name: 'AWS Access Key ID',         regex: /AKIA[0-9A-Z]{16}/g,                  severity: 'CRITICAL', category: 'AWS',                owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'AWS-002',  name: 'AWS Secret Access Key',     regex: /aws_secret_access_key\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?/gi, severity: 'CRITICAL', category: 'AWS', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'AI-001',   name: 'OpenAI API Key',            regex: /sk-proj-[A-Za-z0-9]{20,}/g,          severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'AI-002',   name: 'OpenAI Legacy Key',         regex: /sk-[A-Za-z0-9]{48}/g,                severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'AI-003',   name: 'Anthropic API Key',         regex: /sk-ant-[A-Za-z0-9_-]{40,}/g,        severity: 'CRITICAL', category: 'AI Services',        owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'PAY-001',  name: 'Stripe Secret/Restricted Key', regex: /(?:sk_live_|rk_live_)[0-9a-zA-Z_]{20,}/g, severity: 'CRITICAL', category: 'Payment',   owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2',  hipaa: null        } },
-  { id: 'PAY-002',  name: 'Stripe Publishable Key',    regex: /pk_live_[0-9a-zA-Z]{24,}/g,          severity: 'MEDIUM',   category: 'Payment',            owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 3.2',  hipaa: null        } },
-  { id: 'COM-001',  name: 'Twilio API Key',            regex: /SK[0-9a-fA-F]{32}/g,                 severity: 'HIGH',     category: 'Communication',      owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'COM-002',  name: 'SendGrid API Key',          regex: /SG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}/g, severity: 'HIGH', category: 'Communication', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'COM-003',  name: 'Slack Bot/Webhook Token',   regex: /xox[baprs]-[0-9A-Za-z-]{10,}/g,     severity: 'HIGH',     category: 'Communication',      owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.6', pciDss: null,        hipaa: null        } },
-  { id: 'VCS-001',  name: 'GitHub PAT',                regex: /(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}/g, severity: 'CRITICAL', category: 'Version Control', owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'VCS-002',  name: 'GitHub OAuth Token',        regex: /gho_[A-Za-z0-9]{36}/g,              severity: 'HIGH',     category: 'Version Control',    owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'VCS-003',  name: 'GitLab Token',              regex: /glpat-[A-Za-z0-9_-]{20,}/g,        severity: 'CRITICAL', category: 'Version Control',    owasp: 'A02', compliance: { iso27001: 'A.9.2.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: null        } },
-  { id: 'DB-001',   name: 'Database Connection String',regex: /(?:mongodb(?:\+srv)?|postgres(?:ql)?|mysql|redis):\/\/[^\s"']{10,}/gi, severity: 'CRITICAL', category: 'Database', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: '§164.312'  } },
-  { id: 'AUTH-001', name: 'JWT Token',                 regex: /eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g, severity: 'HIGH', category: 'Authentication', owasp: 'A07', compliance: { iso27001: 'A.9.4.2', soc2: 'CC6.1', pciDss: 'Req 8.2',  hipaa: '§164.312'  } },
-  { id: 'AUTH-002', name: 'Private Key Block',         regex: /-----BEGIN\s+(RSA|EC|DSA|OPENSSH)?\s*PRIVATE KEY-----/g, severity: 'CRITICAL', category: 'Authentication', owasp: 'A02', compliance: { iso27001: 'A.10.1.1', soc2: 'CC6.1', pciDss: 'Req 3.4', hipaa: '§164.312'  } },
-  { id: 'GEN-001',  name: 'Hardcoded Secret/Password', regex: /(?:secret|token|password|passwd|pwd|api_key|apikey|access_key)\s*[:=]\s*["'][^"']{8,}["']/gi, severity: 'HIGH', category: 'Generic', owasp: 'A02', compliance: { iso27001: 'A.9.4.3', soc2: 'CC6.1', pciDss: 'Req 6.3',  hipaa: '§164.308'  } },
-  { id: 'GEN-002',  name: 'Environment File Committed',regex: /^(?:DB_PASSWORD|SECRET_KEY|API_SECRET|PRIVATE_KEY)\s*=\s*.{3,}/gm, severity: 'CRITICAL', category: 'Generic', owasp: 'A05', compliance: { iso27001: 'A.12.1.2', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: '§164.308'  } },
-  { id: 'GEN-003',  name: 'Hardcoded IP with Port',    regex: /(?:\d{1,3}\.){3}\d{1,3}:\d{2,5}/g, severity: 'MEDIUM',   category: 'Generic',            owasp: 'A05', compliance: { iso27001: 'A.12.1.2', soc2: 'CC7.2', pciDss: null,        hipaa: null        } },
-  { id: 'ENV-001',  name: 'VITE_ Prefix on Server Secret', regex: /VITE_(?:SECRET|KEY|PASSWORD|TOKEN|DATABASE|PRIVATE|API)[A-Z_]*\s*=/g, severity: 'HIGH', category: 'Env Misconfiguration', owasp: 'A05', compliance: { iso27001: 'A.14.2.5', soc2: 'CC6.6', pciDss: 'Req 6.3', hipaa: null        } },
-  { id: 'XSS-001',  name: 'React dangerouslySetInnerHTML', regex: /dangerouslySetInnerHTML\s*=\s*\{\{/g, severity: 'HIGH', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
-  { id: 'XSS-002',  name: 'Direct DOM innerHTML',      regex: /\.innerHTML\s*=|document\.write\s*\(/g, severity: 'HIGH', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
-  { id: 'XSS-003',  name: '/* SECURITY: /* SECURITY: /* SECURITY: eval() is dangerous */ eval() is dangerous */ eval() is dangerous */ eval() / new Function()',   regex: /\beval\s*\(|new\s+Function\s*\(/g,  severity: 'CRITICAL', category: 'XSS / Injection',   owasp: 'A03', compliance: { iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5',  hipaa: null        } },
-  // { id: 'LOG-001',  name: 'console.log in Source',     regex: /console\.log\s*\(/g,                 severity: 'LOW',      category: 'Security Logging',   owasp: 'A09', compliance: { iso27001: 'A.12.4.1', soc2: 'CC7.2', pciDss: 'Req 10.2', hipaa: '§164.312'  } },
-]
+// Security patterns are imported from scanner/security.js (the canonical
+// rule set) rather than kept as a second hand-copied list here — a prior
+// drifted copy was missing GOOG-004 entirely and had a corrupted `name`
+// field, so anything relying on this file (dashboard, KB, compliance
+// queries) silently under-reported relative to `devops-guard scan`.
 
 const BLOAT_REGISTRY = [
   { package: 'moment',    weight: 67,   weightStr: '67 kB',  alternative: 'Day.js (7 kB) or native Intl API' },
@@ -66,8 +43,6 @@ const BLOAT_REGISTRY = [
   { package: 'jquery',    weight: 88,   weightStr: '88 kB',  alternative: 'React refs and state' },
   { package: 'request',   weight: 182,  weightStr: '182 kB', alternative: 'Native fetch()' },
 ]
-const RUNTIME_ONLY = ['husky', 'vite', 'eslint']
-const DEMO_TRAPS   = ['mongodb', 'pg', 'redis']
 const NODE_BUILTINS = new Set([
   'fs','path','os','crypto','http','https','url','stream','events',
   'child_process','util','buffer','querystring','readline','zlib','net',
@@ -104,6 +79,10 @@ function runSecurityScan() {
       const content = fs.readFileSync(file, 'utf-8')
       const lines   = content.split('\n')
       for (const pattern of SECURITY_PATTERNS) {
+        // security.js nests `owasp` inside `compliance`; keep this file's
+        // report shape (a top-level `owasp` alongside a separate
+        // `compliance` object) unchanged for existing consumers.
+        const { owasp, ...complianceRest } = pattern.compliance || {}
         for (let i = 0; i < lines.length; i++) {
           pattern.regex.lastIndex = 0
           if (lines[i].match(pattern.regex)) {
@@ -112,8 +91,8 @@ function runSecurityScan() {
               ruleName:    pattern.name,
               severity:    pattern.severity,
               category:    pattern.category,
-              owasp:       pattern.owasp,
-              compliance:  pattern.compliance,
+              owasp,
+              compliance:  complianceRest,
               file:        path.relative(TARGET_DIR, file).replace(/\\/g, '/'),
               line:        i + 1,
               snippet:     lines[i].trim().substring(0, 80),
@@ -127,7 +106,8 @@ function runSecurityScan() {
 }
 
 // ─── GATE 2: DEPENDENCY SCAN ──────────────────────────────────
-function runDependencyScan() {
+async function runDependencyScan() {
+  const config = await loadConfig(TARGET_DIR)
   const pkg    = JSON.parse(fs.readFileSync(PKG_PATH, 'utf-8'))
   const deps   = Object.keys(pkg.dependencies    || {})
   const devDeps= Object.keys(pkg.devDependencies || {})
@@ -154,8 +134,8 @@ function runDependencyScan() {
     } catch { /* skip */ }
   }
 
-  const unused  = deps.filter(p => !imported.has(p) && !RUNTIME_ONLY.includes(p))
-  const missing = [...imported].filter(p => !allDeps.includes(p) && !NODE_BUILTINS.has(p) && !DEMO_TRAPS.includes(p))
+  const unused  = deps.filter(p => !imported.has(p) && !config.runtimeDeps.includes(p))
+  const missing = [...imported].filter(p => !allDeps.includes(p) && !NODE_BUILTINS.has(p))
   const bloat   = BLOAT_REGISTRY.filter(b => allDeps.includes(b.package))
   const totalBloatKb = bloat.reduce((sum, b) => sum + b.weight, 0)
 
@@ -163,10 +143,10 @@ function runDependencyScan() {
 }
 
 // ─── ASSEMBLE REPORT ──────────────────────────────────────────
-function buildReport() {
+async function buildReport() {
   const startTime = Date.now()
   const secViolations  = runSecurityScan()
-  const depReport      = runDependencyScan()
+  const depReport      = await runDependencyScan()
 
   const bySeverity = { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 }
   for (const v of secViolations) bySeverity[v.severity] = (bySeverity[v.severity] || 0) + 1
@@ -217,6 +197,15 @@ function buildReport() {
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(report, null, 2), 'utf-8')
   console.log(`[scanner-output] Report written to: ${path.relative(TARGET_DIR, OUTPUT_PATH)}`)
   console.log(`[scanner-output] Security violations: ${secViolations.length} | Unused deps: ${depReport.unused.length} | Bloat: ${bloatKb} kB`)
+
+  // -- Immutable Audit Trail -- the fixer trusts this report's file/line
+  // locations enough to rewrite files based on them, so it must be signed
+  // the same way scan-history.json already is below.
+  import('./audit.js').then(({ signFile }) => {
+    if (signFile(OUTPUT_PATH)) {
+      console.log(`[scanner-output] Report cryptographically signed (Immutable Audit Trail)`)
+    }
+  }).catch(() => {})
 
   // ─── APPEND TO SCAN HISTORY ─────────────────────────────────
   const HISTORY_PATH = path.join(OUT_DIR, 'scan-history.json')
@@ -394,7 +383,7 @@ function buildReport() {
 }
 
 export async function main() {
-  buildReport()
+  await buildReport()
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main()

@@ -60,7 +60,7 @@ sitting in most developers' editors.**
 | Pre-commit secret scanning | ✅ | ✅ |
 | SARIF / JSON output for CI | ✅ | ✅ (varies) |
 | Auto-injects guardrails into Cursor/Claude Code/Windsurf (`.cursorrules`, `.claudecode`, `.windsurfrules`) | ✅ | ❌ |
-| MCP server to intercept dangerous shell commands from AI agents before they run | ✅ | ❌ |
+| MCP server exposing an advisory deny-list check for AI agents to self-check shell commands | ✅ | ❌ |
 | Sandboxed auto-remediation (git branch + tests + interactive merge) | ✅ | ❌ |
 | Regex secret-detection maturity | Good, growing | Excellent, years of hardening |
 
@@ -130,6 +130,8 @@ module.exports = {
   ],
 }
 ```
+
+`guard.config.js` is loaded with a plain JS `import()`, the same way `eslint.config.js`/`vite.config.js` are — it is *executed*, not parsed as data. Treat it like any other repo config file: if you'd review a change to `eslint.config.js` in a PR, review changes to this file too. DevOps-Guard's scanning/blocking logic only gets a chance to run *after* this file has already loaded.
 
 ## Project structure
 
