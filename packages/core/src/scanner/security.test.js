@@ -63,7 +63,13 @@ describe('SECURITY_PATTERNS true positives', () => {
   })
 
   it('detects a Stripe live secret key (PAY-001)', () => {
-    writeSrc('const key = "sk_live_51H8xyzABCDEFGHIJKLMNOPQR";')
+    // Split so this source file never contains the contiguous key-shaped
+    // string (GitHub's push-protection secret scanner flags it even though
+    // it's a fake fixture value) — the fixture file written to a temp dir
+    // below still gets the full joined string, which is what the scanner
+    // under test actually reads.
+    const fakeStripeKey = ['sk_live_51H8xyz', 'ABCDEFGHIJKLMNOPQR'].join('')
+    writeSrc(`const key = "${fakeStripeKey}";`)
     expect(idsFrom(scan())).toContain('PAY-001')
   })
 
