@@ -62,24 +62,19 @@ module.exports = {
 };
 ```
 
-## 3. Node.js API (Programmatic Usage)
+## 3. Module exports (advanced/scripted use)
 
-You can import DevOps-Guard directly into your custom scripts or CI pipelines.
+`devops-guard` re-exports each command's CLI entry point (see
+[`src/index.js`](packages/core/src/index.js)):
 
 ```javascript
-import { security, dependency, kb, fixer } from 'devops-guard';
-
-// Example: Run security scan programmatically
-async function runCustomScan() {
-  const result = await security.scan({
-    targetDir: process.cwd(),
-    format: 'json'
-  });
-  
-  if (result.violations.length > 0) {
-    console.log(`Found ${result.violations.length} issues.`);
-  }
-}
+import { runScan, runDepScan, runFix, runGraphBuild, runOutput, runSummary, loadConfig } from 'devops-guard';
 ```
 
-*More API documentation will be generated dynamically as the core packages expand.*
+These are **not** a sandboxed programmatic API — each one *is* the CLI command it backs. It reads
+`process.cwd()`/`process.argv` directly (not a function parameter you pass in), prints to the
+console the same way `devops-guard scan` does, and calls `process.exit()` when finished. Only call
+these from a standalone script (e.g. a custom build step), never from inside a long-running
+process — the `process.exit()` call will kill it.
+
+The supported, stable interface is the CLI (Section 1 above) and the [MCP server](README.md#the-ai-native-layer).

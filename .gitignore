@@ -2,6 +2,7 @@
 node_modules/
 .pnp
 .pnp.js
+*.tgz
 
 # Build output
 dist/
@@ -23,6 +24,9 @@ dashboard/build/
 .idea/
 *.swp
 *.swo
+
+# Claude Code local session/worktree state
+.claude/
 
 # OS files
 .DS_Store
@@ -48,8 +52,5 @@ public/scan-*.json
 public/knowledge-graph.json
 dashboard/public/scan-*.json
 dashboard/public/knowledge-graph.json
-.knowledge-base/snapshots/
-.knowledge-base/agent-context/
-.knowledge-base/audit-logs/
-.knowledge-base/metrics/
+.knowledge-base/
 .devops-guard/

@@ -23,7 +23,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { log, paint, section, divider, COLORS } from '../utils/colors.js'
 
-const __dirname  = path.dirname(fileURLToPath(import.meta.url))
 const TARGET_DIR = process.cwd()
 const DG_DIR     = path.join(TARGET_DIR, '.devops-guard')
 
@@ -151,7 +150,7 @@ function queryViolations(args) {
 }
 
 // ── compliance ───────────────────────────────────────────────
-function queryCompliance(args) {
+function queryCompliance(_args) {
   const state = loadProjectState() ?? requireData('project-state.json')
 
   section('Compliance Exposure Map')
@@ -197,12 +196,11 @@ function inferFramework(ctrl) {
   if (ctrl.startsWith('Req'))         return 'PCI-DSS'
   if (ctrl.startsWith('§'))           return 'HIPAA'
   if (ctrl.startsWith('A0'))          return 'OWASP'
-  // Also check via exposure data framework field
   return 'OTHER'
 }
 
 // ── rules ────────────────────────────────────────────────────
-function queryRules(args) {
+function queryRules(_args) {
   const state  = loadProjectState() ?? requireData('project-state.json')
   const report = loadScanReport()
 
@@ -230,13 +228,13 @@ function queryRules(args) {
     const sev     = paintSev(ruleIdToSev[ruleId] || 'LOW')
     const hitBar  = '█'.repeat(Math.min(data.openCount, 10))
     const files   = data.affectedFiles?.length ?? 0
-    console.log(`  ${paint('cyan', ruleId).padEnd(20)} ${sev.padEnd(22)} ${String(data.openCount).padEnd(6)} ${String(files).padEnd(6)} ${data.name}`)
+    console.log(`  ${paint('cyan', ruleId).padEnd(20)} ${sev.padEnd(22)} ${String(data.openCount).padEnd(6)} ${String(files).padEnd(6)} ${paint('dim', hitBar)}  ${data.name}`)
   }
   console.log()
 }
 
 // ── deps ─────────────────────────────────────────────────────
-function queryDeps(args) {
+function queryDeps(_args) {
   const state  = loadProjectState() ?? requireData('project-state.json')
   const report = loadScanReport()
 
@@ -280,7 +278,7 @@ function queryDeps(args) {
 }
 
 // ── summary ──────────────────────────────────────────────────
-function querySummary(args) {
+function querySummary(_args) {
   const state  = loadProjectState() ?? requireData('project-state.json')
   const h      = state.currentHealth
 
@@ -331,7 +329,7 @@ function querySummary(args) {
 }
 
 // ── graph ────────────────────────────────────────────────────
-function queryGraph(args) {
+function queryGraph(_args) {
   const graph = loadGraph() ?? requireData('knowledge-graph.json')
 
   section('Knowledge Graph Statistics')
@@ -387,7 +385,7 @@ function queryGraph(args) {
 }
 
 // ── history ──────────────────────────────────────────────────
-function queryHistory(args) {
+function queryHistory(_args) {
   const history = loadHistory()
 
   section(`Scan History  (${history.length} snapshot${history.length !== 1 ? 's' : ''})`)

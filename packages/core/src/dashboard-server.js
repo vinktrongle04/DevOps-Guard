@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================
-// server.js — DevOps-Guard Embedded Dashboard Server
+// dashboard-server.js — DevOps-Guard Embedded Dashboard Server
 // ============================================================
 // Serves the pre-built React Dashboard alongside live scan data
 // from the project's .devops-guard/ directory.

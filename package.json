@@ -4,6 +4,15 @@
   "version": "1.0.0",
   "type": "module",
   "description": "DevOps-Guard Monorepo — Security Scanner + Dashboard",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinktrongle04/DevOps-Guard.git"
+  },
+  "homepage": "https://github.com/vinktrongle04/DevOps-Guard#readme",
+  "bugs": {
+    "url": "https://github.com/vinktrongle04/DevOps-Guard/issues"
+  },
+  "license": "MIT",
   "workspaces": [
     "packages/core",
     "dashboard"
@@ -17,13 +26,13 @@
     "scan":             "devops-guard scan",
     "scan:json":        "devops-guard scan --json",
     "scan:sarif":       "devops-guard scan --sarif",
-    "dep":              "cd dashboard && devops-guard dep",
+    "dep":              "npm run dep:core && npm run dep:dashboard",
+    "dep:core":         "npm run dep --workspace=devops-guard",
+    "dep:dashboard":    "cd dashboard && devops-guard dep",
     "fix":              "devops-guard fix",
     "fix:apply":        "devops-guard fix --apply",
     "all":              "devops-guard all",
     "kb":               "devops-guard kb",
-    "guard:scan":       "devops-guard scan",
-    "guard:dep":        "cd dashboard && devops-guard dep",
     "prepare":          "husky"
   },
   "dependencies": {

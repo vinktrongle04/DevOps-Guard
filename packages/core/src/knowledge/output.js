@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 // ============================================================
-// SCANNER OUTPUT EXPORTER
-// Runs both Gate 1 (security) and Gate 2 (dependency) scanners
-// and writes a combined JSON report to:
+// knowledge/output.js — Scanner Output Exporter
+// Runs both Gate 1 (security) and Gate 2 (dependency) scanners and
+// writes a combined report to `.devops-guard/scan-report.json`, appends
+// a snapshot to `scan-history.json`, and writes the knowledge-base
+// files under `.devops-guard/kb/`. Invoked via `devops-guard kb`.
+// ============================================================
 import fs   from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { SECURITY_PATTERNS } from '../scanner/security.js'
 import { loadConfig } from '../utils/config.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname  = path.dirname(__filename)
 const TARGET_DIR = process.cwd()
 
 // ─── CONFIGURATION ─────────────────────────────────────────
@@ -22,10 +23,8 @@ const PKG_PATH    = path.join(TARGET_DIR, 'package.json')
 const SCAN_EXTS   = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
 const IGNORE_DIRS = ['node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', '.devops-guard']
 const IGNORE_FILES = [
-  'dependency-scanner.js', 'security-scanner.js',
-  'scanner-output.js', 'vite.config.js', 'eslint.config.js',
-  'scan-report.json', 'scan-history.json', 'graph-builder.js',
-  'graph-query.js', 'kb-summary.js', 'security-autofix.js', '.env.example',
+  'vite.config.js', 'eslint.config.js',
+  'scan-report.json', 'scan-history.json', '.env.example',
   '.devops-guard-ignore.json'
 ]
 
@@ -205,15 +204,15 @@ async function buildReport() {
   if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(report, null, 2), 'utf-8')
-  console.log(`[scanner-output] Report written to: ${path.relative(TARGET_DIR, OUTPUT_PATH)}`)
-  console.log(`[scanner-output] Security violations: ${secViolations.length} | Unused deps: ${depReport.unused.length} | Bloat: ${bloatKb} kB`)
+  console.log(`[kb] Report written to: ${path.relative(TARGET_DIR, OUTPUT_PATH)}`)
+  console.log(`[kb] Security violations: ${secViolations.length} | Unused deps: ${depReport.unused.length} | Bloat: ${bloatKb} kB`)
 
   // -- Immutable Audit Trail -- the fixer trusts this report's file/line
   // locations enough to rewrite files based on them, so it must be signed
   // the same way scan-history.json already is below.
   import('./audit.js').then(({ signFile }) => {
     if (signFile(OUTPUT_PATH)) {
-      console.log(`[scanner-output] Report cryptographically signed (Immutable Audit Trail)`)
+      console.log(`[kb] Report cryptographically signed (Immutable Audit Trail)`)
     }
   }).catch(() => {})
 
@@ -249,12 +248,12 @@ async function buildReport() {
   if (history.length > MAX_HISTORY) history = history.slice(-MAX_HISTORY)
 
   fs.writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2), 'utf-8')
-  console.log(`[scanner-output] History updated: ${history.length} snapshot(s) in scan-history.json`)
+  console.log(`[kb] History updated: ${history.length} snapshot(s) in scan-history.json`)
 
   // -- Immutable Audit Trail (Phase 3) --
   import('./audit.js').then(({ signFile }) => {
     if (signFile(HISTORY_PATH)) {
-      console.log(`[scanner-output] History cryptographically signed (Immutable Audit Trail)`)
+      console.log(`[kb] History cryptographically signed (Immutable Audit Trail)`)
     }
   }).catch(() => {})
 
@@ -271,7 +270,7 @@ async function buildReport() {
     const w = v.severity === 'CRITICAL' ? 40 : v.severity === 'HIGH' ? 20 : v.severity === 'MEDIUM' ? 10 : 2
     fileMap[f].riskScore = Math.min(100, fileMap[f].riskScore + w)
     if (v.compliance) {
-      Object.entries(v.compliance).forEach(([k, val]) => { if (val) fileMap[f].complianceAtRisk.add(val) })
+      Object.entries(v.compliance).forEach(([, val]) => { if (val) fileMap[f].complianceAtRisk.add(val) })
     }
   }
   // Serialize Sets

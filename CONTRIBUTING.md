@@ -1,6 +1,9 @@
 # Contributing to DevOps-Guard
 
-Thanks for considering a contribution. This is an npm workspaces monorepo:
+Thanks for considering a contribution. Participation in this project is governed by our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+This is an npm workspaces monorepo:
 
 ```
 DevOps-Guard/
@@ -32,10 +35,24 @@ gate on `GEN-001` for how false positives are kept in check), a `severity`, and 
 mapping. Add a corresponding fixture test case in `packages/core/src/scanner/security.test.js`
 (a true-positive sample and, if relevant, a known-safe sample that must NOT trigger).
 
+## Releasing a dashboard change
+
+`packages/core/dashboard-dist/` is a pre-built copy of `dashboard/`, checked into git so the
+published npm package can serve the dashboard without requiring consumers to build it
+themselves — `dashboard/vite.config.js` builds directly into that directory. If you change
+anything under `dashboard/src/`, rebuild and commit the result before merging:
+
+```bash
+npm run build --workspace=devops-guard-dashboard
+```
+
+Don't run this if you *haven't* touched the dashboard — it changes the built bundle's content
+hash and adds unrelated diff noise to your PR.
+
 ## Reporting bugs / requesting features
 
 Use the issue templates under `.github/ISSUE_TEMPLATE/`. For security vulnerabilities in
-DevOps-Guard itself, please avoid filing a public issue — see the README for contact details.
+DevOps-Guard itself, please avoid filing a public issue — see [SECURITY.md](SECURITY.md).
 
 ## Code style
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================
-// graph-builder.js — Knowledge Graph Builder (Level 2)
+// knowledge/graph.js — Knowledge Graph Builder (Level 2)
 // ============================================================
 // Reads kb/project-state.json + kb/event-log.jsonl, then
 // builds kb/knowledge-graph.json as a graph of nodes + edges.
@@ -10,15 +10,14 @@
 //              RESOLVES | TRIGGERED | HAS_DEP
 //
 // Usage:
-//   node graph-builder.js           → build from current KB
-//   node graph-builder.js --reset   → rebuild from scratch (drop history)
+//   devops-guard kb            → build from current KB
+//   devops-guard kb --reset    → rebuild from scratch (drop history)
 // ============================================================
 
 import fs   from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const TARGET_DIR = process.cwd()
 
 const KB_DIR    = path.join(TARGET_DIR, '.devops-guard', 'kb')
@@ -57,7 +56,7 @@ function safeId(str) {
 
 function loadState() {
   if (!fs.existsSync(STATE)) {
-    console.error('[graph-builder] kb/project-state.json not found. Run `devops-guard kb` first.')
+    console.error('[kb:graph] kb/project-state.json not found. Run `devops-guard kb` first.')
     process.exit(1)
   }
   return JSON.parse(fs.readFileSync(STATE, 'utf-8'))
@@ -267,19 +266,19 @@ function buildGraph() {
 
   fs.mkdirSync(KB_DIR, { recursive: true })
   fs.writeFileSync(GRAPH_OUT, JSON.stringify(graph, null, 2), 'utf-8')
-  console.log(`[graph-builder] knowledge-graph.json built`)
+  console.log(`[kb:graph] knowledge-graph.json built`)
 
   // Also save a copy to .devops-guard/ for dashboard to fetch via API
   const DG_GRAPH_PATH = path.join(TARGET_DIR, '.devops-guard', 'knowledge-graph.json')
   fs.writeFileSync(DG_GRAPH_PATH, JSON.stringify(graph, null, 2), 'utf-8')
 
-  console.log(`[graph-builder] ${nodes.size} nodes | ${edges.length} edges`)
+  console.log(`[kb:graph] ${nodes.size} nodes | ${edges.length} edges`)
 
   // Print node type breakdown
   const typeCounts = {}
   for (const n of nodes.values()) typeCounts[n.type] = (typeCounts[n.type] || 0) + 1
   for (const [t, c] of Object.entries(typeCounts)) {
-    console.log(`[graph-builder]   ${t.padEnd(12)} ${c} node${c > 1 ? 's' : ''}`)
+    console.log(`[kb:graph]   ${t.padEnd(12)} ${c} node${c > 1 ? 's' : ''}`)
   }
 }
 

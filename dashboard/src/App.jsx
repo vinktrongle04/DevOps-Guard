@@ -3,7 +3,6 @@
 // ============================================================
 
 import { useState, useContext, useRef } from 'react'
-import UserProfile        from './components/UserProfile.jsx'
 import NotificationPanel  from './components/NotificationPanel.jsx'
 import SearchBar          from './components/SearchBar.jsx'
 import MetricsCard        from './components/MetricsCard.jsx'
@@ -28,24 +27,6 @@ const QUALITY_GATES = [
     description: 'Checks for unused, missing, bloated, and duplicate packages.',
     details: ['lodash — declared but never imported', 'axios — declared but never imported', 'moment — declared but never imported', 'uuid — declared but never imported'],
     action: 'devops-guard dep',
-  },
-  {
-    id: 'gate-3', name: 'Refactor Engine', icon: '⚛️',
-    description: '4 components using React 18 legacy patterns to migrate to React 19.',
-    details: ['UserProfile.jsx — forwardRef + useContext', 'NotificationPanel.jsx — forwardRef + useContext', 'SearchBar.jsx — forwardRef + useContext', 'MetricsCard.jsx — useContext'],
-    action: 'Agent: forwardRef → ref prop, useContext → use()',
-  },
-  {
-    id: 'gate-4', name: 'Docs Engine',     icon: '📝',
-    description: '3 components missing API documentation.',
-    details: ['NotificationPanel — undocumented', 'SearchBar — undocumented', 'MetricsCard — undocumented'],
-    action: 'Agent appends to API_DOCUMENTATION.md (append-only)',
-  },
-  {
-    id: 'gate-5', name: 'Commit Engine',   icon: '📋',
-    description: 'Auto-generates Conventional Commits messages from git diff.',
-    details: ['feat(scope): new feature description', 'fix(scope): bug fix description', 'refactor(scope): code restructure', 'security(scope): security hardening'],
-    action: 'Agent: analyze git diff → generate message',
   },
 ]
 
@@ -101,13 +82,12 @@ function DashboardContent() {
     <div className="app-container">
       {/* HEADER */}
       <header className="app-header">
-        <div className="header-badge">TRAE SOLO × Unbound Creativity Hackathon 2026</div>
         <h1>🛡️ DevOps-Guard</h1>
         <p className="subtitle">
           Agentic Git &amp; CI/CD Guard — Autonomous DevOps Assistant
         </p>
         <p className="subtitle-detail">
-          5 Quality Gates × {metrics?.rulesLoaded ?? 27} Security Rules × React 19 Auto-Migration × OWASP Top 10
+          2 Quality Gates × {metrics?.rulesLoaded ?? 27} Security Rules × OWASP Top 10 Mapped
         </p>
       </header>
 
@@ -263,17 +243,6 @@ function DashboardContent() {
           {/* ── NOTIFICATIONS ───────────────────────────── */}
           <NotificationPanel ref={notifRef} />
 
-          {/* ── TEAM ────────────────────────────────────── */}
-          <div className="sidebar-section">
-            <h2 className="section-title">
-              <span className="section-icon">👥</span>
-              Team Members
-            </h2>
-            <UserProfile name="Vinh Le"      email="vinh@devops-guard.dev"  role="Team Leader / PM" />
-            <UserProfile name="HuyenDieu13"  email="m2@devops-guard.dev"    role="AI Agent Engineer" />
-            <UserProfile name="QA Specialist"email="m3@devops-guard.dev"    role="DevOps / QA" />
-          </div>
-
           {/* ── ARCHITECTURE ────────────────────────────── */}
           <div className="sidebar-section architecture-card">
             <h2 className="section-title">
@@ -284,7 +253,7 @@ function DashboardContent() {
               {[
                 { icon: '👨‍💻', label: 'Developer' },
                 { icon: '🪝', label: 'Git Hook' },
-                { icon: '🤖', label: 'TRAE Agent' },
+                { icon: '🤖', label: 'AI Agent' },
                 { icon: '🚀', label: 'Deploy' },
               ].map((step, i, arr) => (
                 <span key={step.label} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -302,7 +271,7 @@ function DashboardContent() {
 
       {/* FOOTER */}
       <footer className="app-footer">
-        <p>DevOps-Guard © 2026 — Unbound Creativity with TRAE SOLO @ Vietnam</p>
+        <p>DevOps-Guard © 2026</p>
         <p className="footer-tech">
           React 18 + Vite 6 + Husky 9 + GitHub Actions + OWASP Top 10 Mapped
           {metrics && ` | Last scan: ${metrics.scanMs}ms`}

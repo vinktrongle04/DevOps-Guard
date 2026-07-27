@@ -59,7 +59,7 @@ function MetricsCard({
   icon = '📊',
   subtitle = '',
 }) {
-  // ❌ React 18 pattern: useContext(Context) → React 19 dùng use(Context)
+  // ❌ React 18 pattern: useContext(Context) → React 19 uses use(Context)
   // In React 19 you can call use(ThemeContext) instead of useContext.
   const { palette, fontFamily } = useContext(ThemeContext);
 

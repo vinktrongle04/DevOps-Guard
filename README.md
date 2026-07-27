@@ -4,7 +4,7 @@
 
 **A pre-commit security scanner that also governs your AI coding agents.**
 
-[![CI](https://github.com/vinktrongle04/DevOps-Guard/actions/workflows/deploy.yml/badge.svg)](https://github.com/vinktrongle04/DevOps-Guard/actions)
+[![CI](https://github.com/vinktrongle04/DevOps-Guard/actions/workflows/ci.yml/badge.svg)](https://github.com/vinktrongle04/DevOps-Guard/actions)
 ![Version](https://img.shields.io/badge/version-1.0.0-6366f1)
 ![Standards](https://img.shields.io/badge/Compliance-OWASP%20%7C%20ISO%2027001%20%7C%20SOC%202%20%7C%20PCI--DSS%20%7C%20HIPAA-22c55e)
 ![License](https://img.shields.io/badge/License-MIT-f59e0b)
@@ -14,6 +14,8 @@
 ---
 
 ## Install into your project
+
+Requires Node.js ≥18 and a git repository.
 
 ```bash
 npm install -D devops-guard
@@ -75,16 +77,37 @@ the problem this project actually focuses on.
 - **Universal AI Guardrails** (`devops-guard protect`): writes `.cursorrules`, `.claudecode`,
   `.antigravity`, `.windsurfrules` telling AI IDEs not to read `.env`/`.pem`/`.key` files and to
   confirm before running destructive commands.
-- **MCP server** (`devops-guard mcp`): exposes a `check_command` tool over the Model Context
-  Protocol that AI coding assistants can call before running a shell command, to check it
-  against a deny-list (`rm -rf`, `drop table`, `chmod 777`, `curl | bash`, etc.).
-- **Local Semantic Engine**: if you run [Ollama](https://ollama.com) locally, the scanner asks
-  it to double-check regex matches against surrounding code context, filtering out
-  mock/test-fixture false positives. Entirely optional — if Ollama isn't running, the scanner
-  just falls back to plain regex matching.
+- **MCP server** (`devops-guard mcp`): exposes `check_command` (an advisory deny-list check
+  against `rm -rf`, `drop table`, `chmod 777`, `curl | bash`, etc. — best-effort, not an
+  enforcement boundary) and `analyze_snippet_security` (asks the configured AI verifier below
+  whether a flagged snippet is a real violation) over the Model Context Protocol.
+
+  Point your MCP client at it:
+
+  ```json
+  {
+    "mcpServers": {
+      "devops-guard": { "command": "npx", "args": ["devops-guard", "mcp"] }
+    }
+  }
+  ```
+
+  (`.mcp.json` for Claude Code; the same shape works for Cursor's/Windsurf's MCP config.)
+
+- **Pluggable AI verifier**: double-checks regex matches against surrounding code context to
+  filter out mock/test-fixture false positives, before they ever reach you or the AI verifier
+  cost gate below.
+  - `ollama` (default) — local, free, zero-config. If [Ollama](https://ollama.com) isn't
+    running, the scanner just falls back to plain regex matching; nothing breaks.
+  - `anthropic` / `openai` — your own API key, your own cost. **You explicitly opt in and pay
+    for your own usage** — DevOps-Guard never bundles or proxies API access. Before the first
+    cloud call in a run, it prints a cost banner (call count, rough estimate, which env var is
+    billed) and asks for confirmation; pass `--yes` / set `aiVerifier.autoConfirm: true` /
+    `DEVOPS_GUARD_YES=1` to skip the prompt in CI. In a non-interactive shell with no
+    auto-confirm, it skips cloud verification entirely rather than hanging.
 - **Sandboxed auto-remediation** (`devops-guard fix --apply`): creates a new git branch, applies
-  safe fixes (hardcoded secrets → env var references, `==` → `===`, unsafe DOM APIs → safe
-  equivalents), runs your test suite, and asks before squash-merging back.
+  safe fixes (hardcoded secrets → env var references, unsafe DOM APIs → safe equivalents), runs
+  your test suite, and asks before squash-merging back.
 
 ## Knowledge graph & queries
 
@@ -113,21 +136,55 @@ Expect rougher edges here than in the CLI.
 
 ## Configuration
 
-Drop a `guard.config.js` in your project root (or let `devops-guard init` generate one):
+Drop a `guard.config.js` in your project root (or let `devops-guard init` generate one — the
+generated file only includes the keys you're likely to actually touch; everything below is the
+full schema, defaults shown):
 
 ```js
 // guard.config.js
 module.exports = {
-  ignorePaths: ['node_modules', 'dist', 'build', '.git'],   // directories the scanner skips
-  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],        // extensions the dependency scanner checks
-  customRules: [                                             // add your own secret patterns
-    {
-      id: 'CUSTOM-001',
-      name: 'Internal API Key',
-      regex: 'INTERNAL_[A-Z0-9]{32}',
-      severity: 'HIGH',
-    },
+  // Directories skipped by both scanners (matched by name, at any depth)
+  ignorePaths: ['node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github',
+                'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', '.devops-guard'],
+
+  // Extensions the dependency scanner reads for import/require extraction
+  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
+
+  // Extensions the security scanner reads for secrets — kept separate from `extensions` above
+  // on purpose: widening one must not silently narrow the other (secrets leak into
+  // .env/.json/.yaml just as often as .js).
+  secretExtensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md',
+                     '.toml', '.cfg', '.ini', '.conf'],
+
+  // Additional secret-detection rules, merged with the built-in 27
+  customRules: [
+    { id: 'CUSTOM-001', name: 'Internal API Key', regex: 'INTERNAL_[A-Z0-9]{32}', severity: 'HIGH' },
   ],
+
+  // Dependency scanner's source dir (relative to project root). null = auto-detect: the
+  // project root's own src/, or — in an npm/yarn workspaces monorepo with no root src/ — the
+  // first workspace listed that has one.
+  srcDir: null,
+
+  // Packages always considered "used", even if never imported in src/ (tooling invoked only
+  // via package.json scripts, not import/require)
+  runtimeDeps: ['husky', 'vite', 'eslint', 'prettier', 'typescript', 'devops-guard'],
+
+  // Only show violations at or above this level: CRITICAL | HIGH | MEDIUM | LOW
+  minSeverity: 'LOW',
+
+  // Severity that hard-blocks a commit/CI run
+  failOnSeverity: 'HIGH',
+
+  // AI verifier — see "The AI-Native layer" above for the cost-consent flow
+  aiVerifier: {
+    provider: 'ollama',       // 'ollama' | 'anthropic' | 'openai' | 'off'
+    model: null,              // null = provider-specific default
+    apiKey: null,             // or set ANTHROPIC_API_KEY / OPENAI_API_KEY in your environment
+    autoConfirm: false,       // skip the cloud-cost consent prompt (also settable via --yes)
+    concurrency: 5,           // bounded parallel verification calls
+    ollama: { host: '127.0.0.1', port: 11434 },
+  },
 }
 ```
 
@@ -150,8 +207,13 @@ DevOps-Guard/
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and feature requests use the templates
-under `.github/ISSUE_TEMPLATE/`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md). Bug
+reports and feature requests use the templates under `.github/ISSUE_TEMPLATE/`.
+
+## Security
+
+Found a vulnerability in DevOps-Guard itself? Please don't open a public issue — see
+[SECURITY.md](SECURITY.md) for how to report it privately.
 
 ## License
 

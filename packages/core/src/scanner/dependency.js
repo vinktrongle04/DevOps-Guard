@@ -14,7 +14,7 @@
 //   - MISSING         → ERROR (hard-block, exit 1)
 //
 // Triggered automatically via Husky pre-commit hook (Gate 2).
-// Run manually: node dependency-scanner.js
+// Run manually: devops-guard dep
 // ============================================================
 
 import fs from 'fs'
@@ -22,8 +22,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { loadConfig } from '../utils/config.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname  = path.dirname(__filename)
 const TARGET_DIR = process.cwd()
 
 // ─── CONFIGURATION ─────────────────────────────────────────────
@@ -54,7 +52,7 @@ let SCAN_EXTS      = ['.js', '.jsx', '.ts', '.tsx', '.mjs']
 let IGNORE_DIRS    = ['node_modules', '.git', 'dist', 'build', 'coverage', '.devops-guard']
 
 // Source files to skip entirely (scanner files, config files)
-const IGNORE_FILES   = ['dependency-scanner.js', 'security-scanner.js', 'vite.config.js', 'eslint.config.js']
+const IGNORE_FILES   = ['vite.config.js', 'eslint.config.js']
 
 // Known heavy packages with recommended lighter alternatives
 const BLOAT_REGISTRY = [

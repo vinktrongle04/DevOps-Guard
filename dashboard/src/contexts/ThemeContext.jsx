@@ -69,7 +69,7 @@ export function ThemeProvider({ children }) {
     toggleMode,
   };
 
-  // ❌ React 18 pattern: <Context.Provider> → React 19 dùng <Context value={...}>
+  // ❌ React 18 pattern: <Context.Provider> → React 19 uses <Context value={...}>
   // In React 19 you can render <ThemeContext value={value}> directly
   // without the .Provider suffix.
   return (

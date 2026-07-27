@@ -1,12 +1,16 @@
 // ============================================================
-// devops-guard — Public API
+// devops-guard — module exports
 // ============================================================
-// You can import individual modules for programmatic use:
+// These re-export each command's CLI entry point for advanced/scripted
+// use (e.g. composing your own tooling on top of DevOps-Guard). They are
+// NOT a sandboxed programmatic API: each one behaves exactly like running
+// the CLI command it backs — it reads `process.cwd()`/`process.argv`
+// directly (not a function parameter), prints to the console, and calls
+// `process.exit()` when it's done. Only invoke these from a standalone
+// script, never from inside a long-running process you don't want to
+// exit unexpectedly.
 //
-//   import { runScan } from 'devops-guard'
-//   const results = await runScan({ projectRoot: process.cwd() })
-//
-// Or use the CLI: devops-guard scan
+// The supported, stable way to use DevOps-Guard is the CLI: `devops-guard scan`.
 // ============================================================
 
 export { main as runScan }        from './scanner/security.js'

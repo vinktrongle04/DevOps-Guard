@@ -333,25 +333,11 @@ const SECURITY_PATTERNS = [
     remediation: 'Never pass user input to eval(). Use JSON.parse() for data. Use a sandboxed evaluator for expressions.',
     compliance: { owasp: 'A03', iso27001: 'A.14.2.5', soc2: 'CC8.1', pciDss: 'Req 6.5', hipaa: null },
   },
-
-  // ═══════════════════════════════════════════════════════════
-  // CATEGORY 12: SECURITY LOGGING [OWASP A09]
-  // ═══════════════════════════════════════════════════════════
-  // {
-  //   id: 'LOG-001',
-  //   category: 'Security Logging',
-  //   severity: 'LOW',
-  //   title: 'console.log in Source',
-  //   regex: /console\.log\s*\(/g,
-  //   description: 'console.log can leak sensitive runtime data (tokens, user objects) in production',
-  //   remediation: 'Remove debug logs before committing. Use a structured logger with log levels.',
-  //   compliance: { owasp: 'A09', iso27001: 'A.12.4.1', soc2: 'CC7.2', pciDss: 'Req 10.2', hipaa: '§164.312' }
-  // },
 ]
 
 // ─── IGNORED DIRECTORIES AND FILES ─────────────────────────
 let IGNORE_DIRS  = ['node_modules', '.git', 'dist', 'build', 'dashboard-dist', '.husky', '.github', 'coverage', 'public', 'kb', '.knowledge-base', '.gemini', 'docs', '.devops-guard']
-let IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'security-scanner.js', 'security-autofix.js', 'scanner-output.js', 'graph-builder.js', 'graph-query.js', 'kb-summary.js', '.env.example', 'scan-report.json', 'scan-history.json', '.devops-guard-ignore.json']
+let IGNORE_FILES = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', '.env.example', 'scan-report.json', 'scan-history.json', '.devops-guard-ignore.json']
 let SCAN_EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.json', '.env', '.yml', '.yaml', '.md', '.toml', '.cfg', '.ini', '.conf']
 
 // ─── UTILITIES ─────────────────────────────────────────────────────
@@ -524,7 +510,7 @@ function printSummary(violations) {
 
 /**
  * Formats violations as plain JSON for machine consumption.
- * Usage: node security-scanner.js --json > report.json
+ * Usage: devops-guard scan --json > report.json
  * Compatible with: Jenkins, GitLab CI, Azure DevOps, custom scripts.
  */
 function outputJson(violations, files, elapsed, scopedTo, hasBlocker) {
@@ -575,7 +561,7 @@ function outputJson(violations, files, elapsed, scopedTo, hasBlocker) {
 /**
  * Formats violations as SARIF 2.1.0 for GitHub Code Scanning, Azure DevOps,
  * and other SARIF-compatible platforms.
- * Usage: node security-scanner.js --sarif > results.sarif
+ * Usage: devops-guard scan --sarif > results.sarif
  * Reference: https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html
  */
 function outputSarif(violations, elapsed, hasBlocker) {

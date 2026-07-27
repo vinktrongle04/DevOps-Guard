@@ -3,17 +3,30 @@
   "version": "1.0.0",
   "description": "Autonomous security scanner, dependency auditor & AI-powered autofix for any JavaScript/TypeScript project.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinktrongle04/DevOps-Guard.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/vinktrongle04/DevOps-Guard#readme",
+  "bugs": {
+    "url": "https://github.com/vinktrongle04/DevOps-Guard/issues"
+  },
   "bin": {
     "devops-guard": "./src/cli.js",
     "dg": "./src/cli.js"
   },
   "main": "./src/index.js",
+  "scripts": {
+    "scan": "node src/cli.js scan",
+    "dep":  "node src/cli.js dep"
+  },
   "exports": {
     ".": "./src/index.js",
     "./scanner": "./src/scanner/security.js",
     "./dependency": "./src/scanner/dependency.js",
     "./fixer": "./src/fixer/index.js",
-    "./dashboard": "./src/server.js"
+    "./dashboard": "./src/dashboard-server.js"
   },
   "files": [
     "src/",

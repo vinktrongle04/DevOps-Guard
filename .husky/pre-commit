@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # ============================================================
-# DevOps-Guard — Husky Pre-Commit Hook v2.0
+# DevOps-Guard — Husky Pre-Commit Hook
 # Runs Gate 1 (Security) and Gate 2 (Dependency) before commit.
 # ============================================================
 
@@ -29,7 +29,7 @@ echo ""
 
 # ─── GATE 2: Dependency Scanner (SOFT BLOCK) ─────────────────
 echo "  [Gate 2/2] Dependency Scanner..."
-npm run guard:dep
+npm run dep
 GATE2_EXIT=$?
 
 if [ $GATE2_EXIT -ne 0 ]; then

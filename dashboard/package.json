@@ -4,6 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "description": "DevOps-Guard Live Dashboard — React + Vite",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinktrongle04/DevOps-Guard.git",
+    "directory": "dashboard"
+  },
+  "license": "MIT",
   "scripts": {
     "dev":     "vite",
     "build":   "vite build",

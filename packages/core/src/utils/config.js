@@ -10,7 +10,6 @@ import { pathToFileURL } from 'url'
 
 const CONFIG_FILES = ['guard.config.js', 'guard.config.mjs', '.guardrc.js']
 
-/** @type {import('../../types.js').GuardConfig} */
 const DEFAULTS = {
   // Directories to skip during scanning (shared by the security & dependency scanners)
   ignorePaths: [
@@ -29,8 +28,10 @@ const DEFAULTS = {
   // Source directory to scan for dependency import-extraction (relative to project root,
   // null = auto-detect the first workspace with a src/, falling back to project root)
   srcDir: null,
-  // Packages always considered "used" even if not imported in src/
-  runtimeDeps: ['husky', 'vite', 'eslint', 'prettier', 'typescript'],
+  // Packages always considered "used" even if not imported in src/ (tooling invoked only
+  // via package.json scripts/CLI, not import/require — devops-guard itself included, since
+  // virtually no consumer imports it as a JS module, only runs it via the CLI)
+  runtimeDeps: ['husky', 'vite', 'eslint', 'prettier', 'typescript', 'devops-guard'],
   // Severity threshold: only show violations at or above this level
   minSeverity: 'LOW',
   // Severity threshold that hard-blocks a commit/CI run

@@ -17,11 +17,8 @@
 //   dg fix --apply
 // ============================================================
 
-import path   from 'path'
-import { fileURLToPath } from 'url'
 import { log, divider, COLORS } from './utils/colors.js'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const args      = process.argv.slice(2)
 const command   = args[0]
 
@@ -148,7 +145,7 @@ async function main() {
     }
     case 'dashboard':
     case 'ui': {
-      const { startDashboard } = await import('./server.js')
+      const { startDashboard } = await import('./dashboard-server.js')
       const portIdx = passthrough.indexOf('--port')
       const port    = portIdx !== -1 ? parseInt(passthrough[portIdx + 1], 10) : undefined
       const noOpen  = passthrough.includes('--no-open')

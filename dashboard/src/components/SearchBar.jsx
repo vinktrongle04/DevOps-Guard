@@ -5,14 +5,14 @@ import { ThemeContext } from '../contexts/ThemeContext';
 // SearchBar — DevOps-Guard Global Search
 // ─────────────────────────────────────────────────────────────
 
-// ❌ React 18 pattern: forwardRef → React 19 hỗ trợ ref như prop thường
+// ❌ React 18 pattern: forwardRef → React 19 supports ref as a normal prop
 // In React 19 you can accept `ref` as a regular prop without wrapping
 // the component in forwardRef.
 const SearchBar = forwardRef(function SearchBar(
   { placeholder = 'Search pipelines, deployments, logs…', onSearch },
   ref,
 ) {
-  // ❌ React 18 pattern: useContext(Context) → React 19 dùng use(Context)
+  // ❌ React 18 pattern: useContext(Context) → React 19 uses use(Context)
   // In React 19 you can call use(ThemeContext) instead of useContext.
   const { palette, fontFamily } = useContext(ThemeContext);
 
