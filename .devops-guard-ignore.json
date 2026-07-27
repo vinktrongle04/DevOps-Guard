@@ -1,0 +1,117 @@
+[
+  {
+    "fingerprint": "ebec030cd8236bdd",
+    "reason": "Comment describing the fixer's own eval() remediation logic, not an actual eval() call",
+    "addedAt": "2026-07-27T11:05:14.430Z"
+  },
+  {
+    "fingerprint": "df4d2aa04f2e17dc",
+    "reason": "Fix-result note describing the eval() fix, not an actual eval() call",
+    "addedAt": "2026-07-27T11:05:14.744Z"
+  },
+  {
+    "fingerprint": "345540e3a7c609a9",
+    "reason": "AWS test fixture verifying the fixer's secret-rewrite behavior, not a real credential",
+    "addedAt": "2026-07-27T11:05:15.024Z"
+  },
+  {
+    "fingerprint": "da81b8b0372e6a88",
+    "reason": "AWS test fixture verifying the fixer's secret-rewrite behavior, not a real credential",
+    "addedAt": "2026-07-27T11:05:15.418Z"
+  },
+  {
+    "fingerprint": "9c1ff7e64b6212fe",
+    "reason": "AWS test fixture verifying the fixer's secret-rewrite behavior, not a real credential",
+    "addedAt": "2026-07-27T11:05:15.705Z"
+  },
+  {
+    "fingerprint": "4e3515c5a88cddec",
+    "reason": "JWT test fixture verifying AUTH-001 routes through the secret fixer, not a real token",
+    "addedAt": "2026-07-27T11:05:16.003Z"
+  },
+  {
+    "fingerprint": "8f6932e089dcbb01",
+    "reason": "Test fixture value, not a real credential",
+    "addedAt": "2026-07-27T11:05:17.864Z"
+  },
+  {
+    "fingerprint": "d894410f45b1fe37",
+    "reason": "XSS-002 rule description text (prose about the vulnerability), not the vulnerability itself",
+    "addedAt": "2026-07-27T11:05:18.204Z"
+  },
+  {
+    "fingerprint": "d6a2341b0514f424",
+    "reason": "XSS-003 rule name field (prose about the vulnerability), not the vulnerability itself",
+    "addedAt": "2026-07-27T11:05:18.505Z"
+  },
+  {
+    "fingerprint": "6e82ebdcac47244c",
+    "reason": "XSS-003 rule description text (prose about the vulnerability), not the vulnerability itself",
+    "addedAt": "2026-07-27T11:05:18.794Z"
+  },
+  {
+    "fingerprint": "d795734dcd0c97d9",
+    "reason": "XSS-003 rule remediation text (prose about the vulnerability), not the vulnerability itself",
+    "addedAt": "2026-07-27T11:05:19.121Z"
+  },
+  {
+    "fingerprint": "1e4604735318112d",
+    "reason": "AWS-001 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:19.424Z"
+  },
+  {
+    "fingerprint": "b715dfd546e20a69",
+    "reason": "GOOG-001 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:19.692Z"
+  },
+  {
+    "fingerprint": "15d800fe53c8711e",
+    "reason": "VCS-001/GEN-001 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:19.994Z"
+  },
+  {
+    "fingerprint": "2dbbb1beb44275d2",
+    "reason": "VCS-001/GEN-001 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:20.001Z"
+  },
+  {
+    "fingerprint": "7856ad2c15487648",
+    "reason": "AUTH-001 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:20.275Z"
+  },
+  {
+    "fingerprint": "1f8344a8aa8d3be9",
+    "reason": "AUTH-002 test fixture, not a real credential",
+    "addedAt": "2026-07-27T11:05:20.544Z"
+  },
+  {
+    "fingerprint": "c58259c871837104",
+    "reason": "XSS-001 test fixture",
+    "addedAt": "2026-07-27T11:05:20.812Z"
+  },
+  {
+    "fingerprint": "92251e2577926cb6",
+    "reason": "XSS-002 test fixture",
+    "addedAt": "2026-07-27T11:05:21.104Z"
+  },
+  {
+    "fingerprint": "4d910fd4d273cd86",
+    "reason": "XSS-003 test fixture (eval)",
+    "addedAt": "2026-07-27T11:05:21.444Z"
+  },
+  {
+    "fingerprint": "edc4d0de7a126d60",
+    "reason": "XSS-003 test fixture (new Function)",
+    "addedAt": "2026-07-27T11:05:21.726Z"
+  },
+  {
+    "fingerprint": "5d2a0fe5849abdbb",
+    "reason": "ENV-001 test fixture",
+    "addedAt": "2026-07-27T11:05:22.004Z"
+  },
+  {
+    "fingerprint": "637c17f7b18e86c0",
+    "reason": "GEN-001 test fixture",
+    "addedAt": "2026-07-27T11:05:22.336Z"
+  }
+]

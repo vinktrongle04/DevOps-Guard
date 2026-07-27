@@ -25,7 +25,8 @@ const IGNORE_FILES = [
   'dependency-scanner.js', 'security-scanner.js',
   'scanner-output.js', 'vite.config.js', 'eslint.config.js',
   'scan-report.json', 'scan-history.json', 'graph-builder.js',
-  'graph-query.js', 'kb-summary.js', 'security-autofix.js', '.env.example'
+  'graph-query.js', 'kb-summary.js', 'security-autofix.js', '.env.example',
+  '.devops-guard-ignore.json'
 ]
 
 // Security patterns are imported from scanner/security.js (the canonical
@@ -113,7 +114,12 @@ async function runDependencyScan() {
   const devDeps= Object.keys(pkg.devDependencies || {})
   const allDeps= [...deps, ...devDeps]
 
+  // Test files routinely contain fixture strings like
+  // `writeSrc("import React from 'react'")` to exercise the scanners
+  // themselves — extracting "imports" from those would misreport whatever
+  // package names the fixtures happen to mention as actually used.
   const srcFiles = collectFiles(SRC_DIR, SCAN_EXTS, IGNORE_DIRS, IGNORE_FILES)
+    .filter(f => !/\.test\.(js|jsx|ts|tsx|mjs)$/.test(f))
   const imported = new Set()
   const importPatterns = [
     /from\s+['"]([^./][^'"]*)['"]/g,
@@ -121,7 +127,11 @@ async function runDependencyScan() {
   ]
   for (const file of srcFiles) {
     try {
+      // Strip comments first — doc comments/usage examples routinely show
+      // `import x from 'pkg'`-shaped text that isn't a real import.
       const content = fs.readFileSync(file, 'utf-8')
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/\/\/.*$/gm, '')
       for (const pat of importPatterns) {
         pat.lastIndex = 0
         let m

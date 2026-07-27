@@ -169,6 +169,11 @@ function collectSourceFiles(dir) {
         if (!IGNORE_DIRS.includes(entry.name)) walk(fullPath)
       } else {
         if (IGNORE_FILES.includes(entry.name)) continue
+        // Test files routinely contain fixture strings like
+        // `writeSrc("import React from 'react'")` to exercise this very
+        // scanner — extracting "imports" from those would misreport
+        // whatever package names the fixtures happen to mention.
+        if (/\.test\.(js|jsx|ts|tsx|mjs)$/.test(entry.name)) continue
         if (SCAN_EXTS.includes(path.extname(entry.name))) {
           files.push(fullPath)
         }
@@ -178,6 +183,17 @@ function collectSourceFiles(dir) {
 
   walk(dir)
   return files
+}
+
+// Best-effort comment stripper — doc comments and examples routinely show
+// `import x from 'pkg'`-shaped text (e.g. usage examples, or comments about
+// this very extraction logic), which would otherwise be misread as a real
+// import. Not a real parser: a `//`/`/*` inside a string literal can still
+// throw it off, but that's an acceptable tradeoff for a regex-based tool.
+function stripComments(content) {
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\/\/.*$/gm, '')
 }
 
 // ─── STEP 3: EXTRACT IMPORTS FROM SOURCE ───────────────────────
@@ -195,7 +211,7 @@ function extractImports(files) {
 
   for (const file of files) {
     try {
-      const content = fs.readFileSync(file, 'utf-8')
+      const content = stripComments(fs.readFileSync(file, 'utf-8'))
       for (const pattern of patterns) {
         pattern.lastIndex = 0
         let match
